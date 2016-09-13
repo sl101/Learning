@@ -8,7 +8,7 @@ public class ReversWorlds {
 
 	
 	private String startPhrase = "1)It is the 1exersize. 1)Пример номер 1";
-	private StringBuilder resultPhrase = new StringBuilder();
+	private StringBuilder resultPhrase;
 	
 	ReversWorlds(){
 		printAnithing(startPhrase);
@@ -51,6 +51,7 @@ public class ReversWorlds {
 			}			
 		}
 		
+			resultPhrase = new StringBuilder();
 				for(int i =0; i<arrayListRevers.size();i++){
 					resultPhrase.append(arrayListRevers.get(i));
 				}
@@ -59,9 +60,9 @@ public class ReversWorlds {
 
 
 
-	private void printAnithing(String startPhrase2) {
+	private void printAnithing(String somePhrase) {
 
-		System.out.println("start example: \t" + startPhrase);
+		System.out.println(somePhrase);
 		
 	}
 
