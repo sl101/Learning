@@ -7,21 +7,47 @@ import com.smarterama.zhevaha.anagrams.CheckLetter;
 public class ReversWorlds {
 
 	
-	private String startPhrase = "1)It is the 1exersize. 1)Пример номер 1";
+	private String startPhrase;
 	private StringBuilder resultPhrase;
 	
 	ReversWorlds(){
-		printAnithing(startPhrase);
 		
-		reverseOneWorld();
+		startPhrase = "1)It is the 1exersize.";
+		//printAnithing(startPhrase);
 		
-		printAnithing(resultPhrase.toString());
+	//	reverseOneWorld();
+		
+	//	printAnithing(resultPhrase.toString());
 		
 	}
 	
 	
 	
-	private void reverseOneWorld() {
+	public String getStartPhrase() {
+		return startPhrase;
+	}
+
+
+
+	public void setStartPhrase(String startPhrase) {
+		this.startPhrase = startPhrase;
+	}
+
+
+
+	public StringBuilder getResultPhrase() {
+		return resultPhrase;
+	}
+
+
+
+	public void setResultPhrase(StringBuilder resultPhrase) {
+		this.resultPhrase = resultPhrase;
+	}
+
+
+
+	public void reverseOneWorld() {
 		String [] splitStartArray = startPhrase.split(" ");
 		String [] splitStartArrayRevers = new String[splitStartArray.length];
 		char [] startPhraseInCharArray = startPhrase.toCharArray();	
@@ -60,7 +86,7 @@ public class ReversWorlds {
 
 
 
-	private void printAnithing(String somePhrase) {
+	public void printAnithing(String somePhrase) {
 
 		System.out.println(somePhrase);
 		
