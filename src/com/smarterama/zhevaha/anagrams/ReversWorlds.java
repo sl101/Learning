@@ -10,14 +10,9 @@ public class ReversWorlds {
 	private String startPhrase;
 	private StringBuilder resultPhrase;
 	
-	ReversWorlds(){
+	public ReversWorlds(){
 		
 		startPhrase = "1)It is the 1exersize.";
-		//printAnithing(startPhrase);
-		
-	//	reverseOneWorld();
-		
-	//	printAnithing(resultPhrase.toString());
 		
 	}
 	
