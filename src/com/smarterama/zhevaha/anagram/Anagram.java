@@ -1,27 +1,13 @@
-package com.smarterama.zhevaha.anagrams;
+package com.smarterama.zhevaha.anagram;
 
-public class Anagramma {
-
-	private String resultPhrase;	
-	
-
-	public Anagramma(String inputPhrase){
-		
-		resultPhrase = anagrammaWorldsRevers(inputPhrase);
-		
-	}	
-	
-	
-	public String getResultPhrase() {
-		return resultPhrase;
-	}
+public class Anagram {
 
 
-	private String anagrammaWorldsRevers(String stringPhrase) {
+	public String anagramWordsReverse(String startPhrase) {
 				
-			StringBuilder reverseStartPhrase = getReversPhrase(stringPhrase);
+			StringBuilder reverseStartPhrase = getReversePhrase(startPhrase);
 			
-			StringBuilder resultPhrase = getResultPhrase(reverseStartPhrase.toString(), stringPhrase);
+			StringBuilder resultPhrase = getResultPhrase(reverseStartPhrase.toString(), startPhrase);
 					
 			return resultPhrase.toString();
 		
@@ -31,19 +17,19 @@ public class Anagramma {
 
 	private StringBuilder getResultPhrase(String reverseStartPhrase, String startPhrase) {
 		
-		char [] reversPhrase = reverseStartPhrase.toCharArray();
+		char [] reversePhrase = reverseStartPhrase.toCharArray();
 		StringBuilder methodResult = new StringBuilder();
-		for (int i = 0; i < reversPhrase.length; i++) {
+		for (int i = 0; i < reversePhrase.length; i++) {
 			
-			if (new Character(reversPhrase[i]).isLetter(reversPhrase[i])) {
-				methodResult.append(reversPhrase[i]);
+			if (new Character(reversePhrase[i]).isLetter(reversePhrase[i])) {
+				methodResult.append(reversePhrase[i]);
 			}							
 		}
 		
 		char[] startCharArray = startPhrase.toCharArray();
 		for (int i = 0; i < startPhrase.length(); i++) {			
 			//Character character = new Character(startCharArray[i]);
-			if (!new Character(reversPhrase[i]).isLetter(startCharArray[i])) {
+			if (!new Character(reversePhrase[i]).isLetter(startCharArray[i])) {
 				methodResult.insert(i, startCharArray[i]);
 			}
 			
@@ -52,7 +38,7 @@ public class Anagramma {
 	}
 
 
-	private StringBuilder getReversPhrase(String stringPhrase) {
+	private StringBuilder getReversePhrase(String stringPhrase) {
 		
 		String [] splitStartPhrase = stringPhrase.split(" ");
 		
