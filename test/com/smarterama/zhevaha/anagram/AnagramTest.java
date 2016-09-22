@@ -12,17 +12,17 @@ public class AnagramTest {
 	
 	@Test
 	@Ignore("not competed")
-	public void testReturnsSymbolsOnOriginalPosition() {
+	public void testReversesWords() {
 		String inputPhrase = "1)It is the 1exersize.";
-		String result = test.reversesLettersOfWordInPhrase(inputPhrase);
-		assertEquals("tI)1 si eht .ezisrexe1", result);
+//		String result = test.reversesWords(inputPhrase);
+//		assertEquals("tI)1 si eht .ezisrexe1", result);
 	}
 
 
 	@Test
 	public void testReversesLettersOfWordInPhrase() {
 		String startPhrase = "1)It is the 1exersize.";
-		String result = test.reversesLettersOfWordInPhrase(startPhrase);
+		String result = test.convertsText(startPhrase);
 		assertEquals("1)tI si eht 1ezisrexe.", result);
 		
 	}
