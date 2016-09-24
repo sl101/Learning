@@ -3,31 +3,25 @@ package com.smarterama.zhevaha.anagram;
 public class Anagram {
 
 	public String convertsText(String inputText) {
-		
+
 		try {
 			String reversedWords = reversesWords(inputText);
-			
-			String result = permutesNotLetterValues(
-					reversedWords, inputText);
+
+			String result = permutesNotLetterValues(reversedWords, inputText);
 
 			return result;
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
-			return "Error\n"+"Enter text";
+			return "Error\n" + "Enter correct text";
 		}
-
-		
-
-		
 
 	}
 
-	private String permutesNotLetterValues(
-			String reversedWords, String inputText) {
+	private String permutesNotLetterValues(String reversedWords,
+			String inputText) {
 
-		char[] reversedSymbols = reversedWords
-				.toCharArray();
+		char[] reversedSymbols = reversedWords.toCharArray();
 		StringBuilder result = new StringBuilder();
 		for (char symbol : reversedSymbols) {
 			if (Character.isLetter(symbol)) {
