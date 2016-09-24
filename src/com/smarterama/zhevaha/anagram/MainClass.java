@@ -4,13 +4,14 @@ public class MainClass {
 
 	public static void main(String[] args) {
 
-		String startPhrase = "1)It is the 1exersize.";
-		System.out.println(startPhrase);
+		String somePhrase = "1)It is the 1exersize.";
+		
+		System.out.println(somePhrase);
 
-		Anagram reversedPhrase = new Anagram();
+		Anagram anagramConverter = new Anagram();
 
-		System.out.println(reversedPhrase
-				.reversesLettersOfWordInPhrase(startPhrase));
+		System.out.println(anagramConverter
+				.convertsText(somePhrase));
 	}
 
 }

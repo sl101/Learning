@@ -2,52 +2,60 @@ package com.smarterama.zhevaha.anagram;
 
 public class Anagram {
 
-	public String reversesLettersOfWordInPhrase(String startPhrase) {
+	public String convertsText(String inputText) {
+		
+		try {
+			String reversedWords = reversesWords(inputText);
+			
+			String result = permutesNotLetterValues(
+					reversedWords, inputText);
 
-		StringBuilder reverseWordsInPhrase = reversesWords(startPhrase);
+			return result;
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			return "Error\n"+"Enter text";
+		}
 
-		StringBuilder resultPhrase = returnsSymbolsOnOriginalPosition(
-				reverseWordsInPhrase.toString(), startPhrase);
+		
 
-		return resultPhrase.toString();
+		
 
 	}
 
-	private StringBuilder returnsSymbolsOnOriginalPosition(
-			String reversedWordsInStartPhrase, String startPhrase) {
+	private String permutesNotLetterValues(
+			String reversedWords, String inputText) {
 
-		char[] charVolumeOfReversedWordsInStartPhrase = reversedWordsInStartPhrase
+		char[] reversedSymbols = reversedWords
 				.toCharArray();
-		StringBuilder methodResult = new StringBuilder();
-		for (char volumeOfReversePhrase : charVolumeOfReversedWordsInStartPhrase) {
-			if (new Character(volumeOfReversePhrase)
-					.isLetter(volumeOfReversePhrase)) {
-				methodResult.append(volumeOfReversePhrase);
+		StringBuilder result = new StringBuilder();
+		for (char symbol : reversedSymbols) {
+			if (Character.isLetter(symbol)) {
+				result.append(symbol);
 			}
 		}
 
-		char[] charVolumeOfStartCharArray = startPhrase.toCharArray();
-		for (int i = 0; i < startPhrase.length(); i++) {
-			if (!new Character(charVolumeOfReversedWordsInStartPhrase[i])
-					.isLetter(charVolumeOfStartCharArray[i])) {
-				methodResult.insert(i, charVolumeOfStartCharArray[i]);
+		char[] inputSymbols = inputText.toCharArray();
+		for (int i = 0; i < inputText.length(); i++) {
+			if (!Character.isLetter(inputSymbols[i])) {
+				result.insert(i, inputSymbols[i]);
 			}
 
 		}
-		return methodResult;
+		return result.toString();
 	}
 
-	private StringBuilder reversesWords(String inputPhrase) {
+	private String reversesWords(String inputText) {
 
-		String[] splitInputPhrase = inputPhrase.split(" ");
+		String[] splitText = inputText.split(" ");
 
-		StringBuilder reverseWords = new StringBuilder();
-		for (String word : splitInputPhrase) {
-			reverseWords.append(new StringBuilder(word).reverse());
-			reverseWords.append(" ");
+		StringBuilder resultOfMethod = new StringBuilder();
+		for (String word : splitText) {
+			resultOfMethod.append(new StringBuilder(word).reverse());
+			resultOfMethod.append(" ");
 		}
-		reverseWords.deleteCharAt(reverseWords.length() - 1);
-		return reverseWords;
+		resultOfMethod.deleteCharAt(resultOfMethod.length() - 1);
+		return resultOfMethod.toString();
 	}
 
 }
