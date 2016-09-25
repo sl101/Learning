@@ -14,27 +14,15 @@ public class AnagramTest {
 	@Test
 	@Ignore("not competed")
 	public void testReversesWords() {
-<<<<<<< HEAD
 		String somePhrase = "1)It is the 1exersize.";
 		// String result = test.reversesWords(inputPhrase);
 		// assertEquals("tI)1 si eht .ezisrexe1", result);
-=======
-		String inputPhrase = "1)It is the 1exersize.";
-//		String result = test.reversesWords(inputPhrase);
-//		assertEquals("tI)1 si eht .ezisrexe1", result);
->>>>>>> 6e310583c06c8521587b309cdca33ec8de97e366
 	}
 
 	@Test
-<<<<<<< HEAD
 	public void testConvertsText() {
 		String somePhrase = "1)It is the 1exersize.";
 		String result = test.convertsText(somePhrase);
-=======
-	public void testReversesLettersOfWordInPhrase() {
-		String startPhrase = "1)It is the 1exersize.";
-		String result = test.convertsText(startPhrase);
->>>>>>> 6e310583c06c8521587b309cdca33ec8de97e366
 		assertEquals("1)tI si eht 1ezisrexe.", result);
 	}
 
@@ -59,4 +47,10 @@ public class AnagramTest {
 		assertEquals("1", result);
 	}
 
+	@Test
+	public void testConvertsEmtyText() {
+		String somePhrase = "";
+		String result = test.convertsText(somePhrase);
+		assertEquals("Error\n" + "Enter correct text", result);
+	}
 }
