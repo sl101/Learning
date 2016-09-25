@@ -4,6 +4,7 @@ public class Anagram {
 
 	public String convertsText(String inputText) {
 
+<<<<<<< HEAD
 		try {
 			String reversedWords = reversesWords(inputText);
 
@@ -40,6 +41,42 @@ public class Anagram {
 	}
 
 	private String reversesWords(String inputText) {
+=======
+		StringBuilder reversedText = reversesWords(inputText);
+
+		StringBuilder resultOfMethod = permutesNotLetterValues(
+				reversedText.toString(), inputText);
+
+		return resultOfMethod.toString();
+
+	}
+
+	private StringBuilder permutesNotLetterValues(
+			String reversedText, String inputText) {
+
+		char[] arrayReversedText = reversedText
+				.toCharArray();
+		StringBuilder resultOfMethod = new StringBuilder();
+		for (char arrayElement : arrayReversedText) {
+			if (new Character(arrayElement)
+					.isLetter(arrayElement)) {
+				resultOfMethod.append(arrayElement);
+			}
+		}
+
+		char[] arrayInputText = inputText.toCharArray();
+		for (int i = 0; i < inputText.length(); i++) {
+			if (!new Character(arrayReversedText[i])
+					.isLetter(arrayInputText[i])) {
+				resultOfMethod.insert(i, arrayInputText[i]);
+			}
+
+		}
+		return resultOfMethod;
+	}
+
+	private StringBuilder reversesWords(String inputText) {
+>>>>>>> 6e310583c06c8521587b309cdca33ec8de97e366
 
 		String[] splitText = inputText.split(" ");
 
@@ -49,7 +86,11 @@ public class Anagram {
 			resultOfMethod.append(" ");
 		}
 		resultOfMethod.deleteCharAt(resultOfMethod.length() - 1);
+<<<<<<< HEAD
 		return resultOfMethod.toString();
+=======
+		return resultOfMethod;
+>>>>>>> 6e310583c06c8521587b309cdca33ec8de97e366
 	}
 
 }
