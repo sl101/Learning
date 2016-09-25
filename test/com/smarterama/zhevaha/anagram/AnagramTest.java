@@ -13,44 +13,51 @@ public class AnagramTest {
 
 	@Test
 	@Ignore("not competed")
-	public void testReversesWords() {
+	public void testReverseWords() {
 		String somePhrase = "1)It is the 1exersize.";
 		// String result = test.reversesWords(inputPhrase);
 		// assertEquals("tI)1 si eht .ezisrexe1", result);
 	}
 
 	@Test
-	public void testConvertsText() {
+	public void testConvertText() {
 		String somePhrase = "1)It is the 1exersize.";
-		String result = test.convertsText(somePhrase);
+		String result = test.convertText(somePhrase);
 		assertEquals("1)tI si eht 1ezisrexe.", result);
 	}
 
 	@Test
-	public void testConvertsSpace() {
+	public void testConvertSpace() {
 		String somePhrase = " ";
-		String result = test.convertsText(somePhrase);
+		String result = test.convertText(somePhrase);
 		assertEquals("Error\n" + "Enter correct text", result);
 	}
 
 	@Test
-	public void testConvertsNull() {
+	public void testConvertFirstSpace() {
+		String somePhrase = " 1)It is the 1exersize.";
+		String result = test.convertText(somePhrase);
+		assertEquals(" 1)tI si eht 1ezisrexe.", result);
+	}
+	
+	@Test
+	public void testConvertNull() {
 		String somePhrase = null;
-		String result = test.convertsText(somePhrase);
+		String result = test.convertText(somePhrase);
 		assertEquals("Error\n" + "Enter correct text", result);
 	}
 
 	@Test
-	public void testConvertsShortText() {
+	public void testConvertShortText() {
 		String somePhrase = "1";
-		String result = test.convertsText(somePhrase);
+		String result = test.convertText(somePhrase);
 		assertEquals("1", result);
 	}
 
 	@Test
-	public void testConvertsEmtyText() {
+	public void testConvertEmtyText() {
 		String somePhrase = "";
-		String result = test.convertsText(somePhrase);
+		String result = test.convertText(somePhrase);
 		assertEquals("Error\n" + "Enter correct text", result);
 	}
 }

@@ -2,30 +2,22 @@ package com.smarterama.zhevaha.anagram;
 
 public class Anagram {
 
-	public String convertsText(String inputText) {
+	public String convertText(String inputText) {
 
-		if(inputText != null && !inputText.startsWith(" ") &&
-						!inputText.isEmpty()){
-				 String reversedWords = reversesWords(inputText);
+		if (inputText != null && (!(inputText.length()==1 && inputText.contains(" ")))
+				&& !inputText.isEmpty()) {
+			String reversedWords = reverseWords(inputText);
 
-					String result = permutesNotLetterValues(reversedWords, inputText);
+			String result = permuteNotLetterValues(reversedWords, inputText);
 
-					return result;
-			 }
-			 else{
-					return "Error\n" + "Enter correct text";
-				}
-			 
-					
-
-		
-			
-
-		
+			return result;
+		} else {
+			return "Error\n" + "Enter correct text";
+		}
 
 	}
 
-	private String permutesNotLetterValues(String reversedWords,
+	private String permuteNotLetterValues(String reversedWords,
 			String inputText) {
 
 		char[] reversedSymbols = reversedWords.toCharArray();
@@ -46,7 +38,7 @@ public class Anagram {
 		return result.toString();
 	}
 
-	private String reversesWords(String inputText) {
+	private String reverseWords(String inputText) {
 
 		String[] splitText = inputText.split(" ");
 

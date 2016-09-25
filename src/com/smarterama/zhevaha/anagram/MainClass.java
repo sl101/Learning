@@ -9,8 +9,7 @@ public class MainClass {
 
 		Anagram anagramConverter = new Anagram();
 
-		System.out.println(anagramConverter
-				.convertsText(somePhrase));
+		System.out.println(anagramConverter.convertText(somePhrase));
 	}
 
 }
