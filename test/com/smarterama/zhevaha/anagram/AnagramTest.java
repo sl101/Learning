@@ -19,37 +19,37 @@ public class AnagramTest {
 	}
 
 	@Test
-	public void testConvertSpace() {
+	public void testReverseSpace() {
 		String somePhrase = " ";
 		String result = test.reverseAlphabeticalText(somePhrase);
-		assertEquals("Error\n" + "Enter correct text", result);
+		assertEquals("Error\n" + "Enter some text", result);
 	}
 
 	@Test
-	public void testConvertFirstSpace() {
+	public void testReverseFirstSpace() {
 		String somePhrase = " 1)It is the 1exersize.";
 		String result = test.reverseAlphabeticalText(somePhrase);
 		assertEquals(" 1)tI si eht 1ezisrexe.", result);
 	}
 	
 	@Test
-	public void testConvertNull() {
+	public void testIsNull() {
 		String somePhrase = null;
 		String result = test.reverseAlphabeticalText(somePhrase);
-		assertEquals("Error\n" + "Enter correct text", result);
+		assertEquals("Error\n" + "Enter some text", result);
 	}
 
 	@Test
-	public void testConvertShortText() {
+	public void testReverseShortText() {
 		String somePhrase = "1";
 		String result = test.reverseAlphabeticalText(somePhrase);
 		assertEquals("1", result);
 	}
 
 	@Test
-	public void testConvertEmtyText() {
+	public void testEmtyText() {
 		String somePhrase = "";
 		String result = test.reverseAlphabeticalText(somePhrase);
-		assertEquals("Error\n" + "Enter correct text", result);
+		assertEquals("Error\n" + "Enter some text", result);
 	}
 }

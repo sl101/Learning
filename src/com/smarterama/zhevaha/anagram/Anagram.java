@@ -4,15 +4,16 @@ public class Anagram {
 
 	public String reverseAlphabeticalText(String inputText) {
 
-		if (inputText != null && (!(inputText.length()==1 && inputText.contains(" ")))
-				&& !inputText.isEmpty()) {
+		if (inputText == null || (inputText.length()==1 && inputText.contains(" "))
+				|| inputText.isEmpty()) {
+			return "Error\n" + "Enter some text";
+		} else {
+			
 			String reversedWords = reverseWords(inputText);
 
 			String result = permuteNumericValues(reversedWords, inputText);
 
 			return result;
-		} else {
-			return "Error\n" + "Enter correct text";
 		}
 
 	}
