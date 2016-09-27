@@ -19,13 +19,15 @@ public class AnagramTest {
 	}
 
 	@Test
-	public void testReverseSpace() {
+	public void testSpace() {
 		String somePhrase = " ";
 		String result = test.reverseAlphabeticalText(somePhrase);
 		assertEquals("Error\n" + "Enter some text", result);
 	}
 
+	
 	@Test
+	
 	public void testReverseFirstSpace() {
 		String somePhrase = " 1)It is the 1exersize.";
 		String result = test.reverseAlphabeticalText(somePhrase);
