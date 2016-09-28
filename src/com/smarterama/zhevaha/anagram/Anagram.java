@@ -19,17 +19,12 @@ public class Anagram {
 	}
 
 	private boolean checkNotEmptyString(String text) {
-		if (text == null || (text.length() == 1 && text.contains(" "))
+		if (text == null 
+				|| text.trim().length() == 0
 				|| text.isEmpty()) {
 			return false;
-		} else if (text.length() > 1) {
-			for (char value : text.toCharArray()) {
-				if (value != ' ') {
-					return true;
-				}
-			}
-			return false;
-		}
+		} 
+
 		return true;
 	}
 
