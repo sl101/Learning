@@ -4,21 +4,36 @@ public class Anagram {
 
 	public String reverseAlphabeticalText(String inputText) {
 
-		if (inputText == null || (inputText.length()==1 && inputText.contains(" "))
-				|| inputText.isEmpty()) {
+		if (!checkNotEmptyString(inputText)) {
 			return "Error\n" + "Enter some text";
 		} else {
-			
+
 			String reversedWords = reverseWords(inputText);
 
-			String result = permuteNumericValues(reversedWords, inputText);
+			String result = permuteNotAlphabeticalSymbols(reversedWords,
+					inputText);
 
 			return result;
 		}
 
 	}
 
-	private String permuteNumericValues(String reversedWords,
+	private boolean checkNotEmptyString(String text) {
+		if (text == null || (text.length() == 1 && text.contains(" "))
+				|| text.isEmpty()) {
+			return false;
+		} else if (text.length() > 1) {
+			for (char value : text.toCharArray()) {
+				if (value != ' ') {
+					return true;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
+	private String permuteNotAlphabeticalSymbols(String reversedWords,
 			String inputText) {
 
 		char[] reversedSymbols = reversedWords.toCharArray();
@@ -43,13 +58,13 @@ public class Anagram {
 
 		String[] splitText = inputText.split(" ");
 
-		StringBuilder resultOfMethod = new StringBuilder();
+		StringBuilder result = new StringBuilder();
 		for (String word : splitText) {
-			resultOfMethod.append(new StringBuilder(word).reverse());
-			resultOfMethod.append(" ");
+			result.append(new StringBuilder(word).reverse());
+			result.append(" ");
 		}
-		resultOfMethod.deleteCharAt(resultOfMethod.length() - 1);
-		return resultOfMethod.toString();
+		result.deleteCharAt(result.length() - 1);
+		return result.toString();
 	}
 
 }

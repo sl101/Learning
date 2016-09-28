@@ -9,7 +9,8 @@ public class MainClass {
 
 		Anagram anagramConverter = new Anagram();
 
-		System.out.println(anagramConverter.reverseAlphabeticalText(somePhrase));
+		System.out
+				.println(anagramConverter.reverseAlphabeticalText(somePhrase));
 	}
 
 }

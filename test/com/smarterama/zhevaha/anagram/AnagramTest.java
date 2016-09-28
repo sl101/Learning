@@ -10,7 +10,6 @@ public class AnagramTest {
 
 	Anagram test = new Anagram();
 
-
 	@Test
 	public void testReverseText() {
 		String somePhrase = "1)It is the 1exersize.";
@@ -25,15 +24,20 @@ public class AnagramTest {
 		assertEquals("Error\n" + "Enter some text", result);
 	}
 
-	
 	@Test
-	
+	public void testSpaces() {
+		String somePhrase = "     ";
+		String result = test.reverseAlphabeticalText(somePhrase);
+		assertEquals("Error\n" + "Enter some text", result);
+	}
+
+	@Test
 	public void testReverseFirstSpace() {
 		String somePhrase = " 1)It is the 1exersize.";
 		String result = test.reverseAlphabeticalText(somePhrase);
 		assertEquals(" 1)tI si eht 1ezisrexe.", result);
 	}
-	
+
 	@Test
 	public void testIsNull() {
 		String somePhrase = null;
