@@ -1,5 +1,8 @@
 package com.smarterama.zhevaha.IntegerDivision;
 
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,11 +10,10 @@ public class Division {
 
 	private static int dividend;
 	private static int divider;
-	private static int privateResult;
 
 	public Division() {
-		dividend = new Random().nextInt(10000);
-		divider = new Random().nextInt(100);
+		dividend = new Random().nextInt(1000);
+		divider = new Random().nextInt(10);
 	}
 
 	public int getDividend() {
@@ -28,8 +30,8 @@ public class Division {
 
 		checkValuesDivision(dividend, divider);
 
-		result.append("" + dividend + "\t|" + divider + "\n" + "-"
-				+ "\t-----\n");
+		result.append(fillString(1, ' ') + dividend + "\t|" + divider + "\n"
+				+ "-" + fillString(String.valueOf(dividend).length(), ' ')+"\t-----\n");
 		result.append(divide(dividend, divider));
 		return result.toString();
 	}
@@ -50,14 +52,14 @@ public class Division {
 	private String divide(int dividendValue, int dividerValue) {
 
 		StringBuilder result = new StringBuilder();
-		StringBuilder reminderOfDivident = new StringBuilder();
-		StringBuilder reminder = new StringBuilder();
+		StringBuilder intermediateDividend = new StringBuilder();
+		StringBuilder quotient = new StringBuilder();
 		ArrayList<String> nextDividend = new ArrayList<>();
-		ArrayList<String> shortList = new ArrayList<>();
-		reminderOfDivident.append(dividendValue);
+		ArrayList<String> subtrahend = new ArrayList<>();
+		intermediateDividend.append(dividendValue);
 		do {
-			String dividendText = reminderOfDivident.toString();
-			reminderOfDivident = new StringBuilder();
+			String dividendText = intermediateDividend.toString();
+			intermediateDividend = new StringBuilder();
 
 			for (int i = 0; i <= dividendText.length(); i++) {
 				int numberDigits = Integer.valueOf(dividendText.substring(0,
@@ -65,28 +67,31 @@ public class Division {
 
 				if (numberDigits >= dividerValue) {
 
-					privateResult = numberDigits / dividerValue;
-					reminder.append(privateResult);
-					int shortlyNumber = privateResult * dividerValue;
-					shortList.add(String.valueOf(shortlyNumber));
-					reminderOfDivident.append(numberDigits - shortlyNumber);
-					reminderOfDivident.append(dividendText.substring(i + 1));
+					int intermediateQuotient = numberDigits / dividerValue;
+					quotient.append(intermediateQuotient);
+					int intermediateSubtrahend = intermediateQuotient
+							* dividerValue;
+					subtrahend.add(String.valueOf(intermediateSubtrahend));
+					intermediateDividend.append(numberDigits
+							- intermediateSubtrahend);
+					intermediateDividend.append(dividendText.substring(i + 1));
 					nextDividend.add(String.valueOf(numberDigits));
 					break;
 				}
 
 			}
-		} while (Integer.valueOf(reminderOfDivident.toString()) > dividerValue);
+		} while (Integer.valueOf(intermediateDividend.toString()) > dividerValue);
 
-		result.append(shortList.get(0) + "\t|" + reminder + "\n"
-				+ fillString(1, ' ')
-				+ fillString(shortList.get(0).length(), '_') + "\n");
-		for (int i = 1; i < shortList.size(); i++) {
-			result.append(fillString(i, ' ') + nextDividend.get(i) + "\n"
-					+ fillString(i, ' ') + "-" + "\n" + fillString(i, ' ')
-					+ shortList.get(i)+"\n"+ fillString(i+1, ' ')+"\n" + fillString(i+1, '_') );
+		result.append(fillString(1, ' ') + subtrahend.get(0) + fillString(String.valueOf(dividend).length(), ' ')+"\t|" + quotient
+				+ "\n" + fillString(1, ' ')
+				+ fillString(nextDividend.get(0).length()+1, '_') + "\n");
+		for (int i = 1; i < subtrahend.size(); i++) {
+			result.append(fillString(i+1, ' ')+nextDividend.get(i) + "\n"
+					+ fillString(i, ' ') + "-" + "\n" + fillString(i+1, ' ')
+					+ subtrahend.get(i) + "\n" + fillString(i + 1, ' ') +fillString(subtrahend.get(i).length(), '_')+ "\n"
+					);
 		}
-		result.append(reminderOfDivident);
+		result.append(fillString(nextDividend.size()+1 , ' ')+intermediateDividend);
 
 		return result.toString();
 	}
