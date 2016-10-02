@@ -12,31 +12,31 @@ public class DivisionTest {
 	Division division = new Division();
 
 	@Test
-	public void testDividendNotNull(){
+	public void testDividendNotNull() {
 		int dividend = division.getDividend();
 		assertNotNull(dividend);
 	}
-	
+
 	@Test
-	public void testDividerNotNull(){
+	public void testDividerNotNull() {
 		int divider = division.getDivider();
 		assertNotNull(divider);
 	}
-	
+
 	@Test
-	public void testDividerNotZerro(){
+	public void testDividerNotZerro() {
 		String checkedNumber = division.writeDivision();
-		int divider = division.getDivider();		
+		int divider = division.getDivider();
 		assertNotEquals(0, divider);
 	}
-	
+
 	@Test
 	public void testCheckValuesDivision() {
 		String checkedNumber = division.writeDivision();
 		int dividend = division.getDividend();
 		int divider = division.getDivider();
-		assertTrue(dividend>0);
-		assertTrue(divider>0);
+		assertTrue(dividend > 0);
+		assertTrue(divider > 0);
 	}
 
 	@Test

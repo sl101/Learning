@@ -1,8 +1,5 @@
 package com.smarterama.zhevaha.IntegerDivision;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,7 +28,8 @@ public class Division {
 		checkValuesDivision(dividend, divider);
 
 		result.append(fillString(1, ' ') + dividend + "\t|" + divider + "\n"
-				+ "-" + fillString(String.valueOf(dividend).length(), ' ')+"\t-----\n");
+				+ "-" + fillString(String.valueOf(dividend).length(), ' ')
+				+ "\t-----\n");
 		result.append(divide(dividend, divider));
 		return result.toString();
 	}
@@ -82,16 +80,18 @@ public class Division {
 			}
 		} while (Integer.valueOf(intermediateDividend.toString()) > dividerValue);
 
-		result.append(fillString(1, ' ') + subtrahend.get(0) + fillString(String.valueOf(dividend).length(), ' ')+"\t|" + quotient
-				+ "\n" + fillString(1, ' ')
-				+ fillString(nextDividend.get(0).length()+1, '_') + "\n");
+		result.append(fillString(1, ' ') + subtrahend.get(0)
+				+ fillString(String.valueOf(dividend).length(), ' ') + "\t|"
+				+ quotient + "\n" + fillString(1, ' ')
+				+ fillString(nextDividend.get(0).length() + 1, '_') + "\n");
 		for (int i = 1; i < subtrahend.size(); i++) {
-			result.append(fillString(i+1, ' ')+nextDividend.get(i) + "\n"
-					+ fillString(i, ' ') + "-" + "\n" + fillString(i+1, ' ')
-					+ subtrahend.get(i) + "\n" + fillString(i + 1, ' ') +fillString(subtrahend.get(i).length(), '_')+ "\n"
-					);
+			result.append(fillString(i + 1, ' ') + nextDividend.get(i) + "\n"
+					+ fillString(i, ' ') + "-" + "\n" + fillString(i + 1, ' ')
+					+ subtrahend.get(i) + "\n" + fillString(i + 1, ' ')
+					+ fillString(subtrahend.get(i).length(), '_') + "\n");
 		}
-		result.append(fillString(nextDividend.size()+1 , ' ')+intermediateDividend);
+		result.append(fillString(nextDividend.size() + 1, ' ')
+				+ intermediateDividend);
 
 		return result.toString();
 	}
