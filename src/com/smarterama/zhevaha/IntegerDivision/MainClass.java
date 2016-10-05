@@ -6,6 +6,6 @@ public class MainClass {
 
 		Division division = new Division();
 
-		System.out.println(division.writeDivision());
+		System.out.println(division.writeDivision(division.getDividend(),division.getDivider()));
 	}
 }

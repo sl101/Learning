@@ -5,12 +5,17 @@ import java.util.Random;
 
 public class Division {
 
-	private static int dividend;
-	private static int divider;
+	private int dividend;
+	private int divider;
 
 	public Division() {
-		dividend = new Random().nextInt(1000);
-		divider = new Random().nextInt(10);
+		dividend = new Random().nextInt(100000);
+		divider = new Random().nextInt(100);
+
+		// dividend = 2760;
+		// divider = 24;
+
+		checkValuesDivision(dividend, divider);
 	}
 
 	public int getDividend() {
@@ -21,25 +26,22 @@ public class Division {
 		return divider;
 	}
 
-	public String writeDivision() {
+	public String writeDivision(int dividend, int divider) {
 
 		StringBuilder result = new StringBuilder();
 
-		checkValuesDivision(dividend, divider);
-
-		result.append(fillString(1, ' ') + dividend + "\t|" + divider + "\n"
-				+ "-" + fillString(String.valueOf(dividend).length(), ' ')
-				+ "\t-----\n");
 		result.append(divide(dividend, divider));
+
 		return result.toString();
+
 	}
 
 	private void checkValuesDivision(int dividendValue, int dividerValue) {
 
 		if (dividendValue < dividerValue) {
-			int result = dividerValue;
+			int sorterVariable = dividerValue;
 			divider = dividendValue;
-			dividend = result;
+			dividend = sorterVariable;
 		}
 		if (divider == 0) {
 			divider = 1;
@@ -49,49 +51,67 @@ public class Division {
 
 	private String divide(int dividendValue, int dividerValue) {
 
-		StringBuilder result = new StringBuilder();
-		StringBuilder intermediateDividend = new StringBuilder();
-		StringBuilder quotient = new StringBuilder();
-		ArrayList<String> nextDividend = new ArrayList<>();
-		ArrayList<String> subtrahend = new ArrayList<>();
-		intermediateDividend.append(dividendValue);
-		do {
-			String dividendText = intermediateDividend.toString();
-			intermediateDividend = new StringBuilder();
+		int quotient = dividendValue / dividerValue;
 
-			for (int i = 0; i <= dividendText.length(); i++) {
-				int numberDigits = Integer.valueOf(dividendText.substring(0,
-						i + 1));
+		ArrayList<Integer> numbersDividend = new ArrayList<>();
+		numbersDividend = divideOnDigits(dividend);
 
-				if (numberDigits >= dividerValue) {
+		ArrayList<Integer> remainders = new ArrayList<Integer>();
+		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
+		int intermediateDividend = 0;
 
-					int intermediateQuotient = numberDigits / dividerValue;
-					quotient.append(intermediateQuotient);
-					int intermediateSubtrahend = intermediateQuotient
-							* dividerValue;
-					subtrahend.add(String.valueOf(intermediateSubtrahend));
-					intermediateDividend.append(numberDigits
-							- intermediateSubtrahend);
-					intermediateDividend.append(dividendText.substring(i + 1));
-					nextDividend.add(String.valueOf(numberDigits));
-					break;
-				}
+		for (int i = 0; i < numbersDividend.size(); i++) {
+			intermediateDividend = intermediateDividend * 10
+					+ numbersDividend.get(i);
 
-			}
-		} while (Integer.valueOf(intermediateDividend.toString()) > dividerValue);
+			remainders.add(intermediateDividend);
+			subtrahends.add((intermediateDividend / divider) * divider);
 
-		result.append(fillString(1, ' ') + subtrahend.get(0)
-				+ fillString(String.valueOf(dividend).length(), ' ') + "\t|"
-				+ quotient + "\n" + fillString(1, ' ')
-				+ fillString(nextDividend.get(0).length() + 1, '_') + "\n");
-		for (int i = 1; i < subtrahend.size(); i++) {
-			result.append(fillString(i + 1, ' ') + nextDividend.get(i) + "\n"
-					+ fillString(i, ' ') + "-" + "\n" + fillString(i + 1, ' ')
-					+ subtrahend.get(i) + "\n" + fillString(i + 1, ' ')
-					+ fillString(subtrahend.get(i).length(), '_') + "\n");
+			intermediateDividend = intermediateDividend % divider;
+
 		}
-		result.append(fillString(nextDividend.size() + 1, ' ')
-				+ intermediateDividend);
+
+		if (intermediateDividend != 0) {
+			remainders.add(intermediateDividend);
+		}
+
+		while (subtrahends.get(0) == 0) {
+			subtrahends.remove(0);
+			remainders.remove(0);
+		}
+		int firstRemainder = remainders.get(0);
+		remainders.remove(0);
+
+		if (remainders.size() < subtrahends.size())
+			remainders.add(0);
+
+		StringBuilder result = new StringBuilder();
+		result.append(fillString(1, ' ') + dividend + " |" + divider + "\n");
+
+		for (int i = 0; i < remainders.size(); i++) {
+
+			result.append(fillString(i, ' ') + "-");
+			if (i == 0) {
+				result.append(fillString(numbersDividend.size() + 1, ' ')
+						+ "-----");
+			}
+			result.append("\n" + fillString(i + 1, ' ') + subtrahends.get(i));
+			if (i == 0) {
+				result.append(fillString((numbersDividend.size() - String
+						.valueOf(subtrahends.get(i)).length()) + 1, ' ')
+						+ "|" + quotient);
+			}
+
+			result.append("\n"
+					+ fillString(i + 1, ' ')
+					+ fillString(
+							String.valueOf(subtrahends.get(i)).length(),
+							'_') + "\n");
+			if (firstRemainder - subtrahends.get(i) == 0) {
+				result.append(" ");
+			}
+			result.append(fillString(i + 2, ' ') + remainders.get(i) + "\n");
+		}
 
 		return result.toString();
 	}
@@ -105,6 +125,30 @@ public class Division {
 		}
 
 		return result.toString();
+	}
+
+	// private ArrayList<Integer> divideOnRanges(int number) {
+	//
+	// ArrayList<Integer> result = new ArrayList<Integer>();
+	//
+	// for (int i = 1; i <= number; i *= 10) {
+	// int value = number / i;
+	// result.add(0, value);
+	// }
+	//
+	// return result;
+	// }
+
+	private ArrayList<Integer> divideOnDigits(int number) {
+
+		ArrayList<Integer> result = new ArrayList<Integer>();
+
+		for (int i = 1; i <= number; i *= 10) {
+			int value = (number % (i * 10) - number % i) / i;
+			result.add(0, value);
+		}
+
+		return result;
 	}
 
 }
