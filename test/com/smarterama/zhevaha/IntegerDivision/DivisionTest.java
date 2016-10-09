@@ -3,70 +3,89 @@ package com.smarterama.zhevaha.IntegerDivision;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class DivisionTest {
-	MainClass main = new MainClass();
-	Division division = new Division();
-	
 
-	@Test
-	public void testDivisionNotNull() {		
-		int dividend = main.getDividend();		
-		assertFalse(dividend>0);
+	private int dividend;
+	private int divider;
+	private Division division;
+	String result;
+
+	@Before
+	public void setUpBeforeClass() {
+		dividend = 5468;
+		divider = 22;
+		division = new Division(dividend, divider);
+		result = division.displayProcessDivision(dividend, divider);
 	}
 
 	@Test
-	public void testDividerNotNull() {		
-		int divider = main.getDivider();
-		assertFalse(divider>0);
+	public void testNumbersDividend() {
+		ArrayList<Integer> expecteds = new ArrayList<Integer>();
+		expecteds.add(5);
+		expecteds.add(4);
+		expecteds.add(6);
+		expecteds.add(8);
+		ArrayList<Integer> numbersDividend = new ArrayList<Integer>();
+		numbersDividend = division.getNumbersDividend();
+		for (int i = 0; i < numbersDividend.size(); i++) {
+			assertEquals(expecteds, numbersDividend);
+		}
 	}
-	
-//	@Test
-//	public void testDividerNotNull() {
-//		int divider = division.getDivider();
-//		assertNotNull(divider);
-//	}
-//
-//	@Test
-//	public void testDividerNotZerro() {
-//		String checkedNumber = division.displayProcessDivision(division.getDividend(),division.getDivider());
-//		int divider = division.getDivider();
-//		assertNotEquals(0, divider);
-//	}
-//
-//	@Test
-//	public void testCheckValuesDivision() {
-//		String checkedNumber = division.displayProcessDivision(division.getDividend(),division.getDivider());
-//		int dividend = division.getDividend();
-//		int divider = division.getDivider();
-//		assertTrue(dividend > 0);
-//		assertTrue(divider > 0);
-//	}
-//
-//	@Test
-//	public void testWriteDivisionNotNull() {
-//		String checkedNumber = division.displayProcessDivision(division.getDividend(),division.getDivider()
-//				);
-//		assertNotNull(checkedNumber);
-//	}
-//
-//	@Test
-//	@Ignore
-//	public void testFindNumbersQuotient() {
-//		
-//		int dividend = 4598;
-//		int divider = 25;
-//		int quotient = dividend/divider;
-//		ArrayList<Integer> expecteds = new ArrayList<Integer>();
-//		expecteds.add(1);
-//		expecteds.add(8);
-//		expecteds.add(3);
-//		ArrayList<Integer> numbersQuotient = division.divideOnDigits(quotient);
-//		assertSame(expecteds.get(1), numbersQuotient.get(1));
-//	}
+
+	@Test
+	public void testRemainders() {
+		ArrayList<Integer> expecteds = new ArrayList<Integer>();
+		expecteds.add(106);
+		expecteds.add(188);
+		expecteds.add(12);
+		ArrayList<Integer> remainders = new ArrayList<Integer>();
+		remainders = division.getRemainders();
+		for (int i = 0; i < remainders.size(); i++) {
+			assertEquals(expecteds, remainders);
+		}
+	}
+
+	@Test
+	public void testSubtrahends() {
+		ArrayList<Integer> expecteds = new ArrayList<Integer>();
+		expecteds.add(44);
+		expecteds.add(88);
+		expecteds.add(176);
+		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
+		subtrahends = division.getSubtrahends();
+		for (int i = 0; i < subtrahends.size(); i++) {
+			assertEquals(expecteds, subtrahends);
+		}
+	}
+
+	@Test
+	public void testDivider() {
+		int dividerExpected = divider;
+		int dividerResult = division.getDivider();
+		assertEquals(dividerExpected, dividerResult);
+	}
+
+	@Test
+	public void testQuotient() {
+		int quotientExpected = dividend / divider;
+		int quotientResult = division.getDividend() / division.getDivider();
+		assertEquals(quotientExpected, quotientResult);
+	}
+
+	@Test
+	public void testDisplayProcessDivision() {
+
+		String expected = " " + division.getDividend() + " |" + divider
+				+ "\n-     -----\n " + 44 + "   |" + dividend / divider
+				+ "\n __\n  " + 106 + "\n -\n  " + 88 + "\n  __\n   " + 188
+				+ "\n  -\n   " + 176 + "\n   ___\n    " + 12 + "\n";
+
+		assertEquals(expected, result);
+
+	}
+
 }
