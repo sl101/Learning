@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Division {
 
-	private ArrayList<Integer> numbersDividend = new ArrayList<Integer>();
 	private ArrayList<Integer> remainders = new ArrayList<Integer>();
 	private ArrayList<Integer> subtrahends = new ArrayList<Integer>();
+	private int firstRemainderLength = 0;
 	private int dividend, divider;
 
 	public Division() {
@@ -17,64 +17,84 @@ public class Division {
 		this.divider = divider;
 	}
 
-	public String displayProcessDivision(int dividendInput, int dividerInput) {
+	public String displayProcessDivision() {
 
-		StringBuilder result = new StringBuilder();
+		findFields();
 
-		dividend = dividendInput;
-		divider = dividerInput;
+		String result = getResultString();
 
-		numbersDividend = splitByNumbers(dividend);
-
-		findVariables(divider);
-
-		result.append(getResultString());
-
-		return result.toString();
+		return result;
 	}
 
 	private String getResultString() {
-
 		StringBuilder result = new StringBuilder();
-		result.append(fillString(1, ' ') + dividend + " |" + divider + "\n");
+		int length = getCountsOfDigits(firstRemainderLength) + 1;
 
-		for (int i = 0; i < remainders.size(); i++) {
+		result.append(" "
+				+ dividend
+				+ " |"
+				+ divider
+				+ "\n"
+				+ "-"
+				+ String.format("%" + (getCountsOfDigits(dividend) + 1) + "s",
+						" ")
+				+ "-----\n"
+				+ String.format("%" + length + "d", subtrahends.get(0))
+				+ String.format("%"
+						+ ((getCountsOfDigits(dividend) + 2) - (length - 1))
+						+ "s", "|")
+				+ dividend
+				/ divider
+				+ "\n"
+				+ String.format("%" + length + "s",
+						fillString(getCountsOfDigits(subtrahends.get(0)), "_"))
+				+ "\n"
+				+ String.format("%" + (length + 1) + "d", remainders.get(0))
+				+ "\n");
 
-			result.append(fillString(i, ' ') + "-");
+		for (int i = 1; i < remainders.size(); i++) {
+			length = length + 1;
 
-			if (i == 0) {
-				result.append(fillString(i, ' ')
-						+ fillString(numbersDividend.size() + 1, ' ') + "-----");
+			result.append(String.format("%"
+					+ ((length + 1) - getCountsOfDigits(remainders.get(i - 1)))
+					+ "s", "-\n")
+					+ String.format("%" + length + "d", subtrahends.get(i))
+					+ "\n"
+					+ String.format(
+							"%" + length + "s",
+							fillString(
+									getCountsOfDigits(remainders.get(i - 1)),
+									"_")) + "\n");
+			if (i == remainders.size() - 1)
+				result.append(String.format("%" + length + "d",
+						remainders.get(i))
+						+ "\n");
+			else {
+				result.append(String.format("%" + (length + 1) + "d",
+						remainders.get(i)) + "\n");
 			}
-
-			result.append("\n" + fillString(i + 1, ' ') + subtrahends.get(i));
-
-			if (i == 0) {
-				result.append(fillString((numbersDividend.size() - String
-						.valueOf(subtrahends.get(i)).length()) + 1, ' ')
-						+ "|" + dividend / divider);
-			}
-
-			result.append("\n"
-					+ fillString(i + 1, ' ')
-					+ fillString(String.valueOf(subtrahends.get(i)).length(),
-							'_') + "\n");
-
-			result.append(fillString(i + 2, ' ') + remainders.get(i) + "\n");
 		}
+
 		return result.toString();
 	}
 
-	private void findVariables(int divider) {
+	private void findFields() {
+
+		int dividendOrder = 1;
+
+		while (dividend / dividendOrder > 10)
+			dividendOrder *= 10;
+
 		int remainder = 0;
 
-		for (int i = 0; i < numbersDividend.size(); i++) {
-			remainder = remainder * 10 + numbersDividend.get(i);
+		while (dividendOrder > 0) {
+			remainder = remainder * 10 + (dividend / dividendOrder) % 10;
 
 			remainders.add(remainder);
 			subtrahends.add((remainder / divider) * divider);
 
 			remainder = remainder % divider;
+			dividendOrder /= 10;
 		}
 
 		if (remainder != 0) {
@@ -86,16 +106,17 @@ public class Division {
 			remainders.remove(0);
 		}
 
-		// firstRemainder = remainders.get(0);
+		firstRemainderLength = remainders.get(0);
 		remainders.remove(0);
 
 		if (remainders.size() < subtrahends.size())
 			remainders.add(0);
+		System.out.println("remainders  " + remainders + "\nsubtrahends  "
+				+ subtrahends);
 
 	}
 
-	private String fillString(int count, char filler) {
-
+	private String fillString(int count, String filler) {
 		StringBuffer result = new StringBuffer(count);
 
 		for (int i = 0; i < count; i++) {
@@ -105,56 +126,29 @@ public class Division {
 		return result.toString();
 	}
 
-	private ArrayList<Integer> splitByNumbers(int number) {
-
-		ArrayList<Integer> result = new ArrayList<Integer>();
-
-		for (int i = 1; i <= number; i *= 10) {
-			int value = (number % (i * 10) - number % i) / i;
-			result.add(0, value);
+	private int getCountsOfDigits(int number) {
+		int count = (number == 0) ? 1 : 0;
+		while (number != 0) {
+			count++;
+			number /= 10;
 		}
-
-		return result;
-	}
-
-	public ArrayList<Integer> getNumbersDividend() {
-		return numbersDividend;
-	}
-
-	public void setNumbersDividend(ArrayList<Integer> numbersDividend) {
-		this.numbersDividend = numbersDividend;
+		return count;
 	}
 
 	public ArrayList<Integer> getRemainders() {
 		return remainders;
 	}
 
-	public void setRemainders(ArrayList<Integer> remainders) {
-		this.remainders = remainders;
-	}
-
 	public ArrayList<Integer> getSubtrahends() {
 		return subtrahends;
-	}
-
-	public void setSubtrahends(ArrayList<Integer> subtrahends) {
-		this.subtrahends = subtrahends;
 	}
 
 	public int getDividend() {
 		return dividend;
 	}
 
-	public void setDividend(int dividend) {
-		this.dividend = dividend;
-	}
-
 	public int getDivider() {
 		return divider;
-	}
-
-	public void setDivider(int divider) {
-		this.divider = divider;
 	}
 
 }

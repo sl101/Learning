@@ -19,22 +19,9 @@ public class DivisionTest {
 		dividend = 5468;
 		divider = 22;
 		division = new Division(dividend, divider);
-		result = division.displayProcessDivision(dividend, divider);
+		result = division.displayProcessDivision();
 	}
 
-	@Test
-	public void testNumbersDividend() {
-		ArrayList<Integer> expecteds = new ArrayList<Integer>();
-		expecteds.add(5);
-		expecteds.add(4);
-		expecteds.add(6);
-		expecteds.add(8);
-		ArrayList<Integer> numbersDividend = new ArrayList<Integer>();
-		numbersDividend = division.getNumbersDividend();
-		for (int i = 0; i < numbersDividend.size(); i++) {
-			assertEquals(expecteds, numbersDividend);
-		}
-	}
 
 	@Test
 	public void testRemainders() {
@@ -81,8 +68,8 @@ public class DivisionTest {
 
 		String expected = " " + division.getDividend() + " |" + divider
 				+ "\n-     -----\n " + 44 + "   |" + dividend / divider
-				+ "\n __\n  " + 106 + "\n -\n  " + 88 + "\n  __\n   " + 188
-				+ "\n  -\n   " + 176 + "\n   ___\n    " + 12 + "\n";
+				+ "\n __\n " + 106 + "\n-\n  " + 88 + "\n ___\n  " + 188
+				+ "\n -\n  " + 176 + "\n  ___\n   " + 12 + "\n";
 
 		assertEquals(expected, result);
 
