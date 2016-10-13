@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class DivisionTest {
@@ -19,9 +18,8 @@ public class DivisionTest {
 		dividend = 5468;
 		divider = 22;
 		division = new Division(dividend, divider);
-		result = division.displayProcessDivision();
+		result = division.composeDivisionOutput();
 	}
-
 
 	@Test
 	public void testRemainders() {

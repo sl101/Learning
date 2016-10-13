@@ -9,26 +9,21 @@ public class Division {
 	private int firstRemainderLength = 0;
 	private int dividend, divider;
 
-	public Division() {
-	}
-
 	public Division(int dividend, int divider) {
 		this.dividend = dividend;
 		this.divider = divider;
 	}
 
-	public String displayProcessDivision() {
+	public String composeDivisionOutput() {
 
-		findFields();
+		intermediateValuesDivision();
 
-		String result = getResultString();
-
-		return result;
+		return composeResultLine();
 	}
 
-	private String getResultString() {
+	private String composeResultLine() {
 		StringBuilder result = new StringBuilder();
-		int length = getCountsOfDigits(firstRemainderLength) + 1;
+		int length = defineNumberLength(firstRemainderLength) + 1;
 
 		result.append(" "
 				+ dividend
@@ -36,18 +31,18 @@ public class Division {
 				+ divider
 				+ "\n"
 				+ "-"
-				+ String.format("%" + (getCountsOfDigits(dividend) + 1) + "s",
+				+ String.format("%" + (defineNumberLength(dividend) + 1) + "s",
 						" ")
 				+ "-----\n"
 				+ String.format("%" + length + "d", subtrahends.get(0))
 				+ String.format("%"
-						+ ((getCountsOfDigits(dividend) + 2) - (length - 1))
+						+ ((defineNumberLength(dividend) + 2) - (length - 1))
 						+ "s", "|")
 				+ dividend
 				/ divider
 				+ "\n"
 				+ String.format("%" + length + "s",
-						fillString(getCountsOfDigits(subtrahends.get(0)), "_"))
+						fillGaps(defineNumberLength(subtrahends.get(0)), "_"))
 				+ "\n"
 				+ String.format("%" + (length + 1) + "d", remainders.get(0))
 				+ "\n");
@@ -55,15 +50,15 @@ public class Division {
 		for (int i = 1; i < remainders.size(); i++) {
 			length = length + 1;
 
-			result.append(String.format("%"
-					+ ((length + 1) - getCountsOfDigits(remainders.get(i - 1)))
-					+ "s", "-\n")
+			result.append(String.format(
+					"%"
+							+ ((length + 1) - defineNumberLength(remainders
+									.get(i - 1))) + "s", "-\n")
 					+ String.format("%" + length + "d", subtrahends.get(i))
 					+ "\n"
 					+ String.format(
 							"%" + length + "s",
-							fillString(
-									getCountsOfDigits(remainders.get(i - 1)),
+							fillGaps(defineNumberLength(remainders.get(i - 1)),
 									"_")) + "\n");
 			if (i == remainders.size() - 1)
 				result.append(String.format("%" + length + "d",
@@ -78,7 +73,7 @@ public class Division {
 		return result.toString();
 	}
 
-	private void findFields() {
+	private void intermediateValuesDivision() {
 
 		int dividendOrder = 1;
 
@@ -111,14 +106,10 @@ public class Division {
 
 		if (remainders.size() < subtrahends.size())
 			remainders.add(0);
-		System.out.println("remainders  " + remainders + "\nsubtrahends  "
-				+ subtrahends);
-
 	}
 
-	private String fillString(int count, String filler) {
+	private String fillGaps(int count, String filler) {
 		StringBuffer result = new StringBuffer(count);
-
 		for (int i = 0; i < count; i++) {
 			result.append(filler);
 		}
@@ -126,13 +117,13 @@ public class Division {
 		return result.toString();
 	}
 
-	private int getCountsOfDigits(int number) {
-		int count = (number == 0) ? 1 : 0;
+	private int defineNumberLength(int number) {
+		int numberLength = (number == 0) ? 1 : 0;
 		while (number != 0) {
-			count++;
+			numberLength++;
 			number /= 10;
 		}
-		return count;
+		return numberLength;
 	}
 
 	public ArrayList<Integer> getRemainders() {
