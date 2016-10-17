@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class Division {
 
-	private ArrayList<Integer> remainders = new ArrayList<Integer>();
-	private ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-	private int firstRemainderLength = 0;
 	private int dividend, divider;
 
 	public Division(int dividend, int divider) {
@@ -15,15 +12,26 @@ public class Division {
 	}
 
 	public String composeDivisionOutput() {
+		
+		ArrayList<ArrayList<Integer>> lists = findOutputtingComponents(dividend, divider);
 
-		intermediateValuesDivision();
+		ArrayList<Integer> remainders = new ArrayList<Integer>();
+		remainders = lists.get(0);
+		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
+		subtrahends = lists.get(1);
 
-		return composeResultLine();
+		return formatResultAsString(remainders, subtrahends);
 	}
 
-	private String composeResultLine() {
+	private String formatResultAsString(ArrayList<Integer> remainders, ArrayList<Integer> subtrahends) {
+		
+		int length = defineNumberLength(remainders.get(0)) + 1;
+		remainders.remove(0);
+
+		if (remainders.size() < subtrahends.size())
+			remainders.add(0);
+		
 		StringBuilder result = new StringBuilder();
-		int length = defineNumberLength(firstRemainderLength) + 1;
 
 		result.append(" "
 				+ dividend
@@ -73,8 +81,11 @@ public class Division {
 		return result.toString();
 	}
 
-	private void intermediateValuesDivision() {
+	private ArrayList<ArrayList<Integer>> findOutputtingComponents(int dividend, int divider) {
 
+		ArrayList<Integer> remainders = new ArrayList<Integer>();
+		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
+		
 		int dividendOrder = 1;
 
 		while (dividend / dividendOrder > 10)
@@ -100,12 +111,11 @@ public class Division {
 			subtrahends.remove(0);
 			remainders.remove(0);
 		}
-
-		firstRemainderLength = remainders.get(0);
-		remainders.remove(0);
-
-		if (remainders.size() < subtrahends.size())
-			remainders.add(0);
+		
+		ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
+		lists.add(remainders);
+		lists.add(subtrahends);
+		return lists;
 	}
 
 	private String fillGaps(int count, String filler) {
@@ -124,14 +134,6 @@ public class Division {
 			number /= 10;
 		}
 		return numberLength;
-	}
-
-	public ArrayList<Integer> getRemainders() {
-		return remainders;
-	}
-
-	public ArrayList<Integer> getSubtrahends() {
-		return subtrahends;
 	}
 
 	public int getDividend() {

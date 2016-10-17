@@ -3,7 +3,9 @@ package com.smarterama.zhevaha.IntegerDivision;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class DivisionTest {
@@ -21,31 +23,6 @@ public class DivisionTest {
 		result = division.composeDivisionOutput();
 	}
 
-	@Test
-	public void testRemainders() {
-		ArrayList<Integer> expecteds = new ArrayList<Integer>();
-		expecteds.add(106);
-		expecteds.add(188);
-		expecteds.add(12);
-		ArrayList<Integer> remainders = new ArrayList<Integer>();
-		remainders = division.getRemainders();
-		for (int i = 0; i < remainders.size(); i++) {
-			assertEquals(expecteds, remainders);
-		}
-	}
-
-	@Test
-	public void testSubtrahends() {
-		ArrayList<Integer> expecteds = new ArrayList<Integer>();
-		expecteds.add(44);
-		expecteds.add(88);
-		expecteds.add(176);
-		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-		subtrahends = division.getSubtrahends();
-		for (int i = 0; i < subtrahends.size(); i++) {
-			assertEquals(expecteds, subtrahends);
-		}
-	}
 
 	@Test
 	public void testDivider() {
@@ -62,7 +39,7 @@ public class DivisionTest {
 	}
 
 	@Test
-	public void testDisplayProcessDivision() {
+	public void testComposeDivisionOutput() {
 
 		String expected = " " + division.getDividend() + " |" + divider
 				+ "\n-     -----\n " + 44 + "   |" + dividend / divider
