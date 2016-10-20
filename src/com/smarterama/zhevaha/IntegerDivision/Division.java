@@ -11,19 +11,19 @@ public class Division {
 		this.divider = divider;
 	}
 
+	
 	public String composeDivisionOutput() {
 		
-		ArrayList<ArrayList<Integer>> lists = findOutputtingComponents(dividend, divider);
+		IntermediateListsOfDivision intermediateParameters = computeIntermediateParameters(dividend, divider);
 
-		ArrayList<Integer> remainders = new ArrayList<Integer>();
-		remainders = lists.get(0);
-		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-		subtrahends = lists.get(1);
-
-		return formatResultAsString(remainders, subtrahends);
+		return formatResultAsString(intermediateParameters);
+		
 	}
 
-	private String formatResultAsString(ArrayList<Integer> remainders, ArrayList<Integer> subtrahends) {
+	private String formatResultAsString(IntermediateListsOfDivision inputParametrs) {
+		
+		ArrayList<Integer> remainders = inputParametrs.getRemainders();
+		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
 		
 		int length = defineNumberLength(remainders.get(0)) + 1;
 		remainders.remove(0);
@@ -81,11 +81,11 @@ public class Division {
 		return result.toString();
 	}
 
-	private ArrayList<ArrayList<Integer>> findOutputtingComponents(int dividend, int divider) {
+	private IntermediateListsOfDivision computeIntermediateParameters(int dividend, int divider) {
 
 		ArrayList<Integer> remainders = new ArrayList<Integer>();
 		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-		
+			
 		int dividendOrder = 1;
 
 		while (dividend / dividendOrder > 10)
@@ -112,10 +112,10 @@ public class Division {
 			remainders.remove(0);
 		}
 		
-		ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
-		lists.add(remainders);
-		lists.add(subtrahends);
-		return lists;
+		IntermediateListsOfDivision  methodResult = new IntermediateListsOfDivision();
+		methodResult.setRemainders(remainders);
+		methodResult.setSubtrahends(subtrahends);
+		return methodResult;
 	}
 
 	private String fillGaps(int count, String filler) {
