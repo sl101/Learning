@@ -24,7 +24,6 @@ public class DivisionTest {
 		result = division.composeDivisionOutput();
 	}
 
-
 	@Test
 	public void testDivider() {
 		int dividerExpected = divider;
@@ -37,16 +36,16 @@ public class DivisionTest {
 		int quotientExpected = dividend / divider;
 		int quotientResult = division.getDividend() / division.getDivider();
 		assertEquals(quotientExpected, quotientResult);
-		
+
 	}
 
 	@Test
 	public void testComposeDivisionOutput() {
 
-		String expected = " " + 5468 + " |" + 22
-				+ "\n-     -----\n " + 44 + "   |" + 5468 / 22
-				+ "\n __\n " + 106 + "\n-\n  " + 88 + "\n ___\n  " + 188
-				+ "\n -\n  " + 176 + "\n  ___\n   " + 12 + "\n";
+		String expected = " " + 5468 + " |" + 22 + "\n-     -----\n " + 44
+				+ "   |" + 5468 / 22 + "\n __\n " + 106 + "\n-\n  " + 88
+				+ "\n ___\n  " + 188 + "\n -\n  " + 176 + "\n  ___\n   " + 12
+				+ "\n";
 
 		assertEquals(expected, result);
 

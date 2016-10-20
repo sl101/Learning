@@ -11,26 +11,27 @@ public class Division {
 		this.divider = divider;
 	}
 
-	
 	public String composeDivisionOutput() {
-		
-		IntermediateListsOfDivision intermediateParameters = computeIntermediateParameters(dividend, divider);
 
-		return formatResultAsString(intermediateParameters);
-		
+		DivisionResults results = computeDivisionResults(
+				dividend, divider);
+
+		return formatResultAsString(results);
+
 	}
 
-	private String formatResultAsString(IntermediateListsOfDivision inputParametrs) {
-		
+	private String formatResultAsString(
+			DivisionResults inputParametrs) {
+
 		ArrayList<Integer> remainders = inputParametrs.getRemainders();
 		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
-		
+
 		int length = defineNumberLength(remainders.get(0)) + 1;
 		remainders.remove(0);
 
 		if (remainders.size() < subtrahends.size())
 			remainders.add(0);
-		
+
 		StringBuilder result = new StringBuilder();
 
 		result.append(" "
@@ -50,7 +51,7 @@ public class Division {
 				/ divider
 				+ "\n"
 				+ String.format("%" + length + "s",
-						fillGaps(defineNumberLength(subtrahends.get(0)), "_"))
+						countLengthFiller(defineNumberLength(subtrahends.get(0)), "_"))
 				+ "\n"
 				+ String.format("%" + (length + 1) + "d", remainders.get(0))
 				+ "\n");
@@ -66,7 +67,7 @@ public class Division {
 					+ "\n"
 					+ String.format(
 							"%" + length + "s",
-							fillGaps(defineNumberLength(remainders.get(i - 1)),
+							countLengthFiller(defineNumberLength(remainders.get(i - 1)),
 									"_")) + "\n");
 			if (i == remainders.size() - 1)
 				result.append(String.format("%" + length + "d",
@@ -81,11 +82,12 @@ public class Division {
 		return result.toString();
 	}
 
-	private IntermediateListsOfDivision computeIntermediateParameters(int dividend, int divider) {
+	private DivisionResults computeDivisionResults(
+			int dividend, int divider) {
 
 		ArrayList<Integer> remainders = new ArrayList<Integer>();
 		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-			
+
 		int dividendOrder = 1;
 
 		while (dividend / dividendOrder > 10)
@@ -111,14 +113,14 @@ public class Division {
 			subtrahends.remove(0);
 			remainders.remove(0);
 		}
-		
-		IntermediateListsOfDivision  methodResult = new IntermediateListsOfDivision();
+
+		DivisionResults methodResult = new DivisionResults();
 		methodResult.setRemainders(remainders);
 		methodResult.setSubtrahends(subtrahends);
 		return methodResult;
 	}
 
-	private String fillGaps(int count, String filler) {
+	private String countLengthFiller(int count, String filler) {
 		StringBuffer result = new StringBuffer(count);
 		for (int i = 0; i < count; i++) {
 			result.append(filler);

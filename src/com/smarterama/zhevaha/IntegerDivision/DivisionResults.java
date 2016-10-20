@@ -2,7 +2,7 @@ package com.smarterama.zhevaha.IntegerDivision;
 
 import java.util.ArrayList;
 
-public class IntermediateListsOfDivision {
+public class DivisionResults {
 
 	ArrayList<Integer> remainders;
 	ArrayList<Integer> subtrahends;
