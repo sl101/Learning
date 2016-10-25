@@ -1,4 +1,4 @@
-package com.smarterama.zhevaha.IntegerDivision;
+package com.smarterama.zhevaha.integerDivision;
 
 import java.util.Random;
 

@@ -1,9 +1,10 @@
-package com.smarterama.zhevaha.IntegerDivision;
+package com.smarterama.zhevaha.integerDivision;
 
 import java.util.ArrayList;
 
 public class Division {
 
+	private final int MIN_DISCHARGE = 10;
 	private int dividend, divider;
 
 	public Division(int dividend, int divider) {
@@ -13,15 +14,13 @@ public class Division {
 
 	public String composeDivisionOutput() {
 
-		DivisionResults results = computeDivisionResults(
-				dividend, divider);
+		DivisionResults results = computeDivisionResults(dividend, divider);
 
 		return formatResultAsString(results);
 
 	}
 
-	private String formatResultAsString(
-			DivisionResults inputParametrs) {
+	private String formatResultAsString(DivisionResults inputParametrs) {
 
 		ArrayList<Integer> remainders = inputParametrs.getRemainders();
 		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
@@ -40,8 +39,7 @@ public class Division {
 				+ divider
 				+ "\n"
 				+ "-"
-				+ String.format("%" + (defineNumberLength(dividend) + 1) + "s",
-						" ")
+				+ String.format("%" + (defineNumberLength(dividend) + 1) + "s", " ")
 				+ "-----\n"
 				+ String.format("%" + length + "d", subtrahends.get(0))
 				+ String.format("%"
@@ -50,11 +48,21 @@ public class Division {
 				+ dividend
 				/ divider
 				+ "\n"
-				+ String.format("%" + length + "s",
-						countLengthFiller(defineNumberLength(subtrahends.get(0)), "_"))
-				+ "\n"
-				+ String.format("%" + (length + 1) + "d", remainders.get(0))
+				+ String.format(
+						"%" + length + "s",
+						countLengthFiller(
+								defineNumberLength(subtrahends.get(0)), "_"))
 				+ "\n");
+		if (1 == remainders.size())
+			result.append(String.format("%" + length + "d",
+					remainders.get(0))
+					);
+		else {
+			result.append(String.format("%" + (length +1) + "d",
+					remainders.get(0)) );
+		}
+				
+				result.append("\n");
 
 		for (int i = 1; i < remainders.size(); i++) {
 			length = length + 1;
@@ -67,7 +75,8 @@ public class Division {
 					+ "\n"
 					+ String.format(
 							"%" + length + "s",
-							countLengthFiller(defineNumberLength(remainders.get(i - 1)),
+							countLengthFiller(
+									defineNumberLength(remainders.get(i - 1)),
 									"_")) + "\n");
 			if (i == remainders.size() - 1)
 				result.append(String.format("%" + length + "d",
@@ -82,34 +91,39 @@ public class Division {
 		return result.toString();
 	}
 
-	private DivisionResults computeDivisionResults(
-			int dividend, int divider) {
+	private DivisionResults computeDivisionResults(int dividendInput,
+			int dividerInput) {
 
 		ArrayList<Integer> remainders = new ArrayList<Integer>();
 		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
 
+		int dividend = Math.abs(dividendInput);
+		int divider = Math.abs(dividerInput);
+
 		int dividendOrder = 1;
 
-		while (dividend / dividendOrder > 10)
-			dividendOrder *= 10;
+		while (dividend / dividendOrder > MIN_DISCHARGE)
+			dividendOrder *= MIN_DISCHARGE;
 
 		int remainder = 0;
 
 		while (dividendOrder > 0) {
-			remainder = remainder * 10 + (dividend / dividendOrder) % 10;
-
+			remainder = remainder * MIN_DISCHARGE + (dividend / dividendOrder)
+					% MIN_DISCHARGE;
+			if ((dividend / dividendOrder) / MIN_DISCHARGE == 1)
+				remainder = MIN_DISCHARGE;
 			remainders.add(remainder);
 			subtrahends.add((remainder / divider) * divider);
 
 			remainder = remainder % divider;
-			dividendOrder /= 10;
+			dividendOrder /= MIN_DISCHARGE;
 		}
 
 		if (remainder != 0) {
 			remainders.add(remainder);
 		}
 
-		while (subtrahends.get(0) == 0) {
+		while (subtrahends.get(0) == 0 && subtrahends.size() > 1) {
 			subtrahends.remove(0);
 			remainders.remove(0);
 		}
@@ -133,7 +147,10 @@ public class Division {
 		int numberLength = (number == 0) ? 1 : 0;
 		while (number != 0) {
 			numberLength++;
-			number /= 10;
+			number /= MIN_DISCHARGE;
+		}
+		if (dividend<0) {
+			numberLength++;
 		}
 		return numberLength;
 	}
