@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Division {
 
-	private final int MIN_DISCHARGE = 10;
+	private final int SCALE = 10;
 	private int dividend, divider;
 
 	public Division(int dividend, int divider) {
@@ -102,21 +102,21 @@ public class Division {
 
 		int dividendOrder = 1;
 
-		while (dividend / dividendOrder > MIN_DISCHARGE)
-			dividendOrder *= MIN_DISCHARGE;
+		while (dividend / dividendOrder > SCALE)
+			dividendOrder *= SCALE;
 
 		int remainder = 0;
 
 		while (dividendOrder > 0) {
-			remainder = remainder * MIN_DISCHARGE + (dividend / dividendOrder)
-					% MIN_DISCHARGE;
-			if ((dividend / dividendOrder) / MIN_DISCHARGE == 1)
-				remainder = MIN_DISCHARGE;
+			remainder = remainder * SCALE + (dividend / dividendOrder)
+					% SCALE;
+			if ((dividend / dividendOrder) / SCALE == 1)
+				remainder = SCALE;
 			remainders.add(remainder);
 			subtrahends.add((remainder / divider) * divider);
 
 			remainder = remainder % divider;
-			dividendOrder /= MIN_DISCHARGE;
+			dividendOrder /= SCALE;
 		}
 
 		if (remainder != 0) {
@@ -147,7 +147,7 @@ public class Division {
 		int numberLength = (number == 0) ? 1 : 0;
 		while (number != 0) {
 			numberLength++;
-			number /= MIN_DISCHARGE;
+			number /= SCALE;
 		}
 		if (dividend<0) {
 			numberLength++;
