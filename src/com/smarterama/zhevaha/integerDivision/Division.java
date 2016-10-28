@@ -25,7 +25,7 @@ public class Division {
 		ArrayList<Integer> remainders = inputParametrs.getRemainders();
 		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
 
-		int length = defineScaleDigit(remainders.get(0)) + 1;
+		int length = countDigits(remainders.get(0)) + 1;
 		remainders.remove(0);
 
 		if (remainders.size() < subtrahends.size())
@@ -39,20 +39,20 @@ public class Division {
 				+ divider
 				+ "\n"
 				+ "-"
-				+ String.format("%" + (defineScaleDigit(dividend) + 1) + "s",
+				+ String.format("%" + (countDigits(dividend) + 1) + "s",
 						" ")
 				+ "-----\n"
 				+ String.format("%" + length + "d", subtrahends.get(0))
 				+ String.format("%"
-						+ ((defineScaleDigit(dividend) + 2) - (length - 1))
+						+ ((countDigits(dividend) + 2) - (length - 1))
 						+ "s", "|")
 				+ dividend
 				/ divider
 				+ "\n"
 				+ String.format(
 						"%" + length + "s",
-						difineLengthFiller(
-								defineScaleDigit(subtrahends.get(0)), "_"))
+						multiplyString(
+								countDigits(subtrahends.get(0)), "_"))
 				+ "\n");
 		if (1 == remainders.size())
 			result.append(String.format("%" + length + "d", remainders.get(0)));
@@ -67,14 +67,14 @@ public class Division {
 			length = length + 1;
 
 			result.append(String.format("%"
-					+ ((length + 1) - defineScaleDigit(remainders.get(i - 1)))
+					+ ((length + 1) - countDigits(remainders.get(i - 1)))
 					+ "s", "-\n")
 					+ String.format("%" + length + "d", subtrahends.get(i))
 					+ "\n"
 					+ String.format(
 							"%" + length + "s",
-							difineLengthFiller(
-									defineScaleDigit(remainders.get(i - 1)),
+							multiplyString(
+									countDigits(remainders.get(i - 1)),
 									"_")) + "\n");
 			if (i == remainders.size() - 1)
 				result.append(String.format("%" + length + "d",
@@ -130,7 +130,7 @@ public class Division {
 		return methodResult;
 	}
 
-	private String difineLengthFiller(int count, String filler) {
+	private String multiplyString(int count, String filler) {
 		StringBuffer result = new StringBuffer(count);
 		for (int i = 0; i < count; i++) {
 			result.append(filler);
@@ -139,7 +139,7 @@ public class Division {
 		return result.toString();
 	}
 
-	private int defineScaleDigit(int number) {
+	private int countDigits(int number) {
 		int numberLength = (number == 0) ? 1 : 0;
 		while (number != 0) {
 			numberLength++;
