@@ -124,10 +124,10 @@ public class Division {
 			remainders.remove(0);
 		}
 
-		DivisionResults methodResult = new DivisionResults();
-		methodResult.setRemainders(remainders);
-		methodResult.setSubtrahends(subtrahends);
-		return methodResult;
+		DivisionResults result = new DivisionResults();
+		result.setRemainders(remainders);
+		result.setSubtrahends(subtrahends);
+		return result;
 	}
 
 	private String multiplyString(int count, String filler) {
