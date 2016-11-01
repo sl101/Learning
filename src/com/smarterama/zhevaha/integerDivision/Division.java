@@ -39,20 +39,17 @@ public class Division {
 				+ divider
 				+ "\n"
 				+ "-"
-				+ String.format("%" + (countDigits(dividend) + 1) + "s",
-						" ")
+				+ String.format("%" + (countDigits(dividend) + 1) + "s", " ")
 				+ "-----\n"
 				+ String.format("%" + length + "d", subtrahends.get(0))
 				+ String.format("%"
-						+ ((countDigits(dividend) + 2) - (length - 1))
-						+ "s", "|")
+						+ ((countDigits(dividend) + 2) - (length - 1)) + "s",
+						"|")
 				+ dividend
 				/ divider
 				+ "\n"
-				+ String.format(
-						"%" + length + "s",
-						multiplyString(
-								countDigits(subtrahends.get(0)), "_"))
+				+ String.format("%" + length + "s",
+						multiplyString(countDigits(subtrahends.get(0)), "_"))
 				+ "\n");
 		if (1 == remainders.size())
 			result.append(String.format("%" + length + "d", remainders.get(0)));
@@ -66,15 +63,14 @@ public class Division {
 		for (int i = 1; i < remainders.size(); i++) {
 			length = length + 1;
 
-			result.append(String.format("%"
-					+ ((length + 1) - countDigits(remainders.get(i - 1)))
-					+ "s", "-\n")
+			result.append(String.format(
+					"%" + ((length + 1) - countDigits(remainders.get(i - 1)))
+							+ "s", "-\n")
 					+ String.format("%" + length + "d", subtrahends.get(i))
 					+ "\n"
 					+ String.format(
 							"%" + length + "s",
-							multiplyString(
-									countDigits(remainders.get(i - 1)),
+							multiplyString(countDigits(remainders.get(i - 1)),
 									"_")) + "\n");
 			if (i == remainders.size() - 1)
 				result.append(String.format("%" + length + "d",
@@ -99,9 +95,9 @@ public class Division {
 
 		int dividendOrder = 1;
 
-		while (dividend / dividendOrder > SCALE)
+		while (dividend / dividendOrder > SCALE) {
 			dividendOrder *= SCALE;
-
+		}
 		int remainder = 0;
 
 		while (dividendOrder > 0) {
