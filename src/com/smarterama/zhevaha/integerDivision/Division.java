@@ -14,13 +14,13 @@ public class Division {
 
 	public String composeDivisionOutput() {
 
-		DivisionResults results = divide(dividend, divider);
+		DivisionResult results = divide(dividend, divider);
 
 		return formatResultAsString(results);
 
 	}
 
-	private String formatResultAsString(DivisionResults inputParametrs) {
+	private String formatResultAsString(DivisionResult inputParametrs) {
 
 		ArrayList<Integer> remainders = inputParametrs.getRemainders();
 		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
@@ -89,7 +89,7 @@ public class Division {
 		return result.toString();
 	}
 
-	private DivisionResults divide(int dividendInput, int dividerInput) {
+	private DivisionResult divide(int dividendInput, int dividerInput) {
 
 		ArrayList<Integer> remainders = new ArrayList<Integer>();
 		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
@@ -124,7 +124,7 @@ public class Division {
 			remainders.remove(0);
 		}
 
-		DivisionResults result = new DivisionResults();
+		DivisionResult result = new DivisionResult();
 		result.setRemainders(remainders);
 		result.setSubtrahends(subtrahends);
 		return result;
