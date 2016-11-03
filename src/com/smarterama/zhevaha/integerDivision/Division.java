@@ -28,9 +28,9 @@ public class Division {
 		int length = countDigits(remainders.get(0)) + 1;
 		remainders.remove(0);
 
-		if (remainders.size() < subtrahends.size())
+		if (remainders.size() < subtrahends.size()) {
 			remainders.add(0);
-
+		}
 		StringBuilder result = new StringBuilder();
 
 		result.append(" "
@@ -51,9 +51,9 @@ public class Division {
 				+ String.format("%" + length + "s",
 						multiplyString(countDigits(subtrahends.get(0)), "_"))
 				+ "\n");
-		if (1 == remainders.size())
+		if (1 == remainders.size()) {
 			result.append(String.format("%" + length + "d", remainders.get(0)));
-		else {
+		} else {
 			result.append(String.format("%" + (length + 1) + "d",
 					remainders.get(0)));
 		}
@@ -72,11 +72,11 @@ public class Division {
 							"%" + length + "s",
 							multiplyString(countDigits(remainders.get(i - 1)),
 									"_")) + "\n");
-			if (i == remainders.size() - 1)
+			if (i == remainders.size() - 1) {
 				result.append(String.format("%" + length + "d",
 						remainders.get(i))
 						+ "\n");
-			else {
+			} else {
 				result.append(String.format("%" + (length + 1) + "d",
 						remainders.get(i)) + "\n");
 			}
@@ -102,8 +102,9 @@ public class Division {
 
 		while (dividendOrder > 0) {
 			remainder = remainder * SCALE + (dividend / dividendOrder) % SCALE;
-			if ((dividend / dividendOrder) / SCALE == 1)
+			if ((dividend / dividendOrder) / SCALE == 1) {
 				remainder = SCALE;
+			}
 			remainders.add(remainder);
 			subtrahends.add((remainder / divider) * divider);
 
