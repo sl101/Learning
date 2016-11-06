@@ -8,9 +8,8 @@ public class MainClass {
 
 	public static void main(String[] args) {
 
-		dividend = new Random().nextInt(99000) + 1000;
+		dividend = new Random().nextInt(9900) + 100;
 		divider = new Random().nextInt(99) + 1;
-		
 		
 
 		Division division = new Division(dividend, divider);
