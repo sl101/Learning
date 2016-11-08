@@ -24,7 +24,8 @@ public class Division {
 
 		ArrayList<Integer> remainders = inputParametrs.getRemainders();
 		ArrayList<Integer> subtrahends = inputParametrs.getSubtrahends();
-		ArrayList<Integer> fraction = inputParametrs.getQuotientFraction();
+		ArrayList<Integer> fractionRemainders = inputParametrs
+				.getFractionOfQuotient();
 
 		int length = countDigits(remainders.get(0)) + 1;
 		remainders.remove(0);
@@ -47,7 +48,7 @@ public class Division {
 						"|")
 				+ dividend
 				/ divider
-				+ composeQuotient(fraction)
+				+ composeFraction(fractionRemainders)
 				+ "\n"
 				+ String.format("%" + length + "s",
 						multiplyString(countDigits(subtrahends.get(0)), "_"))
@@ -89,23 +90,25 @@ public class Division {
 		return result.toString();
 	}
 
-	private String composeQuotient(ArrayList<Integer> fraction) {
+	private String composeFraction(ArrayList<Integer> fractionRemainders) {
 		StringBuilder result = new StringBuilder();
 		result.append("");
-		if (!fraction.isEmpty()) {
+		if (!fractionRemainders.isEmpty()) {
 			result.append(".");
-			int lastNumber = fraction.get(fraction.size() - 1);
+			int lastNumber = fractionRemainders
+					.get(fractionRemainders.size() - 1);
 			boolean removeLastNumber = false;
-			for (int i = 0; i < fraction.size(); i++) {
+			for (int i = 0; i < fractionRemainders.size(); i++) {
 
-				if (fraction.get(i) == lastNumber && i != (fraction.size() - 1)) {
+				if (fractionRemainders.get(i) == lastNumber
+						&& i != (fractionRemainders.size() - 1)) {
 					result.append("(");
-					fraction.remove(fraction.size() - 1);
+					fractionRemainders.remove(fractionRemainders.size() - 1);
 					removeLastNumber = true;
 				}
-				result.append(fraction.get(i));
+				result.append(fractionRemainders.get(i) / divider);
 
-				if (removeLastNumber && i == (fraction.size() - 1)) {
+				if (removeLastNumber && i == (fractionRemainders.size() - 1)) {
 					result.append(")");
 				}
 			}
@@ -117,7 +120,7 @@ public class Division {
 
 		ArrayList<Integer> remainders = new ArrayList<Integer>();
 		ArrayList<Integer> subtrahends = new ArrayList<Integer>();
-		ArrayList<Integer> fraction = new ArrayList<Integer>();
+		ArrayList<Integer> remaindersInFraction = new ArrayList<Integer>();
 
 		int dividend = Math.abs(dividendInput);
 		int divider = Math.abs(dividerInput);
@@ -142,7 +145,7 @@ public class Division {
 		}
 
 		dividendOrder = SCALE;
-		int count = 0;
+		int count = 1;
 
 		while (remainder != 0 && count <= SCALE) {
 
@@ -150,11 +153,11 @@ public class Division {
 			remainder = remainder * SCALE;
 			remainders.add(remainder);
 			subtrahends.add((remainder / divider) * divider);
-			fraction.add(remainder / divider);
+			remaindersInFraction.add(remainder);
 			remainder = remainder % divider;
 
-			if (fraction.contains(remainder * SCALE / divider)) {
-				fraction.add(remainder * SCALE / divider);
+			if (remaindersInFraction.contains(remainder * SCALE)) {
+				remaindersInFraction.add(remainder * SCALE);
 				break;
 			}
 		}
@@ -167,10 +170,11 @@ public class Division {
 			subtrahends.remove(0);
 			remainders.remove(0);
 		}
+
 		DivisionResult result = new DivisionResult();
 		result.setRemainders(remainders);
 		result.setSubtrahends(subtrahends);
-		result.setQuotientFraction(fraction);
+		result.setFractionOfQuotient(remaindersInFraction);
 		return result;
 	}
 
