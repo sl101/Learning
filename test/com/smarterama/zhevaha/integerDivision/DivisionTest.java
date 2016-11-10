@@ -74,7 +74,7 @@ public class DivisionTest {
 		double intResult = (double) division.getDividend()
 				/ division.getDivider();
 
-		String expected = " 7 |12\n-  -----\n 60|0.58(3)\n __\n 100\n"
+		String expected = " 7  |12\n-   -----\n 60 |0.58(3)\n __\n 100\n"
 				+ "-\n  96\n ___\n   40\n  -\n   36\n   __\n    4\n";
 
 		assertEquals(expected, result);
@@ -121,8 +121,8 @@ public class DivisionTest {
 
 		int intResult = division.getDividend() / division.getDivider();
 
-		String expected = " -2016 |33\n-      -----\n  198  |-61.(09)\n ____\n    36"
-				+ "\n  -\n    33\n   ___\n     30\n   -\n     297\n    ____\n       3\n";
+		String expected = "-2016 |33\n-     -----\n 198  |-61.(09)\n ___\n   36"
+				+ "\n  -\n   33\n   __\n    30\n   -\n    297\n    ___\n      3\n";
 
 		assertEquals(expected, result);
 		assertTrue(intResult < 0);
