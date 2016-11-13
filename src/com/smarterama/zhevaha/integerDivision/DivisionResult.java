@@ -6,7 +6,7 @@ public class DivisionResult {
 
 	ArrayList<Integer> remainders;
 	ArrayList<Integer> subtrahends;
-	ArrayList<Integer> remaindersOfFraction;
+	ArrayList<Integer> remaindersFraction;
 
 	public ArrayList<Integer> getRemainders() {
 		return remainders;
@@ -24,12 +24,12 @@ public class DivisionResult {
 		this.subtrahends = subtrahends;
 	}
 
-	public ArrayList<Integer> getRemaindersOfFraction() {
-		return remaindersOfFraction;
+	public ArrayList<Integer> getRemaindersFraction() {
+		return remaindersFraction;
 	}
 
-	public void setRemaindersOfFraction(ArrayList<Integer> remaindersOfFraction) {
-		this.remaindersOfFraction = remaindersOfFraction;
+	public void setRemaindersFraction(ArrayList<Integer> remaindersFraction) {
+		this.remaindersFraction = remaindersFraction;
 	}
 
 }
