@@ -18,7 +18,7 @@ public class StringParser {
 		}
 
 		String result = formatResultAsString(keeper.getStoredMap());
-		keeper.clearHash();
+		keeper.cleanHash();
 		
 		return result;
 		

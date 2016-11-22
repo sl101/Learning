@@ -53,7 +53,7 @@ public class KeeperStrings {
 		return storedMap;
 	}
 
-	public void clearHash() {
+	public void cleanHash() {
 		if (loadedStrings.size() > MAX_VALUE) {
 			for (int i = 0; i < loadedStrings.size(); i++) {
 				if (inputStringsLoaded.get(loadedStrings.get(i)) < FILTER_VALUE) {
