@@ -16,7 +16,12 @@ public class StringParser {
 		for (int i = 0; i < inputStrings.length; i++) {
 			keeper.computeKeeperSet(inputStrings[i]);
 		}
-		return formatResultAsString(keeper.getStoredMap());
+
+		String result = formatResultAsString(keeper.getStoredMap());
+		keeper.clearHash();
+		
+		return result;
+		
 	}
 
 	private String formatResultAsString(

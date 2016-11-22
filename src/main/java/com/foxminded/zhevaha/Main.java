@@ -4,8 +4,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[] inputStrings = new String[] { "Hello World!", "Hello!",
-				"Hello World!" };
+		String[] inputStrings = new String[] { "World!", "Hello!",
+				"Hello World!", "Hello World!", "Hello!", "Hello World!",
+				"World", "Hello Foxminded" };
 
 		StringParser parser = new StringParser(inputStrings);
 
