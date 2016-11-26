@@ -1,12 +1,13 @@
 package com.foxminded.zhevaha;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Random;
 
 public class StringsParser {
 
 	private Cache cache;
-	private final long AMOUNT_ITERATIONS = 100000;
+	private final static String HELLO = "Hello!";
 
 	public StringsParser() {
 		cache = new Cache();
@@ -14,17 +15,22 @@ public class StringsParser {
 
 	public String composeOutput(String[] inputStrings) {
 
-		for (int i = 0; i < AMOUNT_ITERATIONS; i++) {
-			StringBuilder buildInputString = new StringBuilder();
+		StringBuilder buildInputString = new StringBuilder();
+		long count = 0;
+		while (!buildInputString.toString().equals(HELLO)) {
+			buildInputString = new StringBuilder();
+			Collections.shuffle(Arrays.asList(inputStrings));
 			for (int j = 0; j < inputStrings.length; j++) {
-				buildInputString.append(inputStrings[new Random()
-						.nextInt(inputStrings.length)]);
+				buildInputString.append(inputStrings[j]);
 			}
+			count++;
+			System.out.println(count + ". " + buildInputString);
 			createCacheMap(buildInputString.toString());
 			cleanHash();
 		}
 
 		String result = formatResultAsString(Cache.getStorage());
+		System.out.println("final cache sise = "+Cache.getStorage().size());
 		return result;
 
 	}
@@ -60,17 +66,20 @@ public class StringsParser {
 	private String formatResultAsString(HashMap<String, Entity> valuesMap) {
 
 		StringBuilder result = new StringBuilder();
-		for (String key : valuesMap.keySet()) {
-			result.append("\n" + key);
-			char[] letters = key.toCharArray();
-			for (int i = 0; i < letters.length; i++) {
-				if (!key.substring(0, i).contains(String.valueOf(letters[i]))) {
-					result.append("\n \""
-							+ letters[i]
-							+ "\" - "
-							+ valuesMap.get(key).getValue()
-									.get(String.valueOf(letters[i])));
-				}
+		String key = null;
+		if(valuesMap.containsKey(HELLO)){
+			key = HELLO;
+		}
+
+		result.append("\n" + key);
+		char[] letters = key.toCharArray();
+		for (int i = 0; i < letters.length; i++) {
+			if (!key.substring(0, i).contains(String.valueOf(letters[i]))) {
+				result.append("\n \""
+						+ letters[i]
+						+ "\" - "
+						+ valuesMap.get(key).getValue()
+								.get(String.valueOf(letters[i])));
 			}
 		}
 
