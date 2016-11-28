@@ -12,7 +12,6 @@ public class Cache {
 	}
 
 	public static void expire() {
-		int beforeClean = storage.size();
 
 		HashMap<String, Entity> storageClone = (HashMap<String, Entity>) storage
 				.clone();
@@ -35,7 +34,7 @@ public class Cache {
 		Cache.storage = storage;
 	}
 
-	public static String getHelloWorld() {
+	public static String getHello() {
 		return HELLO;
 	}
 

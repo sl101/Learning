@@ -30,7 +30,7 @@ public class StringsParser {
 		}
 
 		String result = formatResultAsString(Cache.getStorage());
-		System.out.println("final cache sise = "+Cache.getStorage().size());
+		System.out.println("final cache sise = " + Cache.getStorage().size());
 		return result;
 
 	}
@@ -67,7 +67,7 @@ public class StringsParser {
 
 		StringBuilder result = new StringBuilder();
 		String key = null;
-		if(valuesMap.containsKey(HELLO)){
+		if (valuesMap.containsKey(HELLO)) {
 			key = HELLO;
 		}
 
