@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 public class StringsParser {
 
-	private final static int ITERATIONS_NUMBER = 1000;
+	private final static int ITERATIONS_NUMBER = 10000;
+	private final int LIFE_LIMIT = 1;
 	private final static String HELLO_WORlD = "Hello World!";
 	private HashMap<String, StringUniqueValues> storage;
 
@@ -19,7 +20,6 @@ public class StringsParser {
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(inputStrings));
 			createCacheMap(inputStrings[0]);
-			cleanHash();
 		}
 
 		String result = formatResultAsString(HELLO_WORlD);
@@ -28,31 +28,15 @@ public class StringsParser {
 	}
 
 	private void createCacheMap(String inputString) {
+		StringUniqueValues stringValues = new StringUniqueValues(inputString);
 		if (storage.containsKey(inputString)) {
 			storage.get(inputString).setIterationTime(
 					System.currentTimeMillis());
 		} else {
-			HashMap<String, Integer> newMap = computeLettersSet(inputString);
-			StringUniqueValues entity = new StringUniqueValues(newMap,
-					System.currentTimeMillis());
-			storage.put(inputString, entity);
+			stringValues.setValues(inputString);
+			storage.put(inputString, stringValues);
 		}
-	}
-
-	private HashMap<String, Integer> computeLettersSet(String inputString) {
-		HashMap<String, Integer> lettersSet = new HashMap<String, Integer>();
-		char[] letters = inputString.toCharArray();
-
-		for (char letter : letters) {
-			if (lettersSet.containsKey(String.valueOf(letter))) {
-				lettersSet.put(String.valueOf(letter),
-						lettersSet.get(String.valueOf(letter)) + 1);
-			} else {
-				lettersSet.put(String.valueOf(letter), 1);
-			}
-		}
-
-		return lettersSet;
+		cleanHash();
 	}
 
 	private String formatResultAsString(String defoltWord) {
@@ -80,18 +64,22 @@ public class StringsParser {
 	}
 
 	private void cleanHash() {
-		HashMap<String, StringUniqueValues> storageClone = (HashMap<String, StringUniqueValues>) storage
-				.clone();
+		HashMap<String, StringUniqueValues> storageClone = new HashMap<String, StringUniqueValues>(
+				storage);
 
 		for (String key : storage.keySet()) {
-			if (storage.get(key).isExpired()
-					&& !key.equals(new StringsParser().getHelloWorld())) {
+			if (isExpired(key) && !key.equals(HELLO_WORlD)) {
 				storageClone.remove(key);
 			}
 		}
 		storage.clear();
-		storage = (HashMap<String, StringUniqueValues>) storageClone.clone();
+		storage = new HashMap<String, StringUniqueValues>(storageClone);
 
+	}
+
+	private boolean isExpired(String key) {
+		return System.currentTimeMillis() > (storage.get(key)
+				.getIterationTime() + LIFE_LIMIT);
 	}
 
 	public static String getHelloWorld() {
