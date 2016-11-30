@@ -4,7 +4,8 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String[] defaultValues = new String[] { "H", "e", "l", "l", "o", "!" };
+		String[] defaultValues = new String[] { "Hello", "Hello World!",
+				"World", "Hello Foximinded!", "Java", "Foximided" };
 
 		StringsParser parser = new StringsParser();
 

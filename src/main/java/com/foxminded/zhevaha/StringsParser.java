@@ -6,44 +6,36 @@ import java.util.HashMap;
 
 public class StringsParser {
 
-	private Cache cache;
-	private final static String HELLO = "Hello!";
+	private final static int ITERATIONS_NUMBER = 1000;
+	private final static String HELLO_WORlD = "Hello World!";
+	private HashMap<String, StringUniqueValues> storage;
 
 	public StringsParser() {
-		cache = new Cache();
+		storage = new HashMap<String, StringUniqueValues>();
 	}
 
 	public String composeOutput(String[] inputStrings) {
 
-		StringBuilder buildInputString = new StringBuilder();
-		long count = 0;
-		while (!buildInputString.toString().equals(HELLO)) {
-			buildInputString = new StringBuilder();
+		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(inputStrings));
-			for (int j = 0; j < inputStrings.length; j++) {
-				buildInputString.append(inputStrings[j]);
-			}
-			count++;
-			System.out.println(count + ". " + buildInputString);
-			createCacheMap(buildInputString.toString());
+			createCacheMap(inputStrings[0]);
 			cleanHash();
 		}
 
-		String result = formatResultAsString(Cache.getStorage());
-		System.out.println("final cache sise = " + Cache.getStorage().size());
+		String result = formatResultAsString(HELLO_WORlD);
 		return result;
 
 	}
 
 	private void createCacheMap(String inputString) {
-
-		if (Cache.getStorage().containsKey(inputString)) {
-			Cache.getStorage().get(inputString)
-					.setBirthTime(System.currentTimeMillis());
+		if (storage.containsKey(inputString)) {
+			storage.get(inputString).setIterationTime(
+					System.currentTimeMillis());
 		} else {
 			HashMap<String, Integer> newMap = computeLettersSet(inputString);
-			Entity entity = new Entity(newMap, System.currentTimeMillis());
-			Cache.getStorage().put(inputString, entity);
+			StringUniqueValues entity = new StringUniqueValues(newMap,
+					System.currentTimeMillis());
+			storage.put(inputString, entity);
 		}
 	}
 
@@ -63,30 +55,55 @@ public class StringsParser {
 		return lettersSet;
 	}
 
-	private String formatResultAsString(HashMap<String, Entity> valuesMap) {
+	private String formatResultAsString(String defoltWord) {
 
 		StringBuilder result = new StringBuilder();
-		String key = null;
-		if (valuesMap.containsKey(HELLO)) {
-			key = HELLO;
-		}
-
-		result.append("\n" + key);
-		char[] letters = key.toCharArray();
-		for (int i = 0; i < letters.length; i++) {
-			if (!key.substring(0, i).contains(String.valueOf(letters[i]))) {
-				result.append("\n \""
-						+ letters[i]
-						+ "\" - "
-						+ valuesMap.get(key).getValue()
-								.get(String.valueOf(letters[i])));
+		if (storage.containsKey(defoltWord)) {
+			result.append(defoltWord);
+			char[] letters = defoltWord.toCharArray();
+			for (int i = 0; i < letters.length; i++) {
+				if (!defoltWord.substring(0, i).contains(
+						String.valueOf(letters[i]))) {
+					result.append("\n \""
+							+ letters[i]
+							+ "\" - "
+							+ storage.get(defoltWord).getValues()
+									.get(String.valueOf(letters[i])));
+				}
 			}
-		}
 
+		} else {
+			result.append("\n" + defoltWord + " is empty");
+		}
 		return result.toString();
+
 	}
 
 	private void cleanHash() {
-		Cache.expire();
+		HashMap<String, StringUniqueValues> storageClone = (HashMap<String, StringUniqueValues>) storage
+				.clone();
+
+		for (String key : storage.keySet()) {
+			if (storage.get(key).isExpired()
+					&& !key.equals(new StringsParser().getHelloWorld())) {
+				storageClone.remove(key);
+			}
+		}
+		storage.clear();
+		storage = (HashMap<String, StringUniqueValues>) storageClone.clone();
+
 	}
+
+	public static String getHelloWorld() {
+		return HELLO_WORlD;
+	}
+
+	public HashMap<String, StringUniqueValues> getStorage() {
+		return storage;
+	}
+
+	public void setStorage(HashMap<String, StringUniqueValues> storage) {
+		this.storage = storage;
+	}
+
 }
