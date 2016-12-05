@@ -2,13 +2,12 @@ package com.foxminded.zhevaha;
 
 public class Main {
 
-	public static void main(String[] args) {
+	private final static String HELLO_WORlD = "Hello World!";
 
-		String[] defaultValues = new String[] { "Hello", "Hello World!",
-				"World", "Hello Foximinded!", "Java", "Foximided" };
+	public static void main(String[] args) {
 
 		StringsParser parser = new StringsParser();
 
-		System.out.println(parser.composeOutput(defaultValues));
+		System.out.println(parser.composeOutput(HELLO_WORlD));
 	}
 }

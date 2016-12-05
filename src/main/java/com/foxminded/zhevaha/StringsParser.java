@@ -1,42 +1,49 @@
 package com.foxminded.zhevaha;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StringsParser {
 
-	private final static int ITERATIONS_NUMBER = 10000;
-	private final int LIFE_LIMIT = 1;
-	private final static String HELLO_WORlD = "Hello World!";
+	private final int STORAGE_INCUBATOR_LIMIT = 10;
 	private HashMap<String, StringUniqueValues> storage;
+	private ArrayList<String> storageIncubator;
 
 	public StringsParser() {
 		storage = new HashMap<String, StringUniqueValues>();
+		storageIncubator = new ArrayList<String>();
 	}
 
-	public String composeOutput(String[] inputStrings) {
+	public String composeOutput(String inputString) {
 
-		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
-			Collections.shuffle(Arrays.asList(inputStrings));
-			createCacheMap(inputStrings[0]);
-		}
+		createCacheMap(inputString);
 
-		String result = formatResultAsString(HELLO_WORlD);
+		String result = formatResultAsString(inputString);
+
 		return result;
 
 	}
 
 	private void createCacheMap(String inputString) {
 		StringUniqueValues stringValues = new StringUniqueValues(inputString);
-		if (storage.containsKey(inputString)) {
-			storage.get(inputString).setIterationTime(
-					System.currentTimeMillis());
+
+		if (storageIncubator.contains(inputString)) {
+
+			storageIncubator.remove(storageIncubator.indexOf(inputString));
+			storageIncubator.add(0, inputString);
+
 		} else {
+
 			stringValues.setValues(inputString);
 			storage.put(inputString, stringValues);
+
+			if (storageIncubator.size() < STORAGE_INCUBATOR_LIMIT) {
+				storageIncubator.add(0, inputString);
+			} else {
+				storageIncubator.remove(STORAGE_INCUBATOR_LIMIT);
+				storage.remove(inputString);
+			}
 		}
-		cleanHash();
 	}
 
 	private String formatResultAsString(String defoltWord) {
@@ -61,29 +68,6 @@ public class StringsParser {
 		}
 		return result.toString();
 
-	}
-
-	private void cleanHash() {
-		HashMap<String, StringUniqueValues> storageClone = new HashMap<String, StringUniqueValues>(
-				storage);
-
-		for (String key : storage.keySet()) {
-			if (isExpired(key) && !key.equals(HELLO_WORlD)) {
-				storageClone.remove(key);
-			}
-		}
-		storage.clear();
-		storage = new HashMap<String, StringUniqueValues>(storageClone);
-
-	}
-
-	private boolean isExpired(String key) {
-		return System.currentTimeMillis() > (storage.get(key)
-				.getIterationTime() + LIFE_LIMIT);
-	}
-
-	public static String getHelloWorld() {
-		return HELLO_WORlD;
 	}
 
 	public HashMap<String, StringUniqueValues> getStorage() {
