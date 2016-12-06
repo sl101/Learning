@@ -1,14 +1,11 @@
 package com.foxminded.zhevaha;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class StringsParser {
 
 	private final static int CACHE_CAPACITY = 10;
-	private final static int ITERATIONS_NUMBER = 10000;
 	private final static String HELLO_WORlD = "Hello World!";
 	private HashMap<String, StringUniqueValues> cache;
 	private ArrayList<String> cacheIncubator;
@@ -18,13 +15,9 @@ public class StringsParser {
 		cacheIncubator = new ArrayList<String>();
 	}
 
-	public String composeOutput(String[] exampleValues) {
+	public String composeOutput(String exampleValue) {
 
-		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
-			Collections.shuffle(Arrays.asList(exampleValues));
-			createCacheMap(exampleValues[0]);
-		}
-
+		createCacheMap(exampleValue);
 		String result = formatResultAsString(HELLO_WORlD);
 
 		return result;
@@ -77,12 +70,21 @@ public class StringsParser {
 
 	}
 
-	public HashMap<String, StringUniqueValues> getStorage() {
+	public HashMap<String, StringUniqueValues> getCache() {
 		return cache;
 	}
 
-	public void setStorage(HashMap<String, StringUniqueValues> storage) {
-		this.cache = storage;
+	public void setCache(HashMap<String, StringUniqueValues> cache) {
+		this.cache = cache;
 	}
 
+	public ArrayList<String> getCacheIncubator() {
+		return cacheIncubator;
+	}
+
+	public void setCacheIncubator(ArrayList<String> cacheIncubator) {
+		this.cacheIncubator = cacheIncubator;
+	}
+
+	
 }
