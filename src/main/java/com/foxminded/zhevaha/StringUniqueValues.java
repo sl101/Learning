@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class StringUniqueValues {
 	private HashMap<String, Integer> values;
 
-	public StringUniqueValues(String decompositionString) {
+	public StringUniqueValues() {
 		values = new HashMap<String, Integer>();
 	}
 

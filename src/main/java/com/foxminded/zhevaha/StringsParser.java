@@ -1,81 +1,88 @@
 package com.foxminded.zhevaha;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class StringsParser {
 
-	private final int STORAGE_INCUBATOR_LIMIT = 10;
-	private HashMap<String, StringUniqueValues> storage;
-	private ArrayList<String> storageIncubator;
+	private final static int CACHE_CAPACITY = 10;
+	private final static int ITERATIONS_NUMBER = 10000;
+	private final static String HELLO_WORlD = "Hello World!";
+	private HashMap<String, StringUniqueValues> cache;
+	private ArrayList<String> cacheIncubator;
 
 	public StringsParser() {
-		storage = new HashMap<String, StringUniqueValues>();
-		storageIncubator = new ArrayList<String>();
+		cache = new HashMap<String, StringUniqueValues>();
+		cacheIncubator = new ArrayList<String>();
 	}
 
-	public String composeOutput(String inputString) {
+	public String composeOutput(String[] exampleValues) {
 
-		createCacheMap(inputString);
+		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
+			Collections.shuffle(Arrays.asList(exampleValues));
+			createCacheMap(exampleValues[0]);
+		}
 
-		String result = formatResultAsString(inputString);
+		String result = formatResultAsString(HELLO_WORlD);
 
 		return result;
 
 	}
 
 	private void createCacheMap(String inputString) {
-		StringUniqueValues stringValues = new StringUniqueValues(inputString);
+		StringUniqueValues stringValues = new StringUniqueValues();
 
-		if (storageIncubator.contains(inputString)) {
+		if (cacheIncubator.contains(inputString)) {
 
-			storageIncubator.remove(storageIncubator.indexOf(inputString));
-			storageIncubator.add(0, inputString);
+			cacheIncubator.remove(cacheIncubator.indexOf(inputString));
+			cacheIncubator.add(0, inputString);
 
 		} else {
 
 			stringValues.setValues(inputString);
-			storage.put(inputString, stringValues);
+			cache.put(inputString, stringValues);
 
-			if (storageIncubator.size() < STORAGE_INCUBATOR_LIMIT) {
-				storageIncubator.add(0, inputString);
+			if (cacheIncubator.size() < CACHE_CAPACITY) {
+				cacheIncubator.add(0, inputString);
 			} else {
-				storageIncubator.remove(STORAGE_INCUBATOR_LIMIT);
-				storage.remove(inputString);
+				cacheIncubator.remove(CACHE_CAPACITY);
+				cache.remove(inputString);
 			}
 		}
 	}
 
-	private String formatResultAsString(String defoltWord) {
+	private String formatResultAsString(String defaultWord) {
 
 		StringBuilder result = new StringBuilder();
-		if (storage.containsKey(defoltWord)) {
-			result.append(defoltWord);
-			char[] letters = defoltWord.toCharArray();
+		if (cache.containsKey(defaultWord)) {
+			result.append(defaultWord);
+			char[] letters = defaultWord.toCharArray();
 			for (int i = 0; i < letters.length; i++) {
-				if (!defoltWord.substring(0, i).contains(
+				if (!defaultWord.substring(0, i).contains(
 						String.valueOf(letters[i]))) {
 					result.append("\n \""
 							+ letters[i]
 							+ "\" - "
-							+ storage.get(defoltWord).getValues()
+							+ cache.get(defaultWord).getValues()
 									.get(String.valueOf(letters[i])));
 				}
 			}
 
 		} else {
-			result.append("\n" + defoltWord + " is empty");
+			result.append("\n" + defaultWord + " is empty");
 		}
 		return result.toString();
 
 	}
 
 	public HashMap<String, StringUniqueValues> getStorage() {
-		return storage;
+		return cache;
 	}
 
 	public void setStorage(HashMap<String, StringUniqueValues> storage) {
-		this.storage = storage;
+		this.cache = storage;
 	}
 
 }
