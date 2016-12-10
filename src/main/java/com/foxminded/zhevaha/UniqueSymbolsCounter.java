@@ -53,13 +53,13 @@ public class UniqueSymbolsCounter {
 		return lettersSet;
 	}
 
-	private String formatResultAsString(String defaultWord) {
-		HashMap<String, Integer> values = computeLettersSet(defaultWord);
+	private String formatResultAsString(String inputString) {
+		HashMap<String, Integer> values = computeLettersSet(inputString);
 		StringBuilder result = new StringBuilder();
-		result.append(defaultWord);
-		char[] letters = defaultWord.toCharArray();
+		result.append(inputString);
+		char[] letters = inputString.toCharArray();
 		for (int i = 0; i < letters.length; i++) {
-			if (!defaultWord.substring(0, i).contains(
+			if (!inputString.substring(0, i).contains(
 					String.valueOf(letters[i]))) {
 				result.append("\n \"" + letters[i] + "\" - "
 						+ values.get(String.valueOf(letters[i])));
