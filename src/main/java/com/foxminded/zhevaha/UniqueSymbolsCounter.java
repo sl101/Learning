@@ -8,53 +8,82 @@ import java.util.Map;
 public class UniqueSymbolsCounter {
 
 	private final static int CACHE_CAPACITY_SIZE = 10;
-	private Map<String, String> cache;
+//	private Map <String, CacheMap> cacheMap;
 	private List<String> cacheCapacity;
+	private CacheMap cacheMap;
 
 	public UniqueSymbolsCounter() {
-		cache = new HashMap<String, String>();
+		cacheMap = new CacheMap(); 
+//		cacheMap = new HashMap<String, CacheMap>();
 		cacheCapacity = new ArrayList<String>();
 	}
 
 	public String countUniqueSymbols(String inputString) {
 
-		if (cache.containsKey(inputString)) {
-
-			cacheCapacity.remove(cacheCapacity.indexOf(inputString));
-			cacheCapacity.add(0, inputString);
-
-		} else {
+//		if (!cacheMap.entrySet().contains(inputString)) {
+		if (cacheCapacity.contains(inputString)) {
+//			cacheCapacity.remove(cacheCapacity.indexOf(inputString));
+//			cacheCapacity.add(0, inputString);
+//			CacheMap cache = new CacheMap();
+//			cache.setCacheCapacity(1);
+//			cache.setCache(inputString, formatResultAsString(inputString));
+//			cacheMap.put(inputString, cache);
+////			setCacheCapacity(cache.getCacheCapacity()+1);
+//			int minimumCache = 1;
+//			while (cacheMap.size()>CACHE_CAPACITY_SIZE){
+//				
+//				for (String value:cacheMap.keySet()) {
+//					if (cacheMap.get(value).getCacheCapacity()<=minimumCache) {
+//						minimumCache = cacheMap.get(value).getCacheCapacity();
+//					}
+//					
+//					
+//				}
+//			}
+//		} else {
 
 			if (cacheCapacity.size() < CACHE_CAPACITY_SIZE) {
+				cacheCapacity.remove(cacheCapacity.indexOf(inputString));
 				cacheCapacity.add(0, inputString);
-				cache.put(inputString, formatResultAsString(inputString));
+//				cache.setCache(inputString, formatAsUniqueCharacters(inputString));
 			} else {
 				cacheCapacity.remove(CACHE_CAPACITY_SIZE);
-				cache.remove(cacheCapacity.get(CACHE_CAPACITY_SIZE));
+				cacheMap.getCache().remove(cacheCapacity.get(CACHE_CAPACITY_SIZE));
 			}
-		}
-
-		return cache.get(inputString);
-
-	}
-
-	private HashMap<String, Integer> computeLettersSet(String inputString) {
-		HashMap<String, Integer> lettersSet = new HashMap<String, Integer>();
-		char[] letters = inputString.toCharArray();
-
-		for (char letter : letters) {
-			if (lettersSet.containsKey(String.valueOf(letter))) {
-				lettersSet.put(String.valueOf(letter),
-						lettersSet.get(String.valueOf(letter)) + 1);
+			
+//			if (cacheMap.get(inputString).getCacheCapacity() < 	CACHE_CAPACITY_SIZE) {
+//				cache.setCacheCapacity(cache.getCacheCapacity()+1);
+//				cache.put(inputString, formatResultAsString(inputString));
 			} else {
-				lettersSet.put(String.valueOf(letter), 1);
+				cacheCapacity.add(inputString);
+				cacheMap.setCache(inputString, formatAsUniqueCharacters(inputString));
+//				cacheCapacity.remove(CACHE_CAPACITY_SIZE);
+//				cache.remove(cacheCapacity.get(CACHE_CAPACITY_SIZE));
+//				cacheMap.remove(inputString);
 			}
-		}
-		return lettersSet;
+//		}
+//
+		return cacheMap.getCache().get(inputString).toString();
+//
 	}
 
-	private String formatResultAsString(String inputString) {
-		HashMap<String, Integer> values = computeLettersSet(inputString);
+//	private HashMap<String, Integer> computeLettersSet(String inputString) {
+//		HashMap<String, Integer> lettersSet = new HashMap<String, Integer>();
+//		char[] letters = inputString.toCharArray();
+//
+//		for (char letter : letters) {
+//			if (lettersSet.containsKey(String.valueOf(letter))) {
+//				lettersSet.put(String.valueOf(letter),
+//						lettersSet.get(String.valueOf(letter)) + 1);
+//			} else {
+//				lettersSet.put(String.valueOf(letter), 1);
+//			}
+//		}
+//		return lettersSet;
+//	}
+
+	private String formatAsUniqueCharacters(String inputString) {
+		HashMap<String, Integer> values = cacheMap.computeLettersSet(inputString);
 		StringBuilder result = new StringBuilder();
 		result.append(inputString);
 		char[] letters = inputString.toCharArray();
@@ -69,8 +98,13 @@ public class UniqueSymbolsCounter {
 
 	}
 
-	public HashMap<String, String> getCache() {
-		return (HashMap<String, String>) cache;
+	public CacheMap getCacheMap() {
+		return cacheMap;
 	}
 
+//	public HashMap<String, String> getCache() {
+//		return (HashMap<String, String>) cache;
+//	}
+
+	
 }
