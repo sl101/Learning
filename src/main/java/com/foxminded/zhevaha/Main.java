@@ -4,10 +4,10 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		UniqueSymbolsCounter uniqueCounter = new UniqueSymbolsCounter();
+		UniqueSymbolsCounter uniqueSymbolsCounter = new UniqueSymbolsCounter();
 
 		String inputString = "Hello World!";
 
-		System.out.println(uniqueCounter.countUniqueSymbols(inputString));
+		System.out.println(uniqueSymbolsCounter.countUniqueSymbols(inputString));
 	}
 }

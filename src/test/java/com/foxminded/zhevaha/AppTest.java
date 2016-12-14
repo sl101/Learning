@@ -11,14 +11,14 @@ import org.junit.Test;
 public class AppTest {
 
 	private static String inputString;
-	private static UniqueSymbolsCounter uniqueCounter;
+	private static UniqueSymbolsCounter uniqueSymbolsCounter;
 	private static String[] exampleValues;
 	private final static int ITERATIONS_NUMBER = 10000;
 
 	@Before
 	public void methodBefore() {
 		inputString = "Hello World!";
-		uniqueCounter = new UniqueSymbolsCounter();
+		uniqueSymbolsCounter = new UniqueSymbolsCounter();
 	}
 
 	@Test
@@ -35,10 +35,10 @@ public class AppTest {
 				"Hello Foximinded!", "Java", "Foximided" };
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(exampleValues));
-			uniqueCounter.countUniqueSymbols(exampleValues[0]);
+			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
 		}
 
-		assertTrue(uniqueCounter.getCacheMap().getCache()
+		assertTrue(uniqueSymbolsCounter.getCacheMap().getCache()
 				.containsKey(inputString));
 	}
 
@@ -51,10 +51,10 @@ public class AppTest {
 				"CacheCapacity" };
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(exampleValues));
-			uniqueCounter.countUniqueSymbols(exampleValues[0]);
+			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
 		}
 
-		assertTrue(uniqueCounter.getCacheCapacity().size() <= 10);
+		assertTrue(uniqueSymbolsCounter.getCacheCapacity().size() <= 10);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class AppTest {
 				+ " \"l\" - 3\n" + " \"o\" - 2\n" + " \" \" - 1\n"
 				+ " \"W\" - 1\n" + " \"r\" - 1\n" + " \"d\" - 1\n"
 				+ " \"!\" - 1";
-		String result = uniqueCounter.countUniqueSymbols(inputString);
+		String result = uniqueSymbolsCounter.countUniqueSymbols(inputString);
 
 		assertEquals(expected, result);
 	}
