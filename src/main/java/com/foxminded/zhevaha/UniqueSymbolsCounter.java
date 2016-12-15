@@ -1,52 +1,65 @@
 package com.foxminded.zhevaha;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UniqueSymbolsCounter {
 
 	private final static int CACHE_CAPACITY_SIZE = 10;
-	private List<String> cacheCapacity;
-	private CacheMap cacheMap;
+	private Map<String, CacheMap> cache;
+//	private CacheMap cacheMap;
 
 	public UniqueSymbolsCounter() {
-		cacheMap = new CacheMap();
-		cacheCapacity = new ArrayList<String>();
+
+		cache = new HashMap<String, CacheMap>();
 	}
 
 	public String countUniqueSymbols(String inputString) {
 
-		checkCacheCapacity(inputString);
+		checkCache(inputString);
 
-		return cacheMap.getCache().get(inputString).toString();
+		return cache.get(inputString).getResultString();
+	}
+
+	private void checkCache(String inputString) {
+
+		if (cache.containsKey(inputString)) {
+
+			cache.get(inputString).setUseFrequency(CACHE_CAPACITY_SIZE);
+		} else {
+
+			CacheMap cacheMap = new CacheMap(inputString);
+			cacheMap.setResultString();
+			cacheMap.setUseFrequency(CACHE_CAPACITY_SIZE);
+			cache.put(inputString, cacheMap);
+		}
+		checkCacheCapacity(inputString);
 	}
 
 	private void checkCacheCapacity(String inputString) {
-		if (cacheCapacity.contains(inputString)) {
-			cacheCapacity.remove(cacheCapacity.indexOf(inputString));
-			cacheCapacity.add(0, inputString);
+		Map<String, CacheMap> cacheForRemove = new HashMap<String, CacheMap>();
+		cacheForRemove.putAll(cache);
 
-		} else {
-			cacheCapacity.add(0, inputString);
-			cacheMap.setCache(inputString,
-					cacheMap.formatUniqueCharacters(inputString));
-		}
-		if (cacheCapacity.size() > CACHE_CAPACITY_SIZE) {
-			cacheMap.getCache().remove(cacheCapacity.get(CACHE_CAPACITY_SIZE));
-			cacheCapacity.remove(CACHE_CAPACITY_SIZE);
+		for (String value : cache.keySet()) {
 
+			if (!value.equals(inputString)) {
+				cache.get(value).setUseFrequency(
+						cache.get(value).getUseFrequency() - 1);
+			}
+			if (cache.get(value).getUseFrequency() <= 0) {
+
+				cacheForRemove.remove(value);
+			}
 		}
+		cache.clear();
+		cache.putAll(cacheForRemove);
+		cacheForRemove.clear();
 
 	}
 
-	public CacheMap getCacheMap() {
-		return cacheMap;
-	}
+	public Map<String, CacheMap> getCache() {
 
-	public List<String> getCacheCapacity() {
-		return cacheCapacity;
+		return cache;
 	}
 
 }

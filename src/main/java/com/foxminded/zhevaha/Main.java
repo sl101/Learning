@@ -8,6 +8,7 @@ public class Main {
 
 		String inputString = "Hello World!";
 
-		System.out.println(uniqueSymbolsCounter.countUniqueSymbols(inputString));
+		System.out
+				.println(uniqueSymbolsCounter.countUniqueSymbols(inputString));
 	}
 }

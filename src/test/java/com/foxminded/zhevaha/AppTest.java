@@ -38,8 +38,7 @@ public class AppTest {
 			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
 		}
 
-		assertTrue(uniqueSymbolsCounter.getCacheMap().getCache()
-				.containsKey(inputString));
+		assertTrue(uniqueSymbolsCounter.getCache().containsKey(inputString));
 	}
 
 	@Test
@@ -54,7 +53,7 @@ public class AppTest {
 			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
 		}
 
-		assertTrue(uniqueSymbolsCounter.getCacheCapacity().size() <= 10);
+		assertTrue(uniqueSymbolsCounter.getCache().size() <= 10);
 	}
 
 	@Test

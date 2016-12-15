@@ -5,14 +5,16 @@ import java.util.Map;
 
 public class CacheMap {
 
-	private Map<String, String> cache;
+	private String inputString;
+	private String resultString;
+	private int useFrequency;
 
-	public CacheMap() {
-		cache = new HashMap<String, String>();
+	public CacheMap(String inputString) {
+		this.inputString = inputString;
 	}
 
-	public String formatUniqueCharacters(String inputString) {
-		Map<String, Integer> values = computeLettersSet(inputString);
+	public String formatUniqueCharacters() {
+		Map<String, Integer> values = computeLettersSet();
 		StringBuilder result = new StringBuilder();
 		result.append(inputString);
 		char[] letters = inputString.toCharArray();
@@ -27,7 +29,7 @@ public class CacheMap {
 
 	}
 
-	private Map<String, Integer> computeLettersSet(String inputString) {
+	private Map<String, Integer> computeLettersSet() {
 		Map<String, Integer> lettersSet = new HashMap<String, Integer>();
 		char[] letters = inputString.toCharArray();
 
@@ -39,15 +41,24 @@ public class CacheMap {
 				lettersSet.put(String.valueOf(letter), 1);
 			}
 		}
+
 		return lettersSet;
 	}
 
-	public Map<String, String> getCache() {
-		return cache;
+	public String getResultString() {
+		return resultString;
 	}
 
-	public void setCache(String key, String value) {
-		cache.put(key, value);
+	public void setResultString() {
+		this.resultString = formatUniqueCharacters();
+	}
+
+	public int getUseFrequency() {
+		return useFrequency;
+	}
+
+	public void setUseFrequency(int useFrequency) {
+		this.useFrequency = useFrequency;
 	}
 
 }
