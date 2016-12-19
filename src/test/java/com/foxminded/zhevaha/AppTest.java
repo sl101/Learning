@@ -11,49 +11,36 @@ import org.junit.Test;
 public class AppTest {
 
 	private static String inputString;
-	private static UniqueSymbolsCounter uniqueSymbolsCounter;
+	private static UniqueSymbols uniqueSymbols;
 	private static String[] exampleValues;
-	private final static int ITERATIONS_NUMBER = 10000;
+	private final static int ITERATIONS_NUMBER = 100;
 
 	@Before
-	public void methodBefore() {
+	public void initiateVariables() {
 		inputString = "Hello World!";
-		uniqueSymbolsCounter = new UniqueSymbolsCounter();
-	}
-
-	@Test
-	public void testApp() {
-		Main mainClass = new Main();
-		mainClass.main(new String[] { "test1", "test2" });
-
-		assertTrue(true);
-	}
-
-	@Test
-	public void testCacheCreate() {
-		exampleValues = new String[] { "Hello", "Hello World!", "World",
-				"Hello Foximinded!", "Java", "Foximided" };
-		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
-			Collections.shuffle(Arrays.asList(exampleValues));
-			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
-		}
-
-		assertTrue(uniqueSymbolsCounter.getCache().containsKey(inputString));
-	}
-
-	@Test
-	public void testCacheCapacity() {
+		uniqueSymbols = new UniqueSymbols();
 		exampleValues = new String[] { "Hello", "Hello World!", "World",
 				"Hello Foximinded!", "Java", "Foximided", "Example",
 				"exampleValues", "world", "Hello", "Hello World!", "World",
 				"Hello Foximinded!", "testCapacity", "CacheTest",
 				"CacheCapacity" };
+	}
+
+	@Test
+	public void testCacheCreate() {
+		String expected = exampleValues[0];
+
+		assertNotNull(uniqueSymbols.countUniqueSymbols(expected));
+	}
+
+	@Test
+	public void testCacheCapacity() {
+
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(exampleValues));
-			uniqueSymbolsCounter.countUniqueSymbols(exampleValues[0]);
+			uniqueSymbols.countUniqueSymbols(exampleValues[0]);
 		}
-
-		assertTrue(uniqueSymbolsCounter.getCache().size() <= 10);
+		assertTrue(uniqueSymbols.getCache().size() <= 10);
 	}
 
 	@Test
@@ -62,7 +49,7 @@ public class AppTest {
 				+ " \"l\" - 3\n" + " \"o\" - 2\n" + " \" \" - 1\n"
 				+ " \"W\" - 1\n" + " \"r\" - 1\n" + " \"d\" - 1\n"
 				+ " \"!\" - 1";
-		String result = uniqueSymbolsCounter.countUniqueSymbols(inputString);
+		String result = uniqueSymbols.countUniqueSymbols(inputString);
 
 		assertEquals(expected, result);
 	}
