@@ -4,9 +4,9 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		String inputString = "Hello World!";
+		String input = "Hello World!";
 		UniqueSymbols uniqueSymbols = new UniqueSymbols();
 
-		System.out.println(uniqueSymbols.countUniqueSymbols(inputString));
+		System.out.println(uniqueSymbols.countUniqueSymbols(input));
 	}
 }

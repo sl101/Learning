@@ -1,12 +1,10 @@
 package com.foxminded.zhevaha;
 
 import static org.junit.Assert.*;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,9 +38,10 @@ public class AppTest {
 		Map<String, String> cacheExpected = new LinkedHashMap<String, String>();
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(exampleValues));
-			cacheExpected.put(exampleValues[0], uniqueSymbols.countUniqueSymbols(exampleValues[0]));
+			cacheExpected.put(exampleValues[0],
+					uniqueSymbols.countUniqueSymbols(exampleValues[0]));
 		}
-		
+
 		assertNotNull(cacheExpected.size());
 	}
 
