@@ -3,7 +3,6 @@ package com.foxminded.zhevaha;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class UniqueSymbols {
 	private final static int CACHE_CAPACITY_SIZE = 10;
@@ -14,12 +13,14 @@ public class UniqueSymbols {
 	}
 
 	public String countUniqueSymbols(String inputString) {
-		checkCache(inputString);
-		return cache.get(inputString);
+//		cache.put(inputString, checkCache(inputString).get(inputString));
+//		return cache.get(inputString);
+		return checkCache(inputString).get(inputString);
 	}
 
-	private void checkCache(String inputString) {
+	private Map<String, String> checkCache(String inputString) {
 		if (cache.containsKey(inputString)) {
+			
 			String uniqueSimbols = cache.get(inputString);
 			cache.remove(inputString);
 			cache.put(inputString, uniqueSimbols);
@@ -27,19 +28,14 @@ public class UniqueSymbols {
 			cache.put(inputString,
 					new StringComposition(inputString).formatUniqueCharacters());
 		}
-		checkCacheCapacity(inputString);
+		return checkCacheCapacity(inputString);
 	}
 
-	private void checkCacheCapacity(String inputString) {
+	private Map<String, String> checkCacheCapacity(String inputString) {
 		if (cache.size() > CACHE_CAPACITY_SIZE) {
-			Iterator<String> firstValue = cache.keySet().iterator(); 
+			Iterator<String> firstValue = cache.keySet().iterator();
 			cache.remove(firstValue.next());
 		}
-	}
-
-	public Map<String, String> getCache() {
 		return cache;
 	}
-	
-	
 }
