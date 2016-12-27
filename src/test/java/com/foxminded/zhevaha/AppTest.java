@@ -46,11 +46,8 @@ public class AppTest {
 	}
 
 	@Test
-	public void testComposeOutput() {
-		String expected = "Hello World!" + "\n \"H\" - 1\n" + " \"e\" - 1\n"
-				+ " \"l\" - 3\n" + " \"o\" - 2\n" + " \" \" - 1\n"
-				+ " \"W\" - 1\n" + " \"r\" - 1\n" + " \"d\" - 1\n"
-				+ " \"!\" - 1";
+	public void testCountUniqueSymbols() {
+		String expected = "Hello World!\n{H=1, e=1, l=3, o=2,  =1, W=1, r=1, d=1, !=1}";
 		String result = uniqueSymbols.countUniqueSymbols(inputString);
 
 		assertEquals(expected, result);

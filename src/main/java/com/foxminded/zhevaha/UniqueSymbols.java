@@ -1,13 +1,11 @@
 package com.foxminded.zhevaha;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class UniqueSymbols {
 	private final static int CACHE_CAPACITY_SIZE = 10;
-	private String input;
 	private Map<String, String> cache;
 
 	public UniqueSymbols() {
@@ -15,21 +13,15 @@ public class UniqueSymbols {
 	}
 
 	public String countUniqueSymbols(String input) {
-		this.input = input;
-		return checkCache().get(input);
-	}
-
-	private Map<String, String> checkCache() {
 		if (cache.containsKey(input)) {
 			String uniqueSimbols = cache.get(input);
 			cache.remove(input);
 			cache.put(input, uniqueSimbols);
 		} else {
-			cache.put(input, formatUniqueCharacters());
+			cache.put(input, computeLettersSet(input).toString());
 		}
 		checkCacheCapacity();
-
-		return cache;
+		return input + "\n" + cache.get(input);
 	}
 
 	private void checkCacheCapacity() {
@@ -39,10 +31,9 @@ public class UniqueSymbols {
 		}
 	}
 
-	private Map<String, Integer> computeLettersSet() {
-		Map<String, Integer> lettersSet = new HashMap<String, Integer>();
+	private Map<String, Integer> computeLettersSet(String input) {
+		Map<String, Integer> lettersSet = new LinkedHashMap<String, Integer>();
 		char[] letters = input.toCharArray();
-
 		for (char letter : letters) {
 			if (lettersSet.containsKey(String.valueOf(letter))) {
 				lettersSet.put(String.valueOf(letter),
@@ -52,18 +43,5 @@ public class UniqueSymbols {
 			}
 		}
 		return lettersSet;
-	}
-
-	private String formatUniqueCharacters() {
-		StringBuilder result = new StringBuilder();
-		result.append(input);
-		char[] letters = input.toCharArray();
-		for (int i = 0; i < letters.length; i++) {
-			if (!input.substring(0, i).contains(String.valueOf(letters[i]))) {
-				result.append("\n \"" + letters[i] + "\" - "
-						+ computeLettersSet().get(String.valueOf(letters[i])));
-			}
-		}
-		return result.toString();
 	}
 }
