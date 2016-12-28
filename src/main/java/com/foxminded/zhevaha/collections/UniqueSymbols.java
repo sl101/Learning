@@ -12,7 +12,7 @@ public class UniqueSymbols {
 		cache = new LinkedHashMap<String, String>();
 	}
 
-	public String countUniqueSymbols(String input) {
+	public String count(String input) {
 		if (cache.containsKey(input)) {
 			String uniqueSimbols = cache.get(input);
 			cache.remove(input);

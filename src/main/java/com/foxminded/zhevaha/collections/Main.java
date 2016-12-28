@@ -6,6 +6,6 @@ public class Main {
 
 		String input = "Hello World!";
 		UniqueSymbols uniqueSymbols = new UniqueSymbols();
-		System.out.println(uniqueSymbols.countUniqueSymbols(input));
+		System.out.println(uniqueSymbols.count(input));
 	}
 }

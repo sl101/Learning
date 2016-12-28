@@ -34,7 +34,7 @@ public class AppTest {
 	public void testCacheCreate() {
 		String expected = exampleValues[0];
 
-		assertNotNull(uniqueSymbols.countUniqueSymbols(expected));
+		assertNotNull(uniqueSymbols.count(expected));
 	}
 
 	@Test
@@ -43,16 +43,16 @@ public class AppTest {
 		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
 			Collections.shuffle(Arrays.asList(exampleValues));
 			cacheExpected.put(exampleValues[0],
-					uniqueSymbols.countUniqueSymbols(exampleValues[0]));
+					uniqueSymbols.count(exampleValues[0]));
 		}
 
 		assertNotNull(cacheExpected.size());
 	}
 
 	@Test
-	public void testCountUniqueSymbols() {
+	public void testCount() {
 		String expected = "{H=1, e=1, l=3, o=2,  =1, W=1, r=1, d=1, !=1}";
-		String result = uniqueSymbols.countUniqueSymbols(inputString);
+		String result = uniqueSymbols.count(inputString);
 
 		assertEquals(expected, result);
 	}
