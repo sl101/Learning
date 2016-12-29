@@ -1,58 +1,49 @@
 package com.foxminded.zhevaha.collections;
 
 import static org.junit.Assert.*;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import com.foxminded.zhevaha.collections.UniqueSymbols;
 
 public class AppTest {
 
-	private static String inputString;
 	private static UniqueSymbols uniqueSymbols;
-	private static String[] exampleValues;
-	private final static int ITERATIONS_NUMBER = 100;
 
 	@Before
 	public void initiateVariables() {
-		inputString = "Hello World!";
 		uniqueSymbols = new UniqueSymbols();
-		exampleValues = new String[] { "Hello", "Hello World!", "World",
-				"Hello Foximinded!", "Java", "Foximided", "Example",
-				"exampleValues", "world", "Hello", "Hello World!", "World",
-				"Hello Foximinded!", "testCapacity", "CacheTest",
-				"CacheCapacity" };
 	}
 
 	@Test
-	public void testCacheCreate() {
-		String expected = exampleValues[0];
-
-		assertNotNull(uniqueSymbols.count(expected));
-	}
-
-	@Test
-	public void testCacheCapacity() {
-		Map<String, String> cacheExpected = new LinkedHashMap<String, String>();
-		for (int i = 0; i < ITERATIONS_NUMBER; i++) {
-			Collections.shuffle(Arrays.asList(exampleValues));
-			cacheExpected.put(exampleValues[0],
-					uniqueSymbols.count(exampleValues[0]));
+	public void testSpeedCaching() {
+		String example = "Write an application that takes a string and returns the number of unique characters in the string. It is expected that a string with the same character sequence may be passed several times to the method. Since the counting operation can be time consuming, the method should cache the results, so that when the method is given a string previously encountered, it will simply retrieve the stored result. Use collections and maps where appropriate.";
+		String secondExample = example;
+		String[] examples = { example, secondExample };
+		long cacheWritingTime = 0;
+		long cacheReadTime = 0;
+		for (int i = 0; i < examples.length; i++) {
+			if (i == 0) {
+				cacheWritingTime = count(examples, i);
+			} else {
+				cacheReadTime = count(examples, i);
+			}
 		}
+		assertTrue(cacheReadTime < cacheWritingTime);
+	}
 
-		assertNotNull(cacheExpected.size());
+	private long count(String[] equalExamples, int i) {
+		long result;
+		result = System.currentTimeMillis();
+		uniqueSymbols.count(equalExamples[i]);
+		result = System.currentTimeMillis() - result;
+		return result;
 	}
 
 	@Test
 	public void testCount() {
+		String input = "Hello World!";
 		String expected = "{H=1, e=1, l=3, o=2,  =1, W=1, r=1, d=1, !=1}";
-		String result = uniqueSymbols.count(inputString);
+		String result = uniqueSymbols.count(input);
 
 		assertEquals(expected, result);
 	}
