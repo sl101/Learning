@@ -19,7 +19,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<build>
+	<build>	
 
 		<plugins>
 			<plugin>
