@@ -19,7 +19,7 @@ public class Course {
 		topics.add(topic);
 	}
 
-	public void addCourseTeacher(Teacher teacher) {
+	public void addTeacher(Teacher teacher) {
 		courseTeachers.add(teacher);
 	}
 

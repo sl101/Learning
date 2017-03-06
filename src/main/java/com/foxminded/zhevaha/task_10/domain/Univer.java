@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class University {
+import org.apache.log4j.Logger;
+
+import com.foxminded.zhevaha.task_10.dao.CourseDao;
+import com.foxminded.zhevaha.task_10.dao.TeacherDao;
+import com.foxminded.zhevaha.task_10.dao.UniverDao;
+
+public class Univer {
 	private long id;
 	private String name;
 	private List<Teacher> teachers;
@@ -14,23 +20,45 @@ public class University {
 	private List<Course> courses;
 	private List<Room> rooms;
 	private List<SchedulePosition> schedule;
+	private static final Logger log = Logger.getLogger(Univer.class);
+	private TeacherDao teacherDao;
+	private CourseDao courseDao;
+	private UniverDao univerDao;
 
-	public University(String name) {
+	public Univer(String name) {
 		this.name = name;
-		teachers = new ArrayList<Teacher>();
+		univerDao = new UniverDao();
+		univerDao.registerUniver(name);
+		this.id = univerDao.findUniverMaxID();
+		teachers = univerDao.findTeachers();
 		students = new ArrayList<Student>();
 		groups = new ArrayList<Group>();
-		courses = new ArrayList<Course>();
+		courses = univerDao.findCourses();
 		rooms = new ArrayList<Room>();
 		schedule = new ArrayList<SchedulePosition>();
+
 	}
 
-	public void enrollTeacher(Teacher teacher, List<Teacher> courseTeachers) {
+	public void enrollTeacher(Teacher teacher, Course course) {
+		log.info("Enroll teacher");
+		teacherDao = new TeacherDao();
+		courseDao = new CourseDao();
 		if (teachers.contains(teacher)) {
+			log.fatal("This person was already enrolled");
 			throw new RuntimeException("This person was already enrolled");
-		} else {
+		} else if (course.getId() != 0) {
+			teacherDao.registerTeacher(teacher);
+			long newTeacherID = teacherDao.findMaxTeacherId();
+			teacher.setId(newTeacherID);
+			teacher.addCourse(course);
+			teacherDao.addCourse(course, teacher);
+			courseDao.addTeacher(course, teacher);
 			teachers.add(teacher);
-			courseTeachers.add(teacher);
+			course.addTeacher(teacher);
+			univerDao.updateUniver(this);
+		} else {
+			log.fatal("This course is not exist");
+			throw new NullPointerException("This course is not exist");
 		}
 	}
 

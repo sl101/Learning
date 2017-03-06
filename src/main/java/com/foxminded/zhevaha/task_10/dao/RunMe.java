@@ -1,50 +1,52 @@
 package com.foxminded.zhevaha.task_10.dao;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
+import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
+import com.foxminded.zhevaha.task_10.domain.Univer;
 
 public class RunMe {
-
-	private static String[] teachers = { "Trump", "Petrov", "Sidorov", "Bruce Eckel" };
+	private static Univer univer;
+	static TeacherDao teacherDao;
 
 	public static void main(String[] args) {
+		univer = new Univer("Foxminded University");
+		teacherDao = new TeacherDao();
+		UniverDao univerDao = new UniverDao();
+		CourseDao courseDao = new CourseDao();
 
-		TeacherDao teacherDao = new TeacherDao();
+		// deleteTeacher(teacherDao);
+		// deleteTeacherFromCourse(courseDao);
+		enlorrNewTeacher(univer);
+	}
 
-		// findTeacherByName(teacherDao);
-
-		// insertIntoTeachers(teacherDao);
-
-		findAllTeachers(teacherDao);
+	private static void enlorrNewTeacher(Univer univer) {
+		Course course = univer.getCourses().get(2);
+		// System.out.println(course.getName() + " " + course.getId());
+		Teacher newTeacher = new Teacher("Google", createRandomDayOfBirth("teacher"));
+		// Teacher newTeacher = teacherDao.findTeacherById(8254);
+		univer.enrollTeacher(newTeacher, course);
 
 	}
 
-	private static void findAllTeachers(TeacherDao teacherDao) {
-		List<Teacher> teachers = new ArrayList<Teacher>();
-		teachers.addAll(teacherDao.findAll());
+	private static void deleteTeacherFromCourse(CourseDao courseDao) {
+		Course course = univer.getCourses().get(0);
+		Teacher existTeacher = univer.getTeachers().get(1);
+		System.out.println(
+				"course: " + course.getName() + "\nteacher: " + existTeacher.getName() + " id " + existTeacher.getId());
+		courseDao.deleteTeacher(course, existTeacher);
 
-		for (int i = 0; i < teachers.size(); i++) {
-			Teacher teacher = teachers.get(i);
-			System.out.println(teacher.getId() + ". " + teacher.getName() + " " + teacher.getDayOfBirth());
-		}
 	}
 
-	private static void insertIntoTeachers(TeacherDao teacherDao) {
-		for (int i = 0; i < teachers.length; i++) {
-			teacherDao.insertTable(teachers[i], createRandomDayOfBirth("teacher"));
-		}
-	}
-
-	private static void findTeacherByName(TeacherDao teacherDao) {
-		Teacher teacher = teacherDao.findByName("Ivanov");
-		System.out.println(teacher.getId() + ". " + teacher.getName() + " " + teacher.getDayOfBirth());
-		for (int i = 0; i < teacher.getTeacherCourses().size(); i++) {
-			System.out.println(teacher.getTeacherCourses().get(i).getName());
-		}
+	private static void deleteTeacher(TeacherDao teacherDao) {
+		// Teacher teacher = new Teacher("Gogol",
+		// createRandomDayOfBirth("teacher"));
+		// teacherDao.remove(teacher);
+		Teacher existTeacher = univer.getTeachers().get(2);
+		System.out.println(existTeacher.getName());
+		teacherDao.removeTeacher(existTeacher);
 	}
 
 	private static Date createRandomDayOfBirth(String person) {
