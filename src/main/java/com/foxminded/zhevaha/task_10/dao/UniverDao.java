@@ -1,77 +1,82 @@
 package com.foxminded.zhevaha.task_10.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Group;
-import com.foxminded.zhevaha.task_10.domain.Lecture;
 import com.foxminded.zhevaha.task_10.domain.Room;
+import com.foxminded.zhevaha.task_10.domain.SchedulePosition;
 import com.foxminded.zhevaha.task_10.domain.Student;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 import com.foxminded.zhevaha.task_10.domain.Univer;
 
-public class UniverDao {
+public class UniverDao implements DaoFactory<Univer, Long> {
 
 	private static final Logger log = Logger.getLogger(UniverDao.class);
+	private final String CREATE_ENTITY = "INSERT INTO Univers (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
+	private final String GET_ALL = "SELECT * FROM Univers;";
+	private final String GET_BY_ID = "SELECT * FROM Univers WHERE id = ?;";
+	private final String UPDATE = "UPDATE Univers SET name = ? WHERE id = ?;";
+	private final String DELETE_ENTITY = "DELETE FROM Univers WHERE id = ?;";
 
-	public void registerUniver(String name) {
-		log.info("Register Univer");
-		String query = "INSERT INTO Univer (name) VALUES ('" + name + "');";
-		ConnectionFactory.enterData(query);
-	}
-
-	public void updateUniver(Univer univer) {
-		log.info("Update Univer");
-		// String query ="UPDATE Univers SET teachers_id =
-		// "+univer.getTeachers();
-		List<Teacher> teachers = findTeachers();
-		List<Course> courses = findCourses();
-		// System.out.println("ID teachers: ");
-		// for (int i = 0; i < teachers.size(); i++) {
-		// System.out.println("" + teachers.get(i).getId());
-		// }
-		// System.out.println("ID courses: ");
-		// for (int i = 0; i < courses.size(); i++) {
-		// System.out.println("" + courses.get(i).getId());
-		// }
-
-	}
-
-	public Long findUniverMaxID() {
-		log.info("get max id from Univer");
-		String query = "SELECT MAX(id) FROM Univers;";
-		return ConnectionFactory.findMaxID(query);
-	}
-
-	public List<Teacher> findTeachers() {
-		log.info("Find teachers in date base");
-		List<Teacher> teachers = new ArrayList<Teacher>();
-		String query = "SELECT * FROM Teachers;";
+	public Set<Univer> getAll() {
+		log.info("Find univers in date base");
+		Set<Univer> univers = new HashSet<Univer>();
 		Connection connection = null;
-		Statement statement = null;
+		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.createStatement();
+			statement = connection.prepareStatement(GET_ALL);
 			log.info("statement was created");
 			try {
-				resultSet = statement.executeQuery(query);
+				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String teacherName = resultSet.getString(2);
-					Date teacherDayOfBirth = resultSet.getDate(3);
-					Teacher teacher = new Teacher(teacherName, teacherDayOfBirth);
-					teacher.setId(resultSet.getLong(1));
-					teachers.add(teacher);
+					String name = resultSet.getString(2);
+					Univer univer = new Univer(name);
+					long id = resultSet.getLong(1);
+					univer.setId(id);
+					Set<Teacher> teachers = new TeacherDao().getAll();
+					Iterator<Teacher> iteratorTeachers = teachers.iterator();
+					while (iteratorTeachers.hasNext()) {
+						univer.addTeacher(iteratorTeachers.next());
+					}
+					Set<Student> students = new StudentDao().getAll();
+					Iterator<Student> iteratorStudents = students.iterator();
+					while (iteratorStudents.hasNext()) {
+						univer.addStudent(iteratorStudents.next());
+					}
+					Set<Group> groups = new GroupDao().getAll();
+					Iterator<Group> iteratorGroups = groups.iterator();
+					while (iteratorGroups.hasNext()) {
+						univer.addGroup(iteratorGroups.next());
+					}
+					Set<Course> courses = new CourseDao().getAll();
+					Iterator<Course> iteratorCourses = courses.iterator();
+					while (iteratorCourses.hasNext()) {
+						univer.addCourse(iteratorCourses.next());
+					}
+					Set<Room> rooms = new RoomDao().getAll();
+					Iterator<Room> iteratorRooms = rooms.iterator();
+					while (iteratorRooms.hasNext()) {
+						univer.addRoom(iteratorRooms.next());
+					}
+					Set<SchedulePosition> schedule = new SchedulePositionDao().getAll();
+					Iterator<SchedulePosition> iteratorSchedule = schedule.iterator();
+					while (iteratorSchedule.hasNext()) {
+						univer.addSchedulePosition(iteratorSchedule.next());
+					}
+					univers.add(univer);
 				}
 			} catch (SQLException e) {
 				log.error("ERROR. ResultSet was not created", e);
@@ -81,79 +86,157 @@ public class UniverDao {
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
-		if (teachers.isEmpty()) {
-			log.fatal("There were no registered teachers");
-			throw new NullPointerException();
+		if (univers.isEmpty()) {
+			log.fatal("There were no registered university\nThe list is empty");
 		} else {
-			log.info("Teachers list was created");
+			log.info("Universities list was created");
 		}
-		return teachers;
+		return univers;
 	}
 
-	public List<Student> findStudents() {
-		List<Student> students = new ArrayList<Student>();
-		// ...
-
-		return students;
-	}
-
-	public List<Course> findCourses() {
-		log.info("Find courses in date base");
-		List<Course> courses = new ArrayList<Course>();
-		String query = "SELECT * FROM Courses order by id;";
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-
-		connection = ConnectionFactory.getConnection();
-		try {
-			statement = connection.createStatement();
-			log.info("statement was created");
+	public Univer getEntityById(Long id) {
+		log.info("Find univer by ID");
+		if (id != 0) {
+			Univer univer = null;
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
 			try {
-				resultSet = statement.executeQuery(query);
-				log.info("resultSet was created");
-				while (resultSet.next()) {
-					String courseName = resultSet.getString(2);
-					Course course = new Course(courseName);
-					course.setId(resultSet.getLong(1));
-					courses.add(course);
+				statement = connection.prepareStatement(GET_BY_ID);
+				statement.setLong(1, id);
+				log.info("statement was created");
+				try {
+					resultSet = statement.executeQuery();
+					if (resultSet.next()) {
+						log.info("resultSet was created");
+						String name = resultSet.getString(2);
+						univer = new Univer(name);
+						univer.setId(id);
+						Set<Teacher> teachers = new TeacherDao().getAll();
+						Iterator<Teacher> iteratorTeachers = teachers.iterator();
+						while (iteratorTeachers.hasNext()) {
+							univer.addTeacher(iteratorTeachers.next());
+						}
+						Set<Student> students = new StudentDao().getAll();
+						Iterator<Student> iteratorStudents = students.iterator();
+						while (iteratorStudents.hasNext()) {
+							univer.addStudent(iteratorStudents.next());
+						}
+						Set<Group> groups = new GroupDao().getAll();
+						Iterator<Group> iteratorGroups = groups.iterator();
+						while (iteratorGroups.hasNext()) {
+							univer.addGroup(iteratorGroups.next());
+						}
+						Set<Course> courses = new CourseDao().getAll();
+						Iterator<Course> iteratorCourses = courses.iterator();
+						while (iteratorCourses.hasNext()) {
+							univer.addCourse(iteratorCourses.next());
+						}
+						Set<Room> rooms = new RoomDao().getAll();
+						Iterator<Room> iteratorRooms = rooms.iterator();
+						while (iteratorRooms.hasNext()) {
+							univer.addRoom(iteratorRooms.next());
+						}
+						Set<SchedulePosition> schedule = new SchedulePositionDao().getAll();
+						Iterator<SchedulePosition> iteratorSchedule = schedule.iterator();
+						while (iteratorSchedule.hasNext()) {
+							univer.addSchedulePosition(iteratorSchedule.next());
+						}
+					} else {
+						log.info("resultSet has not data");
+					}
+				} catch (SQLException e) {
+					log.error("ERROR. ResultSet was not created", e);
 				}
 			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+				log.error("ERROR. Statement was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+			return univer;
+		}
+		log.info("Entity's ID is null");
+		return null;
+	}
+
+	public Univer update(Univer univer) {
+		log.info("\tUpdate Univer");
+		if (univer.getId() != 0) {
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			try {
+				statement = connection.prepareStatement(UPDATE);
+				statement.setString(1, univer.getName());
+				statement.setLong(2, univer.getId());
+				statement.executeUpdate();
+				log.info("statement was created");
+			} catch (SQLException e) {
+				log.error("ERROR. Statement was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
+			}
+			univer = getEntityById(univer.getId());
+			log.info("\tUniver was updated");
+			return univer;
+		} else {
+			log.info("Univer was not created");
+			return null;
+		}
+
+	}
+
+	public void delete(Univer univer) {
+		log.info("Delete univer");
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement.setLong(1, univer.getId());
+			statement.executeUpdate();
+			log.info("statement was created");
+			log.info("Univer was deleted");
 		} catch (SQLException e) {
 			log.error("ERROR. Statement was not created", e);
+			log.fatal("Univer was not deleted", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
-		if (courses.isEmpty()) {
-			log.fatal("There were no registered courses");
-			throw new NullPointerException("There were no registered courses");
-		} else {
-			log.info("Courses list was created");
+	}
+
+	public void create(Univer univer) {
+		log.info("\tCreate univer");
+		if (univer.getId() == 0) {
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			try {
+				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement.setString(1, univer.getName());
+				statement.executeUpdate();
+				log.info("statement was created");
+				try {
+					resultSet = statement.getGeneratedKeys();
+					if (resultSet.next()) {
+						log.info("resultSet get generated key");
+						univer.setId(resultSet.getLong(1));
+						log.info("\tUniver was created");
+					}
+				} catch (SQLException e) {
+					log.error("ERROR. ResultSet was not created", e);
+				}
+			} catch (SQLException e) {
+				log.error("ERROR. Statement was not created", e);
+				log.error("Univer was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
+			}
 		}
-
-		return courses;
-	}
-
-	public List<Group> findGroups() {
-		List<Group> groups = new ArrayList<Group>();
-		// ...
-
-		return groups;
-	}
-
-	public List<Room> findRooms() {
-		List<Room> rooms = new ArrayList<Room>();
-		// ...
-
-		return rooms;
-	}
-
-	public List<Lecture> findLectures() {
-		List<Lecture> lectures = new ArrayList<Lecture>();
-		// ...
-
-		return lectures;
+		log.info("\tUniver is already exist");
 	}
 }

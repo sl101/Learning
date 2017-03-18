@@ -28,7 +28,7 @@ public class ConnectionFactory {
 	private static Connection createConnection() {
 		Connection connection = null;
 		try {
-			log.info("Create Connection");
+			log.info("connection was created");
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (SQLException e) {
 			log.error("ERROR: Unable to Connect to Database.");
@@ -40,59 +40,11 @@ public class ConnectionFactory {
 		return createConnection();
 	}
 
-	public static void enterData(String query) {
-		log.info("Enter data in DB");
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-
-		try {
-			connection = getConnection();
-			log.info("Connection was created");
-			try {
-				statement = connection.createStatement();
-				log.info("Statement was created");
-				statement.execute(query);
-			} catch (SQLException e) {
-				log.error("ERROR. Statement was not created", e);
-			}
-		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
-		}
-	}
-
-	public static long findMaxID(String query) {
-		Long maxId = null;
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-
-		connection = ConnectionFactory.getConnection();
-		try {
-			statement = connection.createStatement();
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery(query);
-				log.info("resultSet was created");
-				while (resultSet.next()) {
-					maxId = resultSet.getLong(1);
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
-			}
-		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
-		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
-		}
-		return maxId;
-	}
-
 	public static void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
-				log.info("Close ResulSet");
+				log.info("resulSet was closed");
 			} catch (SQLException e) {
 				log.error("Error. ResultSet not closed", e);
 			}
@@ -100,7 +52,7 @@ public class ConnectionFactory {
 		if (statement != null) {
 			try {
 				statement.close();
-				log.info("Close Statement");
+				log.info("statement was cloused");
 			} catch (SQLException e) {
 				log.error("Error. Statement not closed", e);
 			}
@@ -108,7 +60,7 @@ public class ConnectionFactory {
 		if (connection != null) {
 			try {
 				connection.close();
-				log.info("Close Connection");
+				log.info("connection was cloused");
 			} catch (SQLException e) {
 				log.error("Error. Connection not closed", e);
 			}

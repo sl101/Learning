@@ -1,18 +1,19 @@
 package com.foxminded.zhevaha.task_10.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Course {
 	private long id;
 	private String name;
-	private List<String> topics;
-	private List<Teacher> courseTeachers;
+	private Set<String> topics;
+	private Set<Teacher> courseTeachers;
 
 	public Course(String name) {
 		this.name = name;
-		topics = new ArrayList<String>();
-		courseTeachers = new ArrayList<Teacher>();
+		topics = new TreeSet<String>();
+		courseTeachers = new HashSet<Teacher>();
 	}
 
 	public void addTopic(String topic) {
@@ -35,11 +36,11 @@ public class Course {
 		return name;
 	}
 
-	public List<String> getTopics() {
+	public Set<String> getTopics() {
 		return topics;
 	}
 
-	public List<Teacher> getCourseTeachers() {
+	public Set<Teacher> getCourseTeachers() {
 		return courseTeachers;
 	}
 

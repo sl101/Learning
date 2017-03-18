@@ -1,21 +1,27 @@
 package com.foxminded.zhevaha.task_10.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AcademicPlan {
 	private long id;
-	private List<Lecture> lectures;
+	private int year;
+	private Set<Lecture> lectures;
 
-	public AcademicPlan() {
-		this.lectures = new ArrayList<Lecture>();
+	public AcademicPlan(int year) {
+		this.year = year;
+		this.lectures = new HashSet<Lecture>();
+	}
+
+	public int getYear() {
+		return year;
 	}
 
 	public void addLecture(Lecture lecture) {
 		lectures.add(lecture);
 	}
 
-	public List<Lecture> getLectures() {
+	public Set<Lecture> getLectures() {
 		return lectures;
 	}
 

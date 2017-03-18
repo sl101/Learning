@@ -1,6 +1,6 @@
 package com.foxminded.zhevaha.task_10.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Student extends Person {
 	private long id;

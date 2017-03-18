@@ -1,22 +1,20 @@
 package com.foxminded.zhevaha.task_10.domain;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class SchedulePosition {
 	private long id;
-	private Lecture scheduledLecture;
+	private Lecture lecture;
 	private Room room;
-	private Date lectureTime;
+	private Timestamp lectureTime;
 	private Teacher teacher;
 
-	public SchedulePosition(Lecture scheduledLecture, Room room,
-			Date lectureTime, Teacher teacher) {
-		this.scheduledLecture = scheduledLecture;
+	public SchedulePosition(Lecture lecture, Room room, Timestamp dateFotSchedule, Teacher teacher) {
+		this.lecture = lecture;
 		this.room = room;
-		this.lectureTime = lectureTime;
+		this.lectureTime = dateFotSchedule;
 		this.teacher = teacher;
 	}
-	
 
 	public long getId() {
 		return id;
@@ -26,15 +24,15 @@ public class SchedulePosition {
 		this.id = id;
 	}
 
-	public Lecture getScheduledLecture() {
-		return scheduledLecture;
+	public Lecture getLecture() {
+		return lecture;
 	}
 
 	public Room getRoom() {
 		return room;
 	}
 
-	public Date getLectureTime() {
+	public Timestamp getLectureTime() {
 		return lectureTime;
 	}
 

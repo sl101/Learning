@@ -1,103 +1,62 @@
 package com.foxminded.zhevaha.task_10.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 
-public class CourseDao {
+public class CourseDao implements DaoFactory<Course, Long> {
 
 	private static final Logger log = Logger.getLogger(CourseDao.class);
+	private final String CREATE_ENTITY = "INSERT INTO Courses (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
+	private final String CREATE_TOPIC = "INSERT INTO Topics (course_id, topic) VALUES (?, ?);";
+	private final String GET_ALL = "SELECT * FROM Courses;";
+	private final String GET_BY_ID = "SELECT * FROM Courses WHERE id = ?;";
+	private final String UPDATE = "UPDATE Courses SET name = ? WHERE id = ?;";
+	private final String DELETE_ENTITY = "DELETE FROM Courses WHERE id = ?;";
+	private final String CHOOSE_GROUP_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_groups WHERE group_id = ?);";
+	private final String CHOOSE_TEACHER_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_teachers WHERE teacher_id = ?);";
+	private final String CHOOSE_TOPICS = "SELECT topic FROM Topics WHERE course_id = ?;";
+	private final String ENROLL_TEACHER = "INSERT INTO courses_teachers (course_id, teacher_id) VALUES (?, ?)ON CONFLICT (course_id, teacher_id) DO UPDATE SET course_id = excluded.course_id, teacher_id = excluded.teacher_id";
 
-	public void addTeacher(Course course, Teacher teacher) {
-		log.info("Add Teacher to course");
-		if (course.getId() != 0) {
-			if (teacher.getId() != 0) {
-				List<Long> teachersID = new ArrayList<Long>();
-				teachersID = findTeachersID(course.getId());
-				if (!teachersID.contains(teacher.getId())) {
-					StringBuilder completeList = new StringBuilder();
-					for (int i = 0; i < teachersID.size(); i++) {
-						completeList.append(teachersID.get(i) + ",");
-					}
-					completeList.append(teacher.getId());
-					String query = "UPDATE Courses SET teachers_id = '{" + completeList + "}' WHERE id = "
-							+ course.getId() + ";";
-					ConnectionFactory.enterData(query);
-					log.info("Teacher was added on the course");
-				} else {
-					log.fatal("Teacher already is enrolled in this course");
-					throw new RuntimeException("Teacher already is enrolled in this course");
-				}
-			} else {
-				log.fatal("This teacher is not registered");
-				throw new NullPointerException("This teacher is not registered");
-			}
-		} else {
-			log.fatal("This course is not exist");
-			throw new NullPointerException("This course is not exist");
-		}
-	}
-
-	public void deleteTeacher(Course course, Teacher teacher) {
-		log.info("Delete the teacher from this course");
-		if (course.getId() != 0) {
-			if (teacher.getId() != 0) {
-				List<Long> teachersID = new ArrayList<Long>();
-				teachersID = findTeachersID(course.getId());
-				if (teachersID.contains(teacher.getId())) {
-					teachersID.remove(teacher.getId());
-					StringBuilder completeList = new StringBuilder();
-					for (int i = 0; i < teachersID.size(); i++) {
-						completeList.append(teachersID.get(i) + ",");
-					}
-					completeList.deleteCharAt(completeList.length() - 1);
-					String query = "UPDATE Courses SET teachers_id = '{" + completeList + "}' WHERE id = "
-							+ course.getId() + ";";
-					ConnectionFactory.enterData(query);
-					log.info("The teacher was deleted from the course");
-				} else {
-					log.fatal("The teacher does not teach in this course");
-					throw new RuntimeException("The teacher does not teach in this course");
-				}
-			} else {
-				log.fatal("This teacher is not registered");
-				throw new NullPointerException("This teacher is not registered");
-			}
-		} else {
-			log.fatal("This course is not exist");
-			throw new NullPointerException("This course is not exist");
-		}
-	}
-
-	private List<Long> findTeachersID(Long courseId) {
-		log.info("Find list ID of teachers of course in database");
-		List<Long> result = new ArrayList<Long>();
-		String query = "SELECT teachers_id FROM Courses WHERE id = " + courseId + ";";
+	public Set<Course> getAll() {
+		log.info("Find courses in datebase");
+		Set<Course> courses = new HashSet<Course>();
 		Connection connection = null;
-		Statement statement = null;
+		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.createStatement();
+			statement = connection.prepareStatement(GET_ALL);
 			log.info("statement was created");
 			try {
-				resultSet = statement.executeQuery(query);
+				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					if (resultSet.getArray(1) != null) {
-						Long[] javaArray = (Long[]) resultSet.getArray(1).getArray();
-						for (int i = 0; i < javaArray.length; i++) {
-							result.add(javaArray[i]);
-						}
+					String name = resultSet.getString(2);
+					Course course = new Course(name);
+					long id = resultSet.getLong(1);
+					course.setId(id);
+					Set<Teacher> courseTeachers = new TeacherDao().chooseCourseTeachers(id);
+					Iterator<Teacher> iteratorCourseTeachers = courseTeachers.iterator();
+					while (iteratorCourseTeachers.hasNext()) {
+						course.addTeacher(iteratorCourseTeachers.next());
 					}
+					Set<String> topics = getCourseTopics(id);
+					Iterator<String> iteratorTopics = topics.iterator();
+					while (iteratorTopics.hasNext()) {
+						course.addTopic(iteratorTopics.next());
+					}
+					courses.add(course);
 				}
 			} catch (SQLException e) {
 				log.error("ERROR. ResultSet was not created", e);
@@ -107,18 +66,284 @@ public class CourseDao {
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
-		if (result.isEmpty()) {
-			log.fatal("No teachers on the course");
-			throw new NullPointerException("No teachers on the course");
+		if (courses.isEmpty()) {
+			log.fatal("There were no registered courses\nThe list is empty");
 		} else {
-			log.info("The list of teachers of the course was created");
+			log.info("Courses list was created");
 		}
-		return result;
+		return courses;
 	}
 
-	public long findMaxCourseId() {
-		log.info("get max id from Courses");
-		String query = "SELECT MAX(id) FROM Courses;";
-		return ConnectionFactory.findMaxID(query);
+	public Course getEntityById(Long id) {
+		log.info("Find course by ID");
+		Course course = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(GET_BY_ID);
+			statement.setLong(1, id);
+			log.info("statement was created");
+			try {
+				resultSet = statement.executeQuery();
+				log.info("resultSet was created");
+				if (resultSet.next()) {
+					String name = resultSet.getString(2);
+					course = new Course(name);
+					course.setId(id);
+					Set<Teacher> courseTeachers = new TeacherDao().chooseCourseTeachers(id);
+					Iterator<Teacher> iteratorCourseTeachers = courseTeachers.iterator();
+					while (iteratorCourseTeachers.hasNext()) {
+						course.addTeacher(iteratorCourseTeachers.next());
+					}
+					Set<String> topics = getCourseTopics(id);
+					Iterator<String> iteratorTopics = topics.iterator();
+					while (iteratorTopics.hasNext()) {
+						course.addTopic(iteratorTopics.next());
+					}
+				} else {
+					log.info("resultSet has not data");
+				}
+			} catch (SQLException e) {
+				log.error("ERROR. ResultSet was not created", e);
+			}
+		} catch (SQLException e) {
+			log.error("ERROR. Statement was not created", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+		return course;
+	}
+
+	public Course update(Course course) {
+		log.info("Update Course");
+		if (course.getId() != 0) {
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			try {
+				statement = connection.prepareStatement(UPDATE);
+				statement.setString(1, course.getName());
+				statement.setLong(2, course.getId());
+				statement.executeUpdate();
+				log.info("statement was created");
+			} catch (SQLException e) {
+				log.error("ERROR. Statement was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
+			}
+			course = getEntityById(course.getId());
+			return course;
+		} else {
+			log.info("Course was not created");
+			return null;
+		}
+	}
+
+	public void delete(Course course) {
+		log.info("Delete course");
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement.setLong(1, course.getId());
+			statement.executeUpdate();
+			log.info("statement was created");
+			log.info("Course was deleted");
+		} catch (SQLException e) {
+			log.fatal("Course was not deleted", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+	}
+
+	public void create(Course course) {
+		log.info("Create course");
+		if (course.getId() == 0) {
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			try {
+				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement.setString(1, course.getName());
+				statement.executeUpdate();
+				log.info("statement was created");
+				try {
+					resultSet = statement.getGeneratedKeys();
+					if (resultSet.next()) {
+						log.info("resultSet get generated key");
+						course.setId(resultSet.getLong(1));
+						log.info("Course was created");
+					}
+				} catch (SQLException e) {
+					log.error("ERROR. ResultSet was not created", e);
+				}
+			} catch (SQLException e) {
+				log.fatal("Course was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
+			}
+		}
+		log.fatal("Course is already exist");
+	}
+
+	public Set<Course> chooseTeacherCourses(long teacherId) {
+		log.info("Choose courses by teachers_id");
+		Set<Course> courses = new HashSet<Course>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(CHOOSE_TEACHER_COURSES);
+			statement.setLong(1, teacherId);
+			log.info("statement was created");
+			try {
+				resultSet = statement.executeQuery();
+				log.info("resultSet was created");
+				while (resultSet.next()) {
+					String name = resultSet.getString(2);
+					Course course = new Course(name);
+					Long courseId = resultSet.getLong(1);
+					course.setId(resultSet.getLong(1));
+					Set<String> topics = getCourseTopics(courseId);
+					Iterator<String> iteratorTopics = topics.iterator();
+					while (iteratorTopics.hasNext()) {
+						course.addTopic(iteratorTopics.next());
+					}
+					courses.add(course);
+				}
+			} catch (SQLException e) {
+				log.error("ERROR. ResultSet was not created", e);
+			}
+		} catch (SQLException e) {
+			log.error("ERROR. Statement was not created", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+		if (courses.isEmpty()) {
+			log.fatal("no courses. The list is empty");
+		} else {
+			log.info("Courses list was created");
+		}
+
+		return courses;
+	}
+
+	private Set<String> getCourseTopics(long courseId) {
+		log.info("Choose courses");
+		Set<String> topics = new HashSet<String>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(CHOOSE_TOPICS);
+			statement.setLong(1, courseId);
+			log.info("statement was created");
+			try {
+				resultSet = statement.executeQuery();
+				log.info("resultSet was created");
+				while (resultSet.next()) {
+					String topic = resultSet.getString(1);
+					topics.add(topic);
+				}
+			} catch (SQLException e) {
+				log.error("ERROR. ResultSet was not created", e);
+			}
+		} catch (SQLException e) {
+			log.error("ERROR. Statement was not created", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+		return topics;
+	}
+
+	public Set<Course> getGroupCourses(long groupId) {
+		log.info("Choose courses by group_id");
+		Set<Course> courses = new HashSet<Course>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(CHOOSE_GROUP_COURSES);
+			statement.setLong(1, groupId);
+			log.info("statement was created");
+			try {
+				resultSet = statement.executeQuery();
+				log.info("resultSet was created");
+				while (resultSet.next()) {
+					String name = resultSet.getString(2);
+					Course course = new Course(name);
+					long courseId = resultSet.getLong(1);
+					course.setId(courseId);
+					Set<String> topics = getCourseTopics(courseId);
+					Iterator<String> iteratorTopics = topics.iterator();
+					while (iteratorTopics.hasNext()) {
+						course.addTopic(iteratorTopics.next());
+					}
+					courses.add(course);
+				}
+			} catch (SQLException e) {
+				log.error("ERROR. ResultSet was not created", e);
+			}
+		} catch (SQLException e) {
+			log.error("ERROR. Statement was not created", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+		if (courses.isEmpty()) {
+			log.fatal("no courses. The list is empty");
+		} else {
+			log.info("Courses list was created");
+		}
+		return courses;
+	}
+
+	public void enroll(Teacher teacher, Course course) {
+		log.info("Enroll teacher in course in database");
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(ENROLL_TEACHER);
+			statement.setLong(1, course.getId());
+			statement.setLong(2, teacher.getId());
+			statement.executeUpdate();
+			log.info("statement was created");
+		} catch (SQLException e) {
+			log.error("ERROR. Statement was not created", e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+	}
+
+	public void createTopic(Course course, String topic) {
+		log.info("Create topic");
+		if (course.getId() != 0) {
+			Connection connection = null;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
+			connection = ConnectionFactory.getConnection();
+			try {
+				statement = connection.prepareStatement(CREATE_TOPIC);
+				statement.setLong(1, course.getId());
+				statement.setString(2, topic);
+				statement.executeUpdate();
+				log.info("statement was created");
+			} catch (SQLException e) {
+				log.fatal("Topic was not created", e);
+			} finally {
+				ConnectionFactory.closeConnection(connection, statement, resultSet);
+			}
+		}
+		log.fatal("There is not such course");
 	}
 }

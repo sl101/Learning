@@ -8,6 +8,14 @@ public class Room {
 		this.name = name;
 	}
 
+	public class RootRoom {
+		Room room;
+
+		public void setRoomId(Long id) {
+			room.setId(id);
+		}
+	}
+
 	public long getId() {
 		return id;
 	}
