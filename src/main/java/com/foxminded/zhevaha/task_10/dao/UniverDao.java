@@ -19,14 +19,14 @@ import com.foxminded.zhevaha.task_10.domain.Student;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 import com.foxminded.zhevaha.task_10.domain.Univer;
 
-public class UniverDao implements DaoFactory<Univer, Long> {
+public class UniverDao implements GenericDao<Univer, Long> {
 
 	private static final Logger log = Logger.getLogger(UniverDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO Univers (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
+	private final String CREATE = "INSERT INTO Univers (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
 	private final String GET_ALL = "SELECT * FROM Univers;";
 	private final String GET_BY_ID = "SELECT * FROM Univers WHERE id = ?;";
 	private final String UPDATE = "UPDATE Univers SET name = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Univers WHERE id = ?;";
+	private final String DELETE = "DELETE FROM Univers WHERE id = ?;";
 
 	public Set<Univer> getAll() {
 		log.info("Find univers in date base");
@@ -94,7 +94,7 @@ public class UniverDao implements DaoFactory<Univer, Long> {
 		return univers;
 	}
 
-	public Univer getEntityById(Long id) {
+	public Univer getById(Long id) {
 		log.info("Find univer by ID");
 		if (id != 0) {
 			Univer univer = null;
@@ -178,7 +178,7 @@ public class UniverDao implements DaoFactory<Univer, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			univer = getEntityById(univer.getId());
+			univer = getById(univer.getId());
 			log.info("\tUniver was updated");
 			return univer;
 		} else {
@@ -195,7 +195,7 @@ public class UniverDao implements DaoFactory<Univer, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, univer.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -216,7 +216,7 @@ public class UniverDao implements DaoFactory<Univer, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, univer.getName());
 				statement.executeUpdate();
 				log.info("statement was created");

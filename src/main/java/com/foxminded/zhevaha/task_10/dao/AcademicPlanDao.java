@@ -16,15 +16,15 @@ import org.apache.log4j.Logger;
 import com.foxminded.zhevaha.task_10.domain.AcademicPlan;
 import com.foxminded.zhevaha.task_10.domain.Lecture;
 
-public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
+public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 
 	private static final Logger log = Logger.getLogger(AcademicPlanDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO academic_plan (year) VALUES (?) ON CONFLICT (year) DO UPDATE SET year = excluded.year;";
-	private final String CREATE_PLAN = "INSERT INTO academic_plans_lectures (academic_plan_id, lectures_id) VALUES (?, ?) ;";
+	private final String CREATE = "INSERT INTO academic_plan (year) VALUES (?) ON CONFLICT (year) DO UPDATE SET year = excluded.year;";
+	private final String CREATE_PLAN = "INSERT INTO academic_plans_lectures (lectures_id) VALUES (?) ;";
 	private final String GET_ALL = "SELECT * FROM academic_plan;";
 	private final String GET_BY_ID = "SELECT * FROM academic_plan WHERE id = ?;";
 	private final String UPDATE = "UPDATE academic_plan SET year = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM academic_plan WHERE id = ?;";
+	private final String DELETE = "DELETE FROM academic_plan WHERE id = ?;";
 
 	public Set<AcademicPlan> getAll() {
 		log.info("Find academicPlan by ID");
@@ -67,7 +67,7 @@ public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
 		return academicPlans;
 	}
 
-	public AcademicPlan getEntityById(Long id) {
+	public AcademicPlan getById(Long id) {
 		log.info("Find academicPlan by ID");
 		AcademicPlan academicPlan = null;
 		Connection connection = null;
@@ -122,7 +122,7 @@ public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			academicPlan = getEntityById(academicPlan.getId());
+			academicPlan = getById(academicPlan.getId());
 			return academicPlan;
 		} else {
 			log.info("AcademicPlan was not created");
@@ -137,7 +137,7 @@ public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -157,7 +157,7 @@ public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setInt(1, academicPlan.getYear());
 				statement.executeUpdate();
 				log.info("statement was created");
@@ -188,10 +188,9 @@ public class AcademicPlanDao implements DaoFactory<AcademicPlan, Long> {
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(CREATE_PLAN);
-				statement.setLong(1, academicPlan.getId());
 				List<Lecture> lectures = new ArrayList<Lecture>(academicPlan.getLectures());
 				for (int i = 0; i < lectures.size(); i++) {
-					statement.setLong(2, lectures.get(i).getId());
+					statement.setLong(1, lectures.get(i).getId());
 					statement.executeUpdate();
 				}
 				log.info("statement was created");

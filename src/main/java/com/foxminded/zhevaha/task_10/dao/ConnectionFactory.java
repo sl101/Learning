@@ -1,27 +1,49 @@
 package com.foxminded.zhevaha.task_10.dao;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
 public class ConnectionFactory {
 
-	public static final String URL = "jdbc:postgresql://localhost:5432/university";
-	public static final String USER = "postgres";
-	public static final String PASSWORD = "university";
-	public static final String DRIVER_CLASS = "org.postgresql.Driver";
+	public static String url = null;
+	public static String login = null;
+	public static String password = null;
+	public static String driver = null;
 	private static final Logger log = Logger.getLogger(ConnectionFactory.class);
+	private static Properties property;
 
 	private ConnectionFactory() {
 		try {
 			log.info("Create sql driver");
-			Class.forName(DRIVER_CLASS);
+			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
 			log.error("Driver not found", e);
+		}
+	}
+
+	private static void getProperties() {
+		FileInputStream fis;
+		property = new Properties();
+
+		try {
+			fis = new FileInputStream("src/main/resources/config.properties");
+			property.load(fis);
+
+			driver = property.getProperty("db.driver = org.postgresql.Driver");
+			url = property.getProperty("db.host");
+			login = property.getProperty("db.login");
+			password = property.getProperty("db.password");
+
+		} catch (IOException e) {
+			log.error("ERROR:properties file is disavaliable ", e);
 		}
 	}
 
@@ -29,7 +51,7 @@ public class ConnectionFactory {
 		Connection connection = null;
 		try {
 			log.info("connection was created");
-			connection = DriverManager.getConnection(URL, USER, PASSWORD);
+			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
 			log.error("ERROR: Unable to Connect to Database.");
 		}
@@ -37,6 +59,7 @@ public class ConnectionFactory {
 	}
 
 	public static Connection getConnection() {
+		getProperties();
 		return createConnection();
 	}
 

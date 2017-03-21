@@ -14,14 +14,14 @@ import org.apache.log4j.Logger;
 import com.foxminded.zhevaha.task_10.domain.Group;
 import com.foxminded.zhevaha.task_10.domain.Student;
 
-public class StudentDao implements DaoFactory<Student, Long> {
+public class StudentDao implements GenericDao<Student, Long> {
 
 	private static final Logger log = Logger.getLogger(StudentDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO Students (name, dayOfBirth) VALUES (?, ?);";
+	private final String CREATE = "INSERT INTO Students (name, dayOfBirth) VALUES (?, ?);";
 	private final String GET_ALL = "SELECT * FROM Students;";
 	private final String GET_BY_ID = "SELECT * FROM Students WHERE id = ?;";
 	private final String UPDATE = "UPDATE Students SET name = ?, dayOfBirth = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Students WHERE id = ?;";
+	private final String DELETE = "DELETE FROM Students WHERE id = ?;";
 	private final String ENROLL_STUDENT = "UPDATE Students set group_id = ? WHERE id = ?";
 	private final String GET_GROUP_STUDENTS = "SELECT * FROM Students WHERE group_id = ?";
 
@@ -61,7 +61,7 @@ public class StudentDao implements DaoFactory<Student, Long> {
 		return students;
 	}
 
-	public Student getEntityById(Long id) {
+	public Student getById(Long id) {
 		log.info("Find student by ID");
 		Student student = null;
 		Connection connection = null;
@@ -113,7 +113,7 @@ public class StudentDao implements DaoFactory<Student, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			student = getEntityById(student.getId());
+			student = getById(student.getId());
 			return student;
 		} else {
 			log.info("Student was not created");
@@ -129,7 +129,7 @@ public class StudentDao implements DaoFactory<Student, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, student.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -149,7 +149,7 @@ public class StudentDao implements DaoFactory<Student, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, student.getName());
 				statement.setDate(2, (java.sql.Date) student.getDayOfBirth());
 				statement.executeUpdate();

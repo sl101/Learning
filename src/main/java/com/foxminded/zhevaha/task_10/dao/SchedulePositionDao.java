@@ -16,15 +16,15 @@ import com.foxminded.zhevaha.task_10.domain.Room;
 import com.foxminded.zhevaha.task_10.domain.SchedulePosition;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 
-public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
+public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 
 	private static final Logger log = Logger.getLogger(SchedulePositionDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
+	private final String CREATE = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
 	private final String CREATE_SCHEDULE = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
 	private final String GET_ALL = "SELECT * FROM schedule_position;";
 	private final String GET_BY_ID = "SELECT * FROM schedule_position WHERE id = ?;";
 	private final String UPDATE = "UPDATE schedule_position SET lecture_id = ?, room_id = ?, lecturetime = ?, teacher_id = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM schedule_position WHERE id = ?;";
+	private final String DELETE = "DELETE FROM schedule_position WHERE id = ?;";
 
 	public Set<SchedulePosition> getAll() {
 		log.info("Find schedule");
@@ -40,10 +40,10 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 				resultSet = statement.executeQuery();
 				while (resultSet.next()) {
 					long id = resultSet.getLong(1);
-					Lecture lecture = new LectureDao().getEntityById(resultSet.getLong(2));
-					Room room = new RoomDao().getEntityById(resultSet.getLong(3));
+					Lecture lecture = new LectureDao().getById(resultSet.getLong(2));
+					Room room = new RoomDao().getById(resultSet.getLong(3));
 					java.sql.Timestamp lectureTime = resultSet.getTimestamp(5);
-					Teacher teacher = new TeacherDao().getEntityById(resultSet.getLong(4));
+					Teacher teacher = new TeacherDao().getById(resultSet.getLong(4));
 					SchedulePosition schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 					schedulePosition.setId(id);
 					schedule.add(schedulePosition);
@@ -65,7 +65,7 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 		return schedule;
 	}
 
-	public SchedulePosition getEntityById(Long id) {
+	public SchedulePosition getById(Long id) {
 		log.info("Find schedulePosition by ID");
 		SchedulePosition schedulePosition = null;
 		Connection connection = null;
@@ -80,10 +80,10 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					Lecture lecture = new LectureDao().getEntityById(resultSet.getLong(2));
-					Room room = new RoomDao().getEntityById(resultSet.getLong(3));
+					Lecture lecture = new LectureDao().getById(resultSet.getLong(2));
+					Room room = new RoomDao().getById(resultSet.getLong(3));
 					java.sql.Timestamp lectureTime = resultSet.getTimestamp(5);
-					Teacher teacher = new TeacherDao().getEntityById(resultSet.getLong(4));
+					Teacher teacher = new TeacherDao().getById(resultSet.getLong(4));
 					schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 					schedulePosition.setId(id);
 				} else {
@@ -120,7 +120,7 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			schedulePosition = getEntityById(schedulePosition.getId());
+			schedulePosition = getById(schedulePosition.getId());
 			return schedulePosition;
 		} else {
 			log.info("SchedulePosition was not created");
@@ -135,7 +135,7 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, schedulePosition.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -155,7 +155,7 @@ public class SchedulePositionDao implements DaoFactory<SchedulePosition, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY);
+				statement = connection.prepareStatement(CREATE);
 				statement.setLong(1, schedulePosition.getLecture().getId());
 				statement.setLong(2, schedulePosition.getRoom().getId());
 				statement.setTimestamp(3, schedulePosition.getLectureTime());

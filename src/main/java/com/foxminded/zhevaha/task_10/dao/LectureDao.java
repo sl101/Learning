@@ -14,15 +14,15 @@ import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Group;
 import com.foxminded.zhevaha.task_10.domain.Lecture;
 
-public class LectureDao implements DaoFactory<Lecture, Long> {
+public class LectureDao implements GenericDao<Lecture, Long> {
 
 	private static final Logger log = Logger.getLogger(LectureDao.class);
+	private final String CREATE = "INSERT INTO Lectures (group_id, course_id, topic) VALUES (?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
 	private final String GET_ALL = "SELECT * FROM Lectures;";
 	private final String GET_PLANNED_LECTURES = "SELECT * FROM lectures WHERE id IN (SELECT lectures_id FROM academic_plans_lectures WHERE academic_plan_id = ?);";
 	private final String GET_BY_ID = "SELECT * FROM Lectures WHERE id = ?;";
 	private final String UPDATE = "UPDATE Lectures SET group_id = ?, course_id =?, topic = ? WHERE id = ?;";
-	private final String CREATE_ENTITY = "INSERT INTO Lectures (group_id, course_id, topic) VALUES (?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
-	private final String DELETE_ENTITY = "DELETE FROM Lectures WHERE id = ?;";
+	private final String DELETE = "DELETE FROM Lectures WHERE id = ?;";
 
 	public Set<Lecture> getAll() {
 		log.info("Find lectures in database");
@@ -40,8 +40,8 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 					long groupID = resultSet.getLong(2);
 					long courseID = resultSet.getLong(3);
 					String topic = resultSet.getString(4);
-					Group group = new GroupDao().getEntityById(groupID);
-					Course course = new CourseDao().getEntityById(courseID);
+					Group group = new GroupDao().getById(groupID);
+					Course course = new CourseDao().getById(courseID);
 					Lecture lecture = new Lecture(group, course, topic);
 					lecture.setId(resultSet.getLong(1));
 					lectures.add(lecture);
@@ -63,7 +63,7 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 		return lectures;
 	}
 
-	public Lecture getEntityById(Long id) {
+	public Lecture getById(Long id) {
 		log.info("Find lecture by ID");
 		Lecture lecture = null;
 		Connection connection = null;
@@ -78,8 +78,8 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					Group group = new GroupDao().getEntityById(resultSet.getLong(2));
-					Course course = new CourseDao().getEntityById(resultSet.getLong(3));
+					Group group = new GroupDao().getById(resultSet.getLong(2));
+					Course course = new CourseDao().getById(resultSet.getLong(3));
 					String topic = resultSet.getString(4);
 					lecture = new Lecture(group, course, topic);
 					lecture.setId(id);
@@ -117,7 +117,7 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			lecture = getEntityById(lecture.getId());
+			lecture = getById(lecture.getId());
 			return lecture;
 		} else {
 			log.info("Lecture was not created");
@@ -133,7 +133,7 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, lecture.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -153,7 +153,7 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setLong(1, lecture.getGroup().getId());
 				statement.setLong(2, lecture.getCourse().getId());
 				statement.setString(3, lecture.getLectureTopic());
@@ -195,8 +195,8 @@ public class LectureDao implements DaoFactory<Lecture, Long> {
 					long groupID = resultSet.getLong(2);
 					long courseID = resultSet.getLong(3);
 					String topic = resultSet.getString(4);
-					Group group = new GroupDao().getEntityById(groupID);
-					Course course = new CourseDao().getEntityById(courseID);
+					Group group = new GroupDao().getById(groupID);
+					Course course = new CourseDao().getById(courseID);
 					Lecture lecture = new Lecture(group, course, topic);
 					lecture.setId(resultSet.getLong(1));
 					lectures.add(lecture);

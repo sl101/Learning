@@ -15,14 +15,14 @@ import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Group;
 import com.foxminded.zhevaha.task_10.domain.Student;
 
-public class GroupDao implements DaoFactory<Group, Long> {
+public class GroupDao implements GenericDao<Group, Long> {
 
 	private static final Logger log = Logger.getLogger(GroupDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO Groups (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
+	private final String CREATE = "INSERT INTO Groups (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
 	private final String GET_ALL = "SELECT * FROM Groups;";
 	private final String GET_BY_ID = "SELECT * FROM Groups WHERE id = ?;";
 	private final String UPDATE = "UPDATE Groups SET name = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Groups WHERE id = ?;";
+	private final String DELETE = "DELETE FROM Groups WHERE id = ?;";
 
 	public Set<Group> getAll() {
 		log.info("Find groups in database");
@@ -70,7 +70,7 @@ public class GroupDao implements DaoFactory<Group, Long> {
 		return groups;
 	}
 
-	public Group getEntityById(Long id) {
+	public Group getById(Long id) {
 		log.info("Find group by ID");
 		Group group = null;
 		Connection connection = null;
@@ -131,7 +131,7 @@ public class GroupDao implements DaoFactory<Group, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			group = getEntityById(group.getId());
+			group = getById(group.getId());
 			return group;
 		} else {
 			log.info("Group was not created");
@@ -146,7 +146,7 @@ public class GroupDao implements DaoFactory<Group, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -166,7 +166,7 @@ public class GroupDao implements DaoFactory<Group, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, group.getName());
 				statement.executeUpdate();
 				log.info("statement was created");

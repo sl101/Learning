@@ -15,16 +15,16 @@ import org.apache.log4j.Logger;
 import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 
-public class TeacherDao implements DaoFactory<Teacher, Long> {
+public class TeacherDao implements GenericDao<Teacher, Long> {
 
 	private static final Logger log = Logger.getLogger(TeacherDao.class);
 
-	private final String CREATE_ENTITY = "INSERT INTO Teachers (name, dayOfBirth) VALUES (?, ?);";
+	private final String CREATE = "INSERT INTO Teachers (name, dayOfBirth) VALUES (?, ?);";
 	private final String GET_ALL = "SELECT * FROM Teachers;";
 	private final String GET_BY_ID = "SELECT * FROM Teachers WHERE id = ?;";
 	private final String UPDATE = "UPDATE Teachers SET name = ?, dayOfBirth = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Teachers WHERE id = ?;";
-	private final String CHOOSE_TEACHERS = "SELECT * FROM Teachers WHERE id IN (SELECT teacher_id FROM courses_teachers WHERE course_id = ?);";
+	private final String DELETE = "DELETE FROM Teachers WHERE id = ?;";
+	private final String GET_COURSE_TEACHERS = "SELECT * FROM Teachers WHERE id IN (SELECT teacher_id FROM courses_teachers WHERE course_id = ?);";
 
 	public Set<Teacher> getAll() {
 		log.info("Find teachers in date base");
@@ -45,7 +45,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 					Teacher teacher = new Teacher(teacherName, teacherDayOfBirth);
 					long id = resultSet.getLong(1);
 					teacher.setId(id);
-					Set<Course> teacherCourses = new CourseDao().chooseTeacherCourses(id);
+					Set<Course> teacherCourses = new CourseDao().getTeacherCourses(id);
 					Iterator<Course> iteratorTeacherCourses = teacherCourses.iterator();
 					while (iteratorTeacherCourses.hasNext()) {
 						teacher.addCourse(iteratorTeacherCourses.next());
@@ -68,7 +68,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 		return teachers;
 	}
 
-	public Teacher getEntityById(Long id) {
+	public Teacher getById(Long id) {
 		log.info("Find teacher by ID");
 		Teacher teacher = null;
 		Connection connection = null;
@@ -87,7 +87,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 					Date dayOfBirth = resultSet.getDate(3);
 					teacher = new Teacher(name, dayOfBirth);
 					teacher.setId(id);
-					Set<Course> teacherCourses = new CourseDao().chooseTeacherCourses(id);
+					Set<Course> teacherCourses = new CourseDao().getTeacherCourses(id);
 					Iterator<Course> iteratorTeacherCourses = teacherCourses.iterator();
 					while (iteratorTeacherCourses.hasNext()) {
 						teacher.addCourse(iteratorTeacherCourses.next());
@@ -125,7 +125,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			teacher = getEntityById(teacher.getId());
+			teacher = getById(teacher.getId());
 			return teacher;
 		} else {
 			log.info("Teacher was not created");
@@ -141,7 +141,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, teacher.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -161,7 +161,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, teacher.getName());
 				statement.setDate(2, (java.sql.Date) teacher.getDayOfBirth());
 				statement.executeUpdate();
@@ -185,7 +185,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 		log.fatal("Teacher is already exist");
 	}
 
-	public Set<Teacher> chooseCourseTeachers(long id) {
+	public Set<Teacher> getCourseTeachers(long id) {
 		log.info("Chose teachers");
 		Set<Teacher> teachers = new HashSet<Teacher>();
 		Connection connection = null;
@@ -193,7 +193,7 @@ public class TeacherDao implements DaoFactory<Teacher, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(CHOOSE_TEACHERS);
+			statement = connection.prepareStatement(GET_COURSE_TEACHERS);
 			statement.setLong(1, id);
 			log.info("statement was created");
 			try {

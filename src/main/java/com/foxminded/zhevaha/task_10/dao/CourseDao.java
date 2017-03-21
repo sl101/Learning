@@ -14,18 +14,18 @@ import org.apache.log4j.Logger;
 import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Teacher;
 
-public class CourseDao implements DaoFactory<Course, Long> {
+public class CourseDao implements GenericDao<Course, Long> {
 
 	private static final Logger log = Logger.getLogger(CourseDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO Courses (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
+	private final String CREATE = "INSERT INTO Courses (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
 	private final String CREATE_TOPIC = "INSERT INTO Topics (course_id, topic) VALUES (?, ?);";
 	private final String GET_ALL = "SELECT * FROM Courses;";
 	private final String GET_BY_ID = "SELECT * FROM Courses WHERE id = ?;";
 	private final String UPDATE = "UPDATE Courses SET name = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Courses WHERE id = ?;";
-	private final String CHOOSE_GROUP_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_groups WHERE group_id = ?);";
-	private final String CHOOSE_TEACHER_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_teachers WHERE teacher_id = ?);";
-	private final String CHOOSE_TOPICS = "SELECT topic FROM Topics WHERE course_id = ?;";
+	private final String DELETE = "DELETE FROM Courses WHERE id = ?;";
+	private final String GET_GROUP_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_groups WHERE group_id = ?);";
+	private final String GET_TEACHER_COURSES = "SELECT * FROM Courses WHERE id IN (SELECT course_id FROM courses_teachers WHERE teacher_id = ?);";
+	private final String GET_TOPICS = "SELECT topic FROM Topics WHERE course_id = ?;";
 	private final String ENROLL_TEACHER = "INSERT INTO courses_teachers (course_id, teacher_id) VALUES (?, ?)ON CONFLICT (course_id, teacher_id) DO UPDATE SET course_id = excluded.course_id, teacher_id = excluded.teacher_id";
 
 	public Set<Course> getAll() {
@@ -46,7 +46,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 					Course course = new Course(name);
 					long id = resultSet.getLong(1);
 					course.setId(id);
-					Set<Teacher> courseTeachers = new TeacherDao().chooseCourseTeachers(id);
+					Set<Teacher> courseTeachers = new TeacherDao().getCourseTeachers(id);
 					Iterator<Teacher> iteratorCourseTeachers = courseTeachers.iterator();
 					while (iteratorCourseTeachers.hasNext()) {
 						course.addTeacher(iteratorCourseTeachers.next());
@@ -74,7 +74,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		return courses;
 	}
 
-	public Course getEntityById(Long id) {
+	public Course getById(Long id) {
 		log.info("Find course by ID");
 		Course course = null;
 		Connection connection = null;
@@ -92,7 +92,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 					String name = resultSet.getString(2);
 					course = new Course(name);
 					course.setId(id);
-					Set<Teacher> courseTeachers = new TeacherDao().chooseCourseTeachers(id);
+					Set<Teacher> courseTeachers = new TeacherDao().getCourseTeachers(id);
 					Iterator<Teacher> iteratorCourseTeachers = courseTeachers.iterator();
 					while (iteratorCourseTeachers.hasNext()) {
 						course.addTeacher(iteratorCourseTeachers.next());
@@ -134,7 +134,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			course = getEntityById(course.getId());
+			course = getById(course.getId());
 			return course;
 		} else {
 			log.info("Course was not created");
@@ -149,7 +149,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, course.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -169,7 +169,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, course.getName());
 				statement.executeUpdate();
 				log.info("statement was created");
@@ -192,7 +192,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		log.fatal("Course is already exist");
 	}
 
-	public Set<Course> chooseTeacherCourses(long teacherId) {
+	public Set<Course> getTeacherCourses(long teacherId) {
 		log.info("Choose courses by teachers_id");
 		Set<Course> courses = new HashSet<Course>();
 		Connection connection = null;
@@ -200,7 +200,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(CHOOSE_TEACHER_COURSES);
+			statement = connection.prepareStatement(GET_TEACHER_COURSES);
 			statement.setLong(1, teacherId);
 			log.info("statement was created");
 			try {
@@ -243,7 +243,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(CHOOSE_TOPICS);
+			statement = connection.prepareStatement(GET_TOPICS);
 			statement.setLong(1, courseId);
 			log.info("statement was created");
 			try {
@@ -272,7 +272,7 @@ public class CourseDao implements DaoFactory<Course, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(CHOOSE_GROUP_COURSES);
+			statement = connection.prepareStatement(GET_GROUP_COURSES);
 			statement.setLong(1, groupId);
 			log.info("statement was created");
 			try {

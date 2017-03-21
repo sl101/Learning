@@ -12,14 +12,14 @@ import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.domain.Room;
 
-public class RoomDao implements DaoFactory<Room, Long> {
+public class RoomDao implements GenericDao<Room, Long> {
 
 	private static final Logger log = Logger.getLogger(RoomDao.class);
-	private final String CREATE_ENTITY = "INSERT INTO Rooms (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
+	private final String CREATE = "INSERT INTO Rooms (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
 	private final String GET_ALL = "SELECT * FROM Rooms;";
 	private final String GET_BY_ID = "SELECT * FROM Rooms WHERE id = ?;";
 	private final String UPDATE = "UPDATE Rooms SET name = ? WHERE id = ?;";
-	private final String DELETE_ENTITY = "DELETE FROM Rooms WHERE id = ?;";
+	private final String DELETE = "DELETE FROM Rooms WHERE id = ?;";
 
 	public Set<Room> getAll() {
 		log.info("Find rooms in date base");
@@ -57,7 +57,7 @@ public class RoomDao implements DaoFactory<Room, Long> {
 		return rooms;
 	}
 
-	public Room getEntityById(Long id) {
+	public Room getById(Long id) {
 		log.info("Find room by ID");
 		Room room = null;
 		Connection connection = null;
@@ -107,7 +107,7 @@ public class RoomDao implements DaoFactory<Room, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
-			room = getEntityById(room.getId());
+			room = getById(room.getId());
 			return room;
 		} else {
 			log.info("Room was not created");
@@ -122,7 +122,7 @@ public class RoomDao implements DaoFactory<Room, Long> {
 		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
-			statement = connection.prepareStatement(DELETE_ENTITY);
+			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
 			log.info("statement was created");
@@ -142,7 +142,7 @@ public class RoomDao implements DaoFactory<Room, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_ENTITY, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, room.getName());
 				statement.executeUpdate();
 				log.info("statement was created");
