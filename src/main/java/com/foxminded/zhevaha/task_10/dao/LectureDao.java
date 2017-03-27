@@ -18,8 +18,7 @@ import com.foxminded.zhevaha.task_10.domain.Lecture;
 public class LectureDao implements GenericDao<Lecture, Long> {
 
 	private static final Logger log = Logger.getLogger(LectureDao.class);
-	private final String CREATE = "INSERT INTO Lectures (group_id, course_id, topic) VALUES (?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
-	private final String CREATE_PLANNED_LECTURE = "INSERT INTO Lectures (group_id, course_id, topic, academic_plan_id) VALUES (?,?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
+	private final String CREATE = "INSERT INTO Lectures (group_id, course_id, topic, academic_plan_id) VALUES (?,?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
 	private final String GET_ALL = "SELECT * FROM Lectures;";
 	private final String GET_PLANNED_LECTURES = "SELECT * FROM Lectures WHERE academic_plan_id = ?;";
 	private final String GET_BY_ID = "SELECT * FROM Lectures WHERE id = ?;";
@@ -161,7 +160,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE_PLANNED_LECTURE, Statement.RETURN_GENERATED_KEYS);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setLong(1, lecture.getGroup().getId());
 				statement.setLong(2, lecture.getCourse().getId());
 				statement.setString(3, lecture.getLectureTopic());
