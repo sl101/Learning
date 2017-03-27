@@ -39,10 +39,10 @@ public class StudentDao implements GenericDao<Student, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String name = resultSet.getString(2);
-					Date dayOfBirth = resultSet.getDate(3);
+					String name = resultSet.getString("name");
+					Date dayOfBirth = resultSet.getDate("dayofbirth");
 					Student student = new Student(name, dayOfBirth);
-					student.setId(resultSet.getLong(1));
+					student.setId(resultSet.getLong("id"));
 					students.add(student);
 				}
 			} catch (SQLException e) {
@@ -76,8 +76,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					String name = resultSet.getString(2);
-					Date dayOfBirth = resultSet.getDate(3);
+					String name = resultSet.getString("name");
+					Date dayOfBirth = resultSet.getDate("dayofbirth");
 					student = new Student(name, dayOfBirth);
 					student.setId(id);
 				} else {
@@ -158,7 +158,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
 						log.info("resultSet get generated key");
-						student.setId(resultSet.getLong(1));
+						student.setId(resultSet.getLong("id"));
 						log.info("Student was created");
 					}
 				} catch (SQLException e) {
@@ -188,12 +188,13 @@ public class StudentDao implements GenericDao<Student, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String name = resultSet.getString(2);
-					Date dayOfBirth = resultSet.getDate(3);
+					String name = resultSet.getString("name");
+					Date dayOfBirth = resultSet.getDate("dayofbirth");
 					Student student = new Student(name, dayOfBirth);
-					student.setId(resultSet.getLong(1));
+					student.setId(resultSet.getLong("id"));
 					students.add(student);
 				}
+				log.info("List students of group was created");
 			} catch (SQLException e) {
 				log.error("ERROR. ResultSet was not created", e);
 			}

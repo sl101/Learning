@@ -97,7 +97,11 @@ public class Univer {
 	}
 
 	public Univer createSchedule(Set<SchedulePosition> schedulePositions) {
-		new SchedulePositionDao().createSchedule(schedulePositions);
+		Iterator<SchedulePosition> schedulePositionIterator = schedulePositions.iterator();
+		while (schedulePositionIterator.hasNext()) {
+			SchedulePosition schedulePosition = schedulePositionIterator.next();
+			new SchedulePositionDao().create(schedulePosition);
+		}
 		return new UniverDao().update(this);
 	}
 
@@ -113,7 +117,8 @@ public class Univer {
 							+ " time: " + simpleDateFormat.format(periodSchedule.get(i).getLectureTime()) + " room: "
 							+ periodSchedule.get(i).getRoom().getName() + " course: "
 							+ periodSchedule.get(i).getLecture().getCourse().getName() + " topic: "
-							+ periodSchedule.get(i).getLecture().getLectureTopic() + "\n");
+							+ periodSchedule.get(i).getLecture().getLectureTopic() + " teacher: "
+							+ periodSchedule.get(i).getTeacher().getName() + "\n");
 				} else if (periodSchedule.get(i).getLecture().getGroup().getStudents().contains(person)) {
 					System.out.println("student in schedule: " + person);
 					result.append(
@@ -121,7 +126,7 @@ public class Univer {
 									+ " room: " + periodSchedule.get(i).getRoom().getId() + " course: "
 									+ periodSchedule.get(i).getLecture().getCourse().getName() + " topic: "
 									+ periodSchedule.get(i).getLecture().getLectureTopic() + " teacher: "
-									+ periodSchedule.get(i).getTeacher());
+									+ periodSchedule.get(i).getTeacher().getName());
 				} else {
 					log.error("The person was not identified");
 				}

@@ -40,10 +40,10 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String teacherName = resultSet.getString(2);
-					Date teacherDayOfBirth = (Date) resultSet.getDate(3);
-					Teacher teacher = new Teacher(teacherName, teacherDayOfBirth);
-					long id = resultSet.getLong(1);
+					String name = resultSet.getString("name");
+					Date teacherDayOfBirth = (Date) resultSet.getDate("dayofbirth");
+					Teacher teacher = new Teacher(name, teacherDayOfBirth);
+					long id = resultSet.getLong("id");
 					teacher.setId(id);
 					Set<Course> teacherCourses = new CourseDao().getTeacherCourses(id);
 					Iterator<Course> iteratorTeacherCourses = teacherCourses.iterator();
@@ -83,8 +83,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				resultSet = statement.executeQuery();
 				if (resultSet.next()) {
 					log.info("resultSet was created");
-					String name = resultSet.getString(2);
-					Date dayOfBirth = resultSet.getDate(3);
+					String name = resultSet.getString("name");
+					Date dayOfBirth = resultSet.getDate("dayofbirth");
 					teacher = new Teacher(name, dayOfBirth);
 					teacher.setId(id);
 					Set<Course> teacherCourses = new CourseDao().getTeacherCourses(id);
@@ -169,8 +169,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				try {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						log.info("resultSet get generated key");
-						teacher.setId(resultSet.getLong(1));
+						teacher.setId(resultSet.getLong("id"));
 						log.info("Teacher was created");
 					}
 				} catch (SQLException e) {
@@ -181,12 +180,13 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+		} else {
+			log.fatal("Teacher is already exist");
 		}
-		log.fatal("Teacher is already exist");
 	}
 
 	public Set<Teacher> getCourseTeachers(long id) {
-		log.info("Chose teachers");
+		log.info("Get course teachers");
 		Set<Teacher> teachers = new HashSet<Teacher>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -200,10 +200,10 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String teacherName = resultSet.getString(2);
-					Date teacherDayOfBirth = resultSet.getDate(3);
-					Teacher teacher = new Teacher(teacherName, teacherDayOfBirth);
-					teacher.setId(resultSet.getLong(1));
+					String name = resultSet.getString("name");
+					Date dayOfBirth = resultSet.getDate("dayofbirth");
+					Teacher teacher = new Teacher(name, dayOfBirth);
+					teacher.setId(resultSet.getLong("id"));
 					teachers.add(teacher);
 				}
 			} catch (SQLException e) {
@@ -217,7 +217,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		if (teachers.isEmpty()) {
 			log.fatal("There were no registered teachers");
 		} else {
-			log.info("Teachers list was created");
+			log.info("List of course teachers was created");
 		}
 		return teachers;
 	}

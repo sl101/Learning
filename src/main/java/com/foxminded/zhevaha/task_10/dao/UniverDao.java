@@ -42,9 +42,9 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String name = resultSet.getString(2);
+					String name = resultSet.getString("name");
 					Univer univer = new Univer(name);
-					long id = resultSet.getLong(1);
+					long id = resultSet.getLong("id");
 					univer.setId(id);
 					Set<Teacher> teachers = new TeacherDao().getAll();
 					Iterator<Teacher> iteratorTeachers = teachers.iterator();
@@ -110,7 +110,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 					resultSet = statement.executeQuery();
 					if (resultSet.next()) {
 						log.info("resultSet was created");
-						String name = resultSet.getString(2);
+						String name = resultSet.getString("name");
 						univer = new Univer(name);
 						univer.setId(id);
 						Set<Teacher> teachers = new TeacherDao().getAll();
@@ -143,6 +143,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 						while (iteratorSchedule.hasNext()) {
 							univer.addSchedulePosition(iteratorSchedule.next());
 						}
+						log.info("Univer was find");
 					} else {
 						log.info("resultSet has not data");
 					}
@@ -156,7 +157,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			}
 			return univer;
 		}
-		log.info("Entity's ID is null");
+		log.info("Univer ID is null");
 		return null;
 	}
 
@@ -223,8 +224,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				try {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						log.info("resultSet get generated key");
-						univer.setId(resultSet.getLong(1));
+						univer.setId(resultSet.getLong("id"));
 						log.info("\tUniver was created");
 					}
 				} catch (SQLException e) {
@@ -236,7 +236,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+		} else {
+			log.info("\tUniver is already exist");
 		}
-		log.info("\tUniver is already exist");
 	}
 }

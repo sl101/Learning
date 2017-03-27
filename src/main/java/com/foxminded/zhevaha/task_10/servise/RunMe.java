@@ -57,6 +57,7 @@ public class RunMe {
 		// deleteCourses();
 		// createGroups();
 		// deleteGroups();
+		// appointGroupCourse();
 		// createTeachers();
 		// deleteTeachers();
 		// createRooms();
@@ -100,20 +101,20 @@ public class RunMe {
 		System.out.println("create Schedule");
 		createAcademicPlan();
 		List<Lecture> lectures = new ArrayList<Lecture>(academicPlan.getLectures());
-		System.out.println("lectures size = " + lectures.size());
+		// System.out.println("lectures size = " + lectures.size());
 		Set<java.sql.Timestamp> dates = new TreeSet<java.sql.Timestamp>();
 		while (lectures.size() != dates.size()) {
 			dates.add(setTime(2017, (int) (4 * Math.random()), (int) (30 * Math.random()),
 					(int) (9 + 6 * Math.random()), (int) 0));
 		}
-		System.out.println("arrayDates size = " + dates.size());
+		// System.out.println("arrayDates size = " + dates.size());
 		Set<SchedulePosition> schedulePositions = new HashSet<SchedulePosition>();
 		Iterator<java.sql.Timestamp> dateIterator = dates.iterator();
 		dateIterator.hasNext();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 		for (int i = 0; i < lectures.size(); i++) {
 			java.sql.Timestamp dateFotSchedule = dateIterator.next();
-			System.out.println(dateFormat.format(dateFotSchedule));
+			// System.out.println(dateFormat.format(dateFotSchedule));
 			List<Teacher> courseTeachers = new ArrayList<Teacher>(lectures.get(i).getCourse().getCourseTeachers());
 			List<Room> rooms = new ArrayList<Room>(univer.getRooms());
 			SchedulePosition schedulePosition = new SchedulePosition(lectures.get(i),
@@ -163,6 +164,7 @@ public class RunMe {
 		System.out.println("enroll teacher");
 		List<Teacher> arrayTeachers = new ArrayList<Teacher>(univer.getTeachers());
 		List<Course> arrayCourses = new ArrayList<Course>(univer.getCourses());
+		System.out.println("teachers = " + arrayTeachers.size() + "\ncourses = " + arrayCourses.size());
 		for (int i = 0; i < arrayTeachers.size(); i++) {
 			univer = univer.enrollTeacher(arrayTeachers.get(i),
 					arrayCourses.get((int) (univer.getCourses().size() * Math.random())));
@@ -182,6 +184,7 @@ public class RunMe {
 
 	private static void createLectures() {
 		System.out.println("create lectures:");
+		createAcademicPlan();
 		LectureDao lectureDao = new LectureDao();
 		List<Group> arrayGroups = new ArrayList<Group>(univer.getGroups());
 		List<Course> arrayCourse = new ArrayList<Course>(univer.getCourses());
@@ -193,12 +196,11 @@ public class RunMe {
 				Lecture lecture = null;
 				for (int k = 0; k < topics.size(); k++) {
 					lecture = new Lecture(group, course, topics.get(k));
-					lectureDao.create(lecture);
 					academicPlan.addLecture(lecture);
+					lectureDao.create(lecture, academicPlan);
 				}
 			}
 		}
-		academicPlanDao.createPlan(academicPlan);
 	}
 
 	private static void deleteStudents() {
@@ -257,6 +259,7 @@ public class RunMe {
 			Teacher entity = new Teacher(teachers[i], createRandomDayOfBirth("teacher"));
 			dao.create(entity);
 		}
+		univer = univerDao.update(univer);
 	}
 
 	private static void deleteGroups() {

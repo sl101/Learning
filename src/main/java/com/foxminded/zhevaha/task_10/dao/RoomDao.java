@@ -35,9 +35,9 @@ public class RoomDao implements GenericDao<Room, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				while (resultSet.next()) {
-					String name = resultSet.getString(2);
+					String name = resultSet.getString("name");
 					Room room = new Room(name);
-					long id = resultSet.getLong(1);
+					long id = resultSet.getLong("id");
 					room.setId(id);
 					rooms.add(room);
 				}
@@ -58,7 +58,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 	}
 
 	public Room getById(Long id) {
-		log.info("Find room by ID");
+		log.info("Find Room by ID");
 		Room room = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -72,7 +72,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					String name = resultSet.getString(2);
+					String name = resultSet.getString("name");
 					room = new Room(name);
 					room.setId(id);
 				} else {
@@ -135,7 +135,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 	}
 
 	public void create(Room room) {
-		log.info("Create room");
+		log.info("Create Room");
 		if (room.getId() == 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
@@ -149,8 +149,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 				try {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						log.info("resultSet get generated key");
-						room.setId(resultSet.getLong(1));
+						room.setId(resultSet.getLong("id"));
 						log.info("Room was created");
 					}
 				} catch (SQLException e) {

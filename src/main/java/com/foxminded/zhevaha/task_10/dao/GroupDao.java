@@ -37,9 +37,9 @@ public class GroupDao implements GenericDao<Group, Long> {
 			try {
 				resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					String name = resultSet.getString(2);
+					String name = resultSet.getString("name");
 					Group group = new Group(name);
-					long id = resultSet.getLong(1);
+					long id = resultSet.getLong("id");
 					group.setId(id);
 					Set<Student> students = new StudentDao().getGroupStudets(id);
 					Iterator<Student> iteratorStudents = students.iterator();
@@ -85,7 +85,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					String name = resultSet.getString(2);
+					String name = resultSet.getString("name");
 					group = new Group(name);
 					group.setId(id);
 					Set<Student> students = new StudentDao().getGroupStudets(id);
@@ -173,7 +173,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				try {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						group.setId(resultSet.getLong(1));
+						group.setId(resultSet.getLong("id"));
 						log.info("Group was created");
 					}
 

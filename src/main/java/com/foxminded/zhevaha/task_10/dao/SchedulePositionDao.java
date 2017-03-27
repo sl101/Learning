@@ -4,9 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 
 	private static final Logger log = Logger.getLogger(SchedulePositionDao.class);
 	private final String CREATE = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
-	private final String CREATE_SCHEDULE = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
 	private final String GET_ALL = "SELECT * FROM schedule_position;";
 	private final String GET_BY_ID = "SELECT * FROM schedule_position WHERE id = ?;";
 	private final String UPDATE = "UPDATE schedule_position SET lecture_id = ?, room_id = ?, lecturetime = ?, teacher_id = ? WHERE id = ?;";
@@ -39,11 +37,11 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			try {
 				resultSet = statement.executeQuery();
 				while (resultSet.next()) {
-					long id = resultSet.getLong(1);
-					Lecture lecture = new LectureDao().getById(resultSet.getLong(2));
-					Room room = new RoomDao().getById(resultSet.getLong(3));
-					java.sql.Timestamp lectureTime = resultSet.getTimestamp(5);
-					Teacher teacher = new TeacherDao().getById(resultSet.getLong(4));
+					long id = resultSet.getLong("id");
+					Lecture lecture = new LectureDao().getById(resultSet.getLong("lecture_id"));
+					Room room = new RoomDao().getById(resultSet.getLong("room_id"));
+					java.sql.Timestamp lectureTime = resultSet.getTimestamp("lecturetime");
+					Teacher teacher = new TeacherDao().getById(resultSet.getLong("teacher_id"));
 					SchedulePosition schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 					schedulePosition.setId(id);
 					schedule.add(schedulePosition);
@@ -80,10 +78,10 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				resultSet = statement.executeQuery();
 				log.info("resultSet was created");
 				if (resultSet.next()) {
-					Lecture lecture = new LectureDao().getById(resultSet.getLong(2));
-					Room room = new RoomDao().getById(resultSet.getLong(3));
-					java.sql.Timestamp lectureTime = resultSet.getTimestamp(5);
-					Teacher teacher = new TeacherDao().getById(resultSet.getLong(4));
+					Lecture lecture = new LectureDao().getById(resultSet.getLong("lecture_id"));
+					Room room = new RoomDao().getById(resultSet.getLong("room_id"));
+					java.sql.Timestamp lectureTime = resultSet.getTimestamp("lecturetime");
+					Teacher teacher = new TeacherDao().getById(resultSet.getLong("teacher_id"));
 					schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 					schedulePosition.setId(id);
 				} else {
@@ -155,7 +153,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
-				statement = connection.prepareStatement(CREATE);
+				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setLong(1, schedulePosition.getLecture().getId());
 				statement.setLong(2, schedulePosition.getRoom().getId());
 				statement.setTimestamp(3, schedulePosition.getLectureTime());
@@ -165,8 +163,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				try {
 					resultSet = statement.getGeneratedKeys();
 					if (resultSet.next()) {
-						log.info("resultSet get generated key");
-						schedulePosition.setId(resultSet.getLong(1));
+						schedulePosition.setId(resultSet.getLong("id"));
 						log.info("SchedulePosition was created");
 					}
 				} catch (SQLException e) {
@@ -179,30 +176,6 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			}
 		}
 		log.fatal("SchedulePosition is already exist");
-	}
-
-	public void createSchedule(Set<SchedulePosition> schedulePositions) {
-		log.info("Create Schedule");
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		connection = ConnectionFactory.getConnection();
-		try {
-			statement = connection.prepareStatement(CREATE_SCHEDULE);
-			List<SchedulePosition> lectures = new ArrayList<SchedulePosition>(schedulePositions);
-			for (int i = 0; i < lectures.size(); i++) {
-				statement.setLong(1, lectures.get(i).getLecture().getId());
-				statement.setLong(2, lectures.get(i).getRoom().getId());
-				statement.setTimestamp(3, lectures.get(i).getLectureTime());
-				statement.setLong(4, lectures.get(i).getTeacher().getId());
-				statement.executeUpdate();
-			}
-			log.info("statement was created");
-		} catch (SQLException e) {
-			log.fatal("Schedule was not created", e);
-		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
-		}
 	}
 
 }
