@@ -103,7 +103,6 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 		if (schedulePosition.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -116,7 +115,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			schedulePosition = getById(schedulePosition.getId());
 			return schedulePosition;
@@ -130,7 +129,6 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 		log.info("Delete schedulePosition");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -141,7 +139,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 		} catch (SQLException e) {
 			log.fatal("SchedulePosition was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

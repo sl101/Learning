@@ -106,7 +106,6 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		if (academicPlan.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -117,7 +116,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			academicPlan = getById(academicPlan.getId());
 			return academicPlan;
@@ -131,7 +130,6 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		log.info("Delete AcademicPlan");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -142,7 +140,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		} catch (SQLException e) {
 			log.fatal("AcademicPlan was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

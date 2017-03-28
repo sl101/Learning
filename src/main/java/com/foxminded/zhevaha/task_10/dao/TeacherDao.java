@@ -111,7 +111,6 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		if (teacher.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -123,7 +122,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			teacher = getById(teacher.getId());
 			return teacher;
@@ -138,7 +137,6 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		log.info("Delete teacher");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -149,7 +147,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		} catch (SQLException e) {
 			log.fatal("Teacher was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

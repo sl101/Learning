@@ -123,7 +123,6 @@ public class CourseDao implements GenericDao<Course, Long> {
 		if (course.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -134,7 +133,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			course = getById(course.getId());
 			return course;
@@ -148,7 +147,6 @@ public class CourseDao implements GenericDao<Course, Long> {
 		log.info("Delete course");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -159,7 +157,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 		} catch (SQLException e) {
 			log.fatal("Course was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
@@ -241,7 +239,6 @@ public class CourseDao implements GenericDao<Course, Long> {
 		if (group != null && course != null) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(APPOINT_GROUP_COURSE);
@@ -252,7 +249,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			} catch (SQLException e) {
 				log.fatal("Course was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 		}
 		log.fatal("Course or group is empty");
@@ -339,7 +336,6 @@ public class CourseDao implements GenericDao<Course, Long> {
 		log.info("Enroll teacher in course in database");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(ENROLL_TEACHER);
@@ -350,7 +346,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 		} catch (SQLException e) {
 			log.error("ERROR. Statement was not created", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
@@ -359,7 +355,6 @@ public class CourseDao implements GenericDao<Course, Long> {
 		if (course.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(CREATE_TOPIC);
@@ -370,7 +365,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			} catch (SQLException e) {
 				log.fatal("Topic was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 		}
 		log.fatal("There is not such course");

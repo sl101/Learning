@@ -89,4 +89,23 @@ public class ConnectionFactory {
 			}
 		}
 	}
+
+	public static void closeConnection(Connection connection, Statement statement) {
+		if (statement != null) {
+			try {
+				statement.close();
+				log.info("statement was cloused");
+			} catch (SQLException e) {
+				log.error("Error. Statement not closed", e);
+			}
+		}
+		if (connection != null) {
+			try {
+				connection.close();
+				log.info("connection was cloused");
+			} catch (SQLException e) {
+				log.error("Error. Connection not closed", e);
+			}
+		}
+	}
 }

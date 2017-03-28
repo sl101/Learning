@@ -117,7 +117,6 @@ public class GroupDao implements GenericDao<Group, Long> {
 		if (group.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 
 			try {
@@ -129,7 +128,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			group = getById(group.getId());
 			return group;
@@ -143,7 +142,6 @@ public class GroupDao implements GenericDao<Group, Long> {
 		log.info("Delete group");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -154,7 +152,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 		} catch (SQLException e) {
 			log.fatal("Group was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

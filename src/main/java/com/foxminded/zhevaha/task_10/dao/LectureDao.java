@@ -103,7 +103,6 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		if (lecture.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -116,7 +115,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			lecture = getById(lecture.getId());
 			return lecture;
@@ -131,7 +130,6 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		log.info("Delete Lecture");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -142,7 +140,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		} catch (SQLException e) {
 			log.fatal("Lecture was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

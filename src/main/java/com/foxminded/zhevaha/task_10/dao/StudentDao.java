@@ -99,7 +99,6 @@ public class StudentDao implements GenericDao<Student, Long> {
 		if (student.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -111,7 +110,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			student = getById(student.getId());
 			return student;
@@ -126,7 +125,6 @@ public class StudentDao implements GenericDao<Student, Long> {
 		log.info("Delete student");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -137,7 +135,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 		} catch (SQLException e) {
 			log.fatal("Student was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
@@ -210,7 +208,6 @@ public class StudentDao implements GenericDao<Student, Long> {
 		log.info("Enroll student in group in database");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(ENROLL_STUDENT);
@@ -221,7 +218,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 		} catch (SQLException e) {
 			log.error("ERROR. Statement was not created", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 }

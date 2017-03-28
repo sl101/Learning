@@ -94,7 +94,6 @@ public class RoomDao implements GenericDao<Room, Long> {
 		if (room.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -105,7 +104,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			room = getById(room.getId());
 			return room;
@@ -119,7 +118,6 @@ public class RoomDao implements GenericDao<Room, Long> {
 		log.info("Delete room");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -130,7 +128,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 		} catch (SQLException e) {
 			log.fatal("Room was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 

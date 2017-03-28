@@ -166,7 +166,6 @@ public class UniverDao implements GenericDao<Univer, Long> {
 		if (univer.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
-			ResultSet resultSet = null;
 			connection = ConnectionFactory.getConnection();
 			try {
 				statement = connection.prepareStatement(UPDATE);
@@ -177,7 +176,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			} catch (SQLException e) {
 				log.error("ERROR. Statement was not created", e);
 			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
+				ConnectionFactory.closeConnection(connection, statement);
 			}
 			univer = getById(univer.getId());
 			log.info("\tUniver was updated");
@@ -193,7 +192,6 @@ public class UniverDao implements GenericDao<Univer, Long> {
 		log.info("Delete univer");
 		Connection connection = null;
 		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(DELETE);
@@ -205,7 +203,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			log.error("ERROR. Statement was not created", e);
 			log.fatal("Univer was not deleted", e);
 		} finally {
-			ConnectionFactory.closeConnection(connection, statement, resultSet);
+			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
