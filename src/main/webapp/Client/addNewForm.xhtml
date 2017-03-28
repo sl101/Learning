@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panelGrid style="margin-bottom:10px" columns="2"
+		columnClasses="label, value" rendered="#{clientNew.isShowNewClientForm}">
+		<f:facet name="header">
+			<h:outputText value="New client" />
+		</f:facet>
+		<h:outputText value="Firstname: *" />
+		<h:inputText value="#{clientNew.firstName}" required="true"
+			label="Firstname" />
+		<h:outputText value="Lastname: *" />
+		<p:inputText value="#{clientNew.secondName}" required="true"
+			label="Lastname" />
+		<p:commandButton id="addSave" value="Save"
+			actionListener="#{clientNew.newClientFormOnSave}"
+			update="@form:clientMain" />
+		<p:commandButton id="addCancel" value="Cancel"
+			actionListener="#{clientNew.newClientFormOnCancel}"
+			update="@form:clientMain"
+			immediate="true" />
+	</p:panelGrid>
+</ui:composition>

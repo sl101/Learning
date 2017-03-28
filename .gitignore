@@ -2,3 +2,6 @@
 
 /.idea/
 /serviceacc.iml
+/target/
+/.project
+/.classpath
