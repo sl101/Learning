@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 @Entity
 @Table(name = "clients")
 public class Client implements Serializable, Identifiable {
+
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger("Client : ");
 	@Id
@@ -122,5 +123,27 @@ public class Client implements Serializable, Identifiable {
 		} else {
 			this.level = -1;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Client other = (Client) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }
