@@ -6,10 +6,20 @@
 	xmlns:p="http://primefaces.org/ui">
 	
 	<p:growl autoUpdate="true" />
-			<p:menubar style="margin-bottom:10px" rendered="#{clients.isShowMenuForm}">
-				<p:submenu label="Client">
+				<p:menubar style="margin-bottom:10px" >
+				<p:menuitem value="Main" 						
+						actionListener="#{clientsAll.menuOnMain}"
+						
+						update="@form:clientMain" />
+			
+				<p:submenu label="Client">				
+				<p:menuitem value="All" 
+						actionListener="#{clientsAll.menuOnAll}"
+						icon="ui-icon-plus" 
+						update="@form:clientMain" />
 					<p:menuitem value="Add" 
-						actionListener="#{clients.menuOnAdd}"
+						disabled="#{clientsAll.isBlockMenuAdd}"
+						actionListener="#{clientsAll.menuOnAdd}"
 						icon="ui-icon-plus" 
 						update="@form:clientMain" />
 				</p:submenu>

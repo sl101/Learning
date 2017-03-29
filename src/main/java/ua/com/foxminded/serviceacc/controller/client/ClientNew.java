@@ -1,4 +1,4 @@
-package ua.com.foxminded.serviceacc.controller;
+package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
 
@@ -19,18 +19,18 @@ public class ClientNew implements Serializable {
 	private ClientServices clientServices;
 
 	@Inject
-	private Clients clients;
+	private ClientsAll clientsAll;
 
 	public void newClientFormOnSave() {
 		Client addNewClient = new Client();
 		addNewClient.setFirstName(firstName);
 		addNewClient.setSecondName(secondName);
 		clientServices.save(addNewClient);
-		clients.menuOnAddComplete();
+		clientsAll.menuOnAddComplete();
 	}
 
 	public void newClientFormOnCancel() {
-		clients.menuOnAddComplete();
+		clientsAll.menuOnAddComplete();
 	}
 
 	public boolean getIsShowNewClientForm() {

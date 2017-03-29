@@ -1,16 +1,13 @@
-package ua.com.foxminded.serviceacc.controller;
+package ua.com.foxminded.serviceacc.controller.client;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
 
 import ua.com.foxminded.serviceacc.model.domain.Client;
 import ua.com.foxminded.serviceacc.service.ClientServices;
 
 @Named
 public class ClientUpdate {
-	private static final Logger log = Logger.getLogger("ClientUpdate : ");
 
 	private boolean isShowUpdateForm;
 
@@ -36,29 +33,23 @@ public class ClientUpdate {
 	}
 
 	public void show() {
-		log.info("UpdateForm.show()");
 		setIsShowUpdateForm(true);
 	}
 
 	public void updateFormButtonOk() {
-		log.info("UpdateForm.updateFormButtonOk()");
 		clientServices.update(client);
 		clientSelected.selectedFormOnUpdateComplete();
-
 	}
 
 	public void updateFormButtonCancel() {
-		log.info("UpdateForm.updateFormButtonCancel()");
 		clientSelected.selectedFormOnUpdateComplete();
 	}
 
 	public void updateFormChangeLevel(String level) {
-		log.info("updateFormChangeLevel(" + level + ")");
 		client.setLevelAsString(level);
 	}
 
 	public void updateFormChangeStatus(String status) {
-		log.info("updateFormChangeStatus(" + status + ")");
 		client.setStatusAsString(status);
 	}
 

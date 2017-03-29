@@ -9,14 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.log4j.Logger;
-
 @Entity
 @Table(name = "clients")
-public class Client implements Serializable, Identifiable {
+public class Client implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger("Client : ");
 	@Id
 	@Column(name = "id", columnDefinition = "serial", insertable = false, updatable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +55,6 @@ public class Client implements Serializable, Identifiable {
 		this.status = status;
 	}
 
-	@Override
 	public int getId() {
 		return id;
 	}
@@ -111,7 +107,6 @@ public class Client implements Serializable, Identifiable {
 	}
 
 	public void setLevelAsString(String level) {
-		log.info("setLevelAsString(" + level + ")");
 		if (level.equals("Applicant")) {
 			this.level = 0;
 		} else if (level.equals("Beginner")) {

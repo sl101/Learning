@@ -12,25 +12,26 @@
 
 	<h:form id="clientMain">
 		<p:fieldset legend="Clients" style="margin-bottom:20px">
+<h:panelGroup id="ClientMenu">
+				<ui:include src="/menu/menu.xhtml" />
+			</h:panelGroup>
 
 			<h:panelGroup id="ClientSelectedForm">
-				<ui:include src="/Client/selectedForm.xhtml" />
+				<ui:include src="/client/clientSelected.xhtml" />
 			</h:panelGroup>
 
 			<h:panelGroup id="ClientAddNewForm">
-				<ui:include src="/Client/addNewForm.xhtml" />
+				<ui:include src="/client/clientAddNew.xhtml" />
 			</h:panelGroup>
 
 			<h:panelGroup id="ClientUpdateForm">
-				<ui:include src="/Client/updateForm.xhtml" />
+				<ui:include src="/client/clientUpdate.xhtml" />
 			</h:panelGroup>
 
-			<h:panelGroup id="ClientMenu">
-				<ui:include src="/Client/menu.xhtml" />
-			</h:panelGroup>
+			
 
 			<h:panelGroup id="ClientTable">
-				<ui:include src="/Client/table.xhtml" />
+				<ui:include src="/client/clientsAll.xhtml" />
 			</h:panelGroup>
 
 		</p:fieldset>

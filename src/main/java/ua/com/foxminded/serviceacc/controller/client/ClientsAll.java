@@ -1,4 +1,4 @@
-package ua.com.foxminded.serviceacc.controller;
+package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,20 +7,29 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 
 import ua.com.foxminded.serviceacc.model.domain.Client;
 import ua.com.foxminded.serviceacc.service.ClientServices;
 
 @Named
-public class Clients implements Serializable {
+public class ClientsAll implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger("Clients : ");
-	private ArrayList<Client> allClients;
 
-	private boolean isShowMenuForm = true;
+	private ArrayList<Client> list;
+
+	private boolean isBlockMenuAdd;
+
+	private boolean isShowClients = false;
+
+	public boolean getIsShowClients() {
+		return isShowClients;
+	}
+
+	public void setIsShowClients(boolean isShowClients) {
+		this.isShowClients = isShowClients;
+	}
 
 	private boolean isBlockTable;
 
@@ -39,19 +48,17 @@ public class Clients implements Serializable {
 	}
 
 	public void allClientsUpdate() {
-		allClients = clientServices.getAll();
+		list = clientServices.getAll();
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		log.info(getMethodName() + " id = " + ((Client) event.getObject()).getId());
-		hideMenuForm();
+		showMenuForm();
 		clientSelected.show();
 	}
 
 	public void onRowSelectComplete() {
-		log.info(getMethodName());
 		clientSelected.hide();
-		showMenuForm();
+		hideMenuForm();
 	}
 
 	public void menuOnAdd() {
@@ -65,17 +72,22 @@ public class Clients implements Serializable {
 		allClientsUpdate();
 		clientNew.hide();
 		showMenuForm();
+	}
 
+	public void menuOnAll() {
+		isShowClients = true;
+	}
+
+	public void menuOnMain() {
+		isShowClients = false;
 	}
 
 	public void hideMenuForm() {
-		log.info(getMethodName());
-		this.isShowMenuForm = false;
+		setIsBlockMenuAdd(false);
 	}
 
 	public void showMenuForm() {
-		log.info(getMethodName());
-		this.isShowMenuForm = true;
+		setIsBlockMenuAdd(true);
 	}
 
 	public void blockTable() {
@@ -94,24 +106,20 @@ public class Clients implements Serializable {
 		this.clientServices = clientServices;
 	}
 
-	public boolean getIsShowMenuForm() {
-		return isShowMenuForm;
+	public boolean getIsBlockMenuAdd() {
+		return isBlockMenuAdd;
 	}
 
-	public void setIsShowMenuForm(boolean isShowMenuForm) {
-		this.isShowMenuForm = isShowMenuForm;
+	public void setIsBlockMenuAdd(boolean isShowMenuForm) {
+		this.isBlockMenuAdd = isShowMenuForm;
 	}
 
-	private String getMethodName() {
-		return " " + Thread.currentThread().getStackTrace()[2].getMethodName() + "() ";
+	public ArrayList<Client> getList() {
+		return list;
 	}
 
-	public ArrayList<Client> getAllClients() {
-		return allClients;
-	}
-
-	public void setAllClients(ArrayList<Client> allClients) {
-		this.allClients = allClients;
+	public void setList(ArrayList<Client> clientsAll) {
+		this.list = clientsAll;
 	}
 
 	public ClientNew getNewClient() {

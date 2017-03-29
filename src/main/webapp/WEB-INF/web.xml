@@ -42,6 +42,6 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>Client/clients.xhtml</welcome-file>
+		<welcome-file>client/clientTemplate.xhtml</welcome-file>
 	</welcome-file-list>
 </web-app>

@@ -1,9 +1,7 @@
-package ua.com.foxminded.serviceacc.controller;
+package ua.com.foxminded.serviceacc.controller.client;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.apache.log4j.Logger;
 
 import ua.com.foxminded.serviceacc.model.domain.Client;
 import ua.com.foxminded.serviceacc.service.ClientServices;
@@ -11,13 +9,11 @@ import ua.com.foxminded.serviceacc.service.ClientServices;
 @Named
 public class ClientSelected {
 
-	private static final Logger log = Logger.getLogger("ClientSelected : ");
-
 	@Inject
 	private ClientServices clientServices;
 
 	@Inject
-	private Clients clients;
+	private ClientsAll clientsAll;
 
 	@Inject
 	private ClientUpdate clientUpdate;
@@ -35,33 +31,29 @@ public class ClientSelected {
 	}
 
 	public void selectedFormOnOk() {
-		log.info(getMethodName());
-		clients.onRowSelectComplete();
+		clientsAll.onRowSelectComplete();
 	}
 
 	public void selectedFormOnDelete() {
-		log.info(getMethodName());
 		clientServices.delete(selectedClient);
-		clients.allClientsUpdate();
-		clients.onRowSelectComplete();
+		clientsAll.allClientsUpdate();
+		clientsAll.onRowSelectComplete();
 	}
 
 	public void selectedFormOnUpdate() {
-		log.info(getMethodName());
-		clients.blockTable();
-		clients.hideMenuForm();
+		clientsAll.blockTable();
+		clientsAll.hideMenuForm();
 		hide();
 		clientUpdate.init(selectedClient);
 		clientUpdate.show();
-		clients.allClientsUpdate();
+		clientsAll.allClientsUpdate();
 	}
 
 	public void selectedFormOnUpdateComplete() {
-		log.info(getMethodName());
-		clients.unBlockTable();
-		clients.allClientsUpdate();
+		clientsAll.unBlockTable();
+		clientsAll.allClientsUpdate();
 		clientUpdate.hide();
-		clients.showMenuForm();
+		clientsAll.showMenuForm();
 		selectedClient = null;
 
 	}
@@ -74,12 +66,12 @@ public class ClientSelected {
 		this.clientServices = clientServices;
 	}
 
-	public Clients getClients() {
-		return clients;
+	public ClientsAll getClients() {
+		return clientsAll;
 	}
 
-	public void setClients(Clients clients) {
-		this.clients = clients;
+	public void setClients(ClientsAll clientsAll) {
+		this.clientsAll = clientsAll;
 	}
 
 	public boolean getIsShowSelectedClientForm() {
@@ -88,10 +80,6 @@ public class ClientSelected {
 
 	public void setIsShowSelectedClientForm(boolean isShowSelectedClientForm) {
 		this.isShowSelectedClientForm = isShowSelectedClientForm;
-	}
-
-	private String getMethodName() {
-		return " " + Thread.currentThread().getStackTrace()[2].getMethodName() + "() ";
 	}
 
 	public Client getSelectedClient() {
