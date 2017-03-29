@@ -1,47 +1,52 @@
 package ua.com.foxminded.serviceacc.model;
 
-import ua.com.foxminded.serviceacc.model.constants.ContactType;
+import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
 public class Contact {
-	private long id;
+
+	private Long id;
 	private Person person;
-	private String contactDefinition;
+	private String contact;
 	private ContactType contactType;
 
 	public Contact() {
-
 	}
 
-	public long getId() {
-		return id;
-	}
+    public Contact(Person person, String contact, ContactType contactType) {
+        this.person = person;
+        this.contact = contact;
+        this.contactType = contactType;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Person getPerson() {
-		return person;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+    public Person getPerson() {
+        return person;
+    }
 
-	public String getContactDefinition() {
-		return contactDefinition;
-	}
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-	public void setContactDefinition(String contactDefinition) {
-		this.contactDefinition = contactDefinition;
-	}
+    public String getContact() {
+        return contact;
+    }
 
-	public ContactType getContactType() {
-		return contactType;
-	}
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 
-	public void setContactType(ContactType contactType) {
-		this.contactType = contactType;
-	}
+    public ContactType getContactType() {
+        return contactType;
+    }
 
+    public void setContactType(ContactType contactType) {
+        this.contactType = contactType;
+    }
 }

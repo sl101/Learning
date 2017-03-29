@@ -1,10 +1,11 @@
 package ua.com.foxminded.serviceacc.model;
 
-import ua.com.foxminded.serviceacc.model.constants.ClientStatus;
-import ua.com.foxminded.serviceacc.model.constants.ClientLevel;
+import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
+import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
 
 public class Client {
-	private long id;
+
+	private Long id;
 	private Person person;
 	private Manager manager;
 	private ClientLevel level;
@@ -13,44 +14,50 @@ public class Client {
 	public Client() {
 	}
 
-	public long getId() {
-		return id;
-	}
+    public Client(Person person, Manager manager, ClientLevel level, ClientStatus status) {
+        this.person = person;
+        this.manager = manager;
+        this.level = level;
+        this.status = status;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Person getPerson() {
-		return person;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+    public Person getPerson() {
+        return person;
+    }
 
-	public Manager getManager() {
-		return manager;
-	}
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
+    public Manager getManager() {
+        return manager;
+    }
 
-	public ClientLevel getLevel() {
-		return level;
-	}
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
 
-	public void setLevel(ClientLevel level) {
-		this.level = level;
-	}
+    public ClientLevel getLevel() {
+        return level;
+    }
 
-	public ClientStatus getStatus() {
-		return status;
-	}
+    public void setLevel(ClientLevel level) {
+        this.level = level;
+    }
 
-	public void setStatus(ClientStatus status) {
-		this.status = status;
-	}
+    public ClientStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(ClientStatus status) {
+        this.status = status;
+    }
 }

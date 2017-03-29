@@ -5,14 +5,22 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Person {
-	private Long id;
+
+    private Long id;
 	private String firstName;
 	private String lastName;
-	private Date birthDay;
+	private Date birthday;
 	private Set<Contact> contacts = new HashSet<>();
 
 	public Person() {
 
+	}
+
+	public Person(String firstName, String lastName, Date birthday, Set<Contact> contacts) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.contacts = contacts;
 	}
 
 	public Long getId() {
@@ -39,12 +47,12 @@ public class Person {
 		this.lastName = lastName;
 	}
 
-	public Date getBirthDay() {
-		return birthDay;
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
 
 	public Set<Contact> getContacts() {

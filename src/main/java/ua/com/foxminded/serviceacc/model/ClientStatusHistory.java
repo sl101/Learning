@@ -2,10 +2,11 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Date;
 
-import ua.com.foxminded.serviceacc.model.constants.ClientStatus;
+import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 
 public class ClientStatusHistory {
-	private Long id;
+
+    private Long id;
 	private Client client;
 	private ClientStatus statusChanged;
 	private Date dateChanged;
@@ -14,7 +15,13 @@ public class ClientStatusHistory {
 
 	}
 
-	public Long getId() {
+    public ClientStatusHistory(Client client, ClientStatus statusChanged, Date dateChanged) {
+        this.client = client;
+        this.statusChanged = statusChanged;
+        this.dateChanged = dateChanged;
+    }
+
+    public Long getId() {
 		return id;
 	}
 
