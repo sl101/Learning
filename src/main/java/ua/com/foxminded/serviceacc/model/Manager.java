@@ -4,13 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Manager {
-	private long id;
+	private Long id;
 	private Person person;
 	private Set<Client> clients = new HashSet<>();
 
 	public Manager() {
 
 	}
+	
+
+	public Manager(Person person, Set<Client> clients) {
+		this.person = person;
+		this.clients = clients;
+	}
+
 
 	public long getId() {
 		return id;

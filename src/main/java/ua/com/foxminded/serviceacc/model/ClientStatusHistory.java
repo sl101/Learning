@@ -14,6 +14,12 @@ public class ClientStatusHistory {
 
 	}
 
+	public ClientStatusHistory(Client client, ClientStatus statusChanged, Date dateChanged) {
+		this.client = client;
+		this.statusChanged = statusChanged;
+		this.dateChanged = dateChanged;
+	}
+
 	public Long getId() {
 		return id;
 	}

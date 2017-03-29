@@ -15,6 +15,13 @@ public class Person {
 
 	}
 
+	public Person(String firstName, String lastName, Date birthDay, Set<Contact> contacts) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDay = birthDay;
+		this.contacts = contacts;
+	}
+
 	public Long getId() {
 		return id;
 	}

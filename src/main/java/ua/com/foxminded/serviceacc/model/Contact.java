@@ -3,13 +3,19 @@ package ua.com.foxminded.serviceacc.model;
 import ua.com.foxminded.serviceacc.model.constants.ContactType;
 
 public class Contact {
-	private long id;
+	private Long id;
 	private Person person;
 	private String contactDefinition;
 	private ContactType contactType;
 
 	public Contact() {
 
+	}
+
+	public Contact(Person person, String contactDefinition, ContactType contactType) {
+		this.person = person;
+		this.contactDefinition = contactDefinition;
+		this.contactType = contactType;
 	}
 
 	public long getId() {

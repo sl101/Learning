@@ -4,13 +4,20 @@ import ua.com.foxminded.serviceacc.model.constants.ClientStatus;
 import ua.com.foxminded.serviceacc.model.constants.ClientLevel;
 
 public class Client {
-	private long id;
+	private Long id;
 	private Person person;
 	private Manager manager;
 	private ClientLevel level;
 	private ClientStatus status;
 
 	public Client() {
+	}
+
+	public Client(Person person, Manager manager, ClientLevel level, ClientStatus status) {
+		this.person = person;
+		this.manager = manager;
+		this.level = level;
+		this.status = status;
 	}
 
 	public long getId() {
