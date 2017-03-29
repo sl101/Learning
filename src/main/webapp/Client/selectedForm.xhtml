@@ -6,25 +6,25 @@
 	xmlns:p="http://primefaces.org/ui">
 	<p:panelGrid style="margin-bottom:10px" columns="2"
 		columnClasses="label, value"
-		rendered="#{clients.isShowSelectedClientForm}">
+		rendered="#{clientSelected.isShowSelectedClientForm}">
 		<f:facet name="header">
 			<h:outputText value="Client" />
 		</f:facet>
 		<h:outputText value="first:" />
-		<h:outputText value="#{clients.selectedClient.getFirstName()}" />
+		<h:outputText value="#{clientSelected.selectedClient.getFirstName()}" />
 		<h:outputText value="second name:" />
-		<h:outputText value="#{clients.selectedClient.getSecondName()}" />
+		<h:outputText value="#{clientSelected.selectedClient.getSecondName()}" />
 		<h:outputText value="status:" />
-		<h:outputText value="#{clients.selectedClient.getStatusAsString()}" />
+		<h:outputText value="#{clientSelected.selectedClient.getStatusAsString()}" />
 		<h:outputText value="level:" />
-		<h:outputText value="#{clients.selectedClient.getLevelAsString()}" />
+		<h:outputText value="#{clientSelected.selectedClient.getLevelAsString()}" />
 		<p:commandButton id="selectedFormButtonOk" value="Ok"
-			actionListener="#{clients.selectedFormOnOk}"
+			actionListener="#{clientSelected.selectedFormOnOk}"
 			update="@form:clientMain" />
 		<p:commandButton id="selectedFormButtonDelete" value="Delete"
-			actionListener="#{clients.selectedFormOnDelete}"
+			actionListener="#{clientSelected.selectedFormOnDelete}"
 			update="@form:clientMain" />
 		<p:commandButton id="selectedFormButtonUpdate" value="Update"
-			action="#{clients.selectedFormOnUpdate}" update="@form:clientMain" />
+			action="#{clientSelected.selectedFormOnUpdate}" update="@form:clientMain" />
 	</p:panelGrid>
 </ui:composition>

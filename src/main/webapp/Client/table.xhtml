@@ -8,7 +8,7 @@
 
 	
 <p:dataTable id="table" var="client" value="#{clients.allClients}"
-		selectionMode="single" selection="#{clients.selectedClient}"
+		selectionMode="single" selection="#{clientSelected.selectedClient}"
 		rowKey="#{client.id}">
 
 		<p:ajax disabled="#{clients.isBlockTable}" event="rowSelect" process="@this"

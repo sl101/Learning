@@ -20,10 +20,6 @@ public class Clients implements Serializable {
 	private static final Logger log = Logger.getLogger("Clients : ");
 	private ArrayList<Client> allClients;
 
-	private Client selectedClient;
-
-	private boolean isShowSelectedClientForm;
-
 	private boolean isShowMenuForm = true;
 
 	private boolean isBlockTable;
@@ -35,7 +31,7 @@ public class Clients implements Serializable {
 	private ClientNew clientNew;
 
 	@Inject
-	private ClientUpdate clientUpdate;
+	private ClientSelected clientSelected;
 
 	@PostConstruct
 	public void init() {
@@ -48,13 +44,14 @@ public class Clients implements Serializable {
 
 	public void onRowSelect(SelectEvent event) {
 		log.info(getMethodName() + " id = " + ((Client) event.getObject()).getId());
-		selectedClient = (Client) event.getObject();
-		showSelectedClientForm();
+		hideMenuForm();
+		clientSelected.show();
 	}
 
-	public void delete() {
+	public void onRowSelectComplete() {
 		log.info(getMethodName());
-		clientServices.delete(selectedClient);
+		clientSelected.hide();
+		showMenuForm();
 	}
 
 	public void menuOnAdd() {
@@ -69,49 +66,6 @@ public class Clients implements Serializable {
 		clientNew.hide();
 		showMenuForm();
 
-	}
-
-	public void selectedFormOnOk() {
-		log.info(getMethodName());
-		hideSelectedClientForm();
-		showMenuForm();
-	}
-
-	public void selectedFormOnDelete() {
-		log.info(getMethodName());
-		delete();
-		hideSelectedClientForm();
-		showMenuForm();
-		allClientsUpdate();
-	}
-
-	public void selectedFormOnUpdate() {
-		log.info(getMethodName());
-		blockTable();
-		hideSelectedClientForm();
-		clientUpdate.setSelectedClient(selectedClient);
-		clientUpdate.show();
-		allClientsUpdate();
-	}
-
-	public void selectedFormOnUpdateComplete() {
-		log.info(getMethodName());
-		unBlockTable();
-		allClientsUpdate();
-		clientUpdate.hide();
-		showMenuForm();
-		selectedClient = null;
-
-	}
-
-	public void hideSelectedClientForm() {
-		log.info(getMethodName());
-		this.isShowSelectedClientForm = false;
-	}
-
-	public void showSelectedClientForm() {
-		log.info(getMethodName());
-		this.isShowSelectedClientForm = true;
 	}
 
 	public void hideMenuForm() {
@@ -132,35 +86,12 @@ public class Clients implements Serializable {
 		isBlockTable = false;
 	}
 
-	public String getIsUpdate() {
-		if (selectedClient == null) {
-			return "true";
-		} else
-			return "false";
-	}
-
 	public ClientServices getClientServices() {
 		return clientServices;
 	}
 
 	public void setClientServices(ClientServices clientServices) {
 		this.clientServices = clientServices;
-	}
-
-	public Client getSelectedClient() {
-		return selectedClient;
-	}
-
-	public boolean getIsShowSelectedClientForm() {
-		return isShowSelectedClientForm;
-	}
-
-	public void setIsShowSelectedClientForm(boolean isShowSelectedClientForm) {
-		this.isShowSelectedClientForm = isShowSelectedClientForm;
-	}
-
-	public void setSelectedClient(Client selectedClient) {
-		this.selectedClient = selectedClient;
 	}
 
 	public boolean getIsShowMenuForm() {
@@ -199,12 +130,12 @@ public class Clients implements Serializable {
 		this.isBlockTable = isBlockTable;
 	}
 
-	public ClientUpdate getUpdateClient() {
-		return clientUpdate;
+	public ClientSelected getClientSelected() {
+		return clientSelected;
 	}
 
-	public void setUpdateClient(ClientUpdate clientUpdate) {
-		this.clientUpdate = clientUpdate;
+	public void setClientSelected(ClientSelected clientSelected) {
+		this.clientSelected = clientSelected;
 	}
 
 }

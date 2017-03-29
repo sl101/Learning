@@ -12,15 +12,24 @@ import ua.com.foxminded.serviceacc.service.ClientServices;
 public class ClientUpdate {
 	private static final Logger log = Logger.getLogger("ClientUpdate : ");
 
-	private Client selectedClient;
-
 	private boolean isShowUpdateForm;
+
+	private Client client;
 
 	@Inject
 	private ClientServices clientServices;
 
 	@Inject
-	private Clients clients;
+	private ClientSelected clientSelected;
+
+	public void init(Client selectedClient) {
+		client = new Client();
+		client.setId(clientSelected.getSelectedClient().getId());
+		client.setFirstName(clientSelected.getSelectedClient().getFirstName());
+		client.setSecondName(clientSelected.getSelectedClient().getSecondName());
+		client.setLevel(clientSelected.getSelectedClient().getLevel());
+		client.setStatus(clientSelected.getSelectedClient().getStatus());
+	}
 
 	public void hide() {
 		setIsShowUpdateForm(false);
@@ -31,36 +40,26 @@ public class ClientUpdate {
 		setIsShowUpdateForm(true);
 	}
 
-	public Client getSelectedClient() {
-		return selectedClient;
-	}
-
-	public void setSelectedClient(Client selectedClient) {
-		log.info("UpdateForm.setSelectedClient()");
-		this.selectedClient = selectedClient;
-
-	}
-
 	public void updateFormButtonOk() {
 		log.info("UpdateForm.updateFormButtonOk()");
-		clientServices.update(selectedClient);
-		clients.selectedFormOnUpdateComplete();
+		clientServices.update(client);
+		clientSelected.selectedFormOnUpdateComplete();
 
 	}
 
 	public void updateFormButtonCancel() {
 		log.info("UpdateForm.updateFormButtonCancel()");
-		clients.selectedFormOnUpdateComplete();
+		clientSelected.selectedFormOnUpdateComplete();
 	}
 
 	public void updateFormChangeLevel(String level) {
 		log.info("updateFormChangeLevel(" + level + ")");
-		selectedClient.setLevelAsString(level);
+		client.setLevelAsString(level);
 	}
 
 	public void updateFormChangeStatus(String status) {
 		log.info("updateFormChangeStatus(" + status + ")");
-		selectedClient.setStatusAsString(status);
+		client.setStatusAsString(status);
 	}
 
 	public boolean getIsShowUpdateForm() {
@@ -71,27 +70,43 @@ public class ClientUpdate {
 		this.isShowUpdateForm = isShowUpdateForm;
 	}
 
-	public Clients getClients() {
-		return clients;
-	}
-
-	public void setClients(Clients clients) {
-		this.clients = clients;
-	}
-
 	public String getFirstName() {
-		return selectedClient.getFirstName();
+		return client.getFirstName();
 	}
 
 	public void setFirstName(String firstName) {
-		selectedClient.setFirstName(firstName);
+		client.setFirstName(firstName);
 	}
 
 	public String getSecondName() {
-		return selectedClient.getSecondName();
+		return client.getSecondName();
 	}
 
 	public void setSecondName(String secondName) {
-		selectedClient.setSecondName(secondName);
+		client.setSecondName(secondName);
+	}
+
+	public ClientServices getClientServices() {
+		return clientServices;
+	}
+
+	public void setClientServices(ClientServices clientServices) {
+		this.clientServices = clientServices;
+	}
+
+	public ClientSelected getClientSelected() {
+		return clientSelected;
+	}
+
+	public void setClientSelected(ClientSelected clientSelected) {
+		this.clientSelected = clientSelected;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 }

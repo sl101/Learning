@@ -19,7 +19,7 @@
 		<h:inputText value="#{clientUpdate.secondName}" />
 		<h:outputText value="status:" />
 		<p:tieredMenu style="width:200px">
-			<p:submenu label="#{clientUpdate.selectedClient.statusAsString}"
+			<p:submenu label="#{clientUpdate.client.statusAsString}"
 				icon="ui-icon-refresh">
 				<p:menuitem value="Active" action="#{clientUpdate.updateFormChangeStatus('Active')}" icon="ui-icon-disk" update="@form:clientMain"/>
 				<p:menuitem value="Frozen" action="#{clientUpdate.updateFormChangeStatus('Frozen')}" icon="ui-icon-disk" update="@form:clientMain"/>				
@@ -27,7 +27,7 @@
 		</p:tieredMenu>
 		<h:outputText value="level:" />
 		<p:tieredMenu style="width:200px">
-			<p:submenu label="#{clientUpdate.selectedClient.levelAsString}"
+			<p:submenu label="#{clientUpdate.client.levelAsString}"
 				icon="ui-icon-refresh">
 				<p:menuitem value="Applicant" action="#{clientUpdate.updateFormChangeLevel('Applicant')}" icon="ui-icon-disk" update="@form:clientMain"/>
 				<p:menuitem value="Beginner" action="#{clientUpdate.updateFormChangeLevel('Beginner')}" icon="ui-icon-disk" update="@form:clientMain"/>

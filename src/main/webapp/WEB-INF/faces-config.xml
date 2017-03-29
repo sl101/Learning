@@ -9,7 +9,7 @@
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 
-	
+
 
 	<managed-bean>
 		<managed-bean-name>clientNew</managed-bean-name>
@@ -34,8 +34,8 @@
 			<value>#{secondName}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>selectedClient</property-name>
-			<value>#{selectedClient}</value>
+			<property-name>client</property-name>
+			<value>#{client}</value>
 		</managed-property>
 		<managed-property>
 			<property-name>isShowUpdateForm</property-name>
@@ -51,14 +51,7 @@
 			<property-name>clientServices</property-name>
 			<value>#{clientServices}</value>
 		</managed-property>
-		<managed-property>
-			<property-name>selectedClient</property-name>
-			<value>#{selectedClient}</value>
-		</managed-property>
-		<managed-property>
-			<property-name>isShowSelectedClientForm</property-name>
-			<value>#{isShowSelectedClientForm}</value>
-		</managed-property>
+
 		<managed-property>
 			<property-name>isShowMenuForm</property-name>
 			<value>#{isShowMenuForm}</value>
@@ -73,8 +66,21 @@
 		</managed-property>
 	</managed-bean>
 
+	<managed-bean>
+		<managed-bean-name>clientSelected</managed-bean-name>
+		<managed-bean-class>ua.com.foxminded.serviceacc.controller.ClientSelected</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>selectedClient</property-name>
+			<value>#{selectedClient}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>isShowSelectedClientForm</property-name>
+			<value>#{isShowSelectedClientForm}</value>
+		</managed-property>
+	</managed-bean>
+
 	<navigation-rule>
-		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>client</from-outcome>
 			<to-view-id>/Client/clients.xhtml</to-view-id>
@@ -82,5 +88,5 @@
 		</navigation-case>
 	</navigation-rule>
 
-	
+
 </faces-config>
