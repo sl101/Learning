@@ -6,7 +6,8 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
-	<p:dataTable id="table" var="client" value="#{clients.allClients}"
+	
+<p:dataTable id="table" var="client" value="#{clients.allClients}"
 		selectionMode="single" selection="#{clients.selectedClient}"
 		rowKey="#{client.id}">
 
@@ -33,5 +34,5 @@
 			<h:outputText value="#{client.levelAsString}" />
 		</p:column>
 	</p:dataTable>
-
+	
 </ui:composition>

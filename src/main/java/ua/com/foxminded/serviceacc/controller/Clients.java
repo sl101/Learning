@@ -24,7 +24,7 @@ public class Clients implements Serializable {
 
 	private boolean isShowSelectedClientForm;
 
-	private boolean isShowMenuForm = true;
+	private boolean isShowMenuForm;
 
 	private boolean isBlockTable;
 
@@ -39,7 +39,11 @@ public class Clients implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		allClientsUpdate();
+		try {
+			allClientsUpdate();
+		} catch (Exception e) {
+			System.out.println("***********************************************");
+		}
 	}
 
 	public void allClientsUpdate() {
