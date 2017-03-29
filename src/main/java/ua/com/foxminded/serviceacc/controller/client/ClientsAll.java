@@ -52,26 +52,27 @@ public class ClientsAll implements Serializable {
 	}
 
 	public void onRowSelect(SelectEvent event) {
-		showMenuForm();
+		blockMenuAdd();
+		clientNew.hide();
 		clientSelected.show();
 	}
 
 	public void onRowSelectComplete() {
 		clientSelected.hide();
-		hideMenuForm();
+		unBlockMenuAdd();
 	}
 
 	public void menuOnAdd() {
 		blockTable();
 		clientNew.show();
-		hideMenuForm();
+		unBlockMenuAdd();
 	}
 
 	public void menuOnAddComplete() {
 		unBlockTable();
 		allClientsUpdate();
 		clientNew.hide();
-		showMenuForm();
+		blockMenuAdd();
 	}
 
 	public void menuOnAll() {
@@ -82,11 +83,11 @@ public class ClientsAll implements Serializable {
 		isShowClients = false;
 	}
 
-	public void hideMenuForm() {
+	public void unBlockMenuAdd() {
 		setIsBlockMenuAdd(false);
 	}
 
-	public void showMenuForm() {
+	public void blockMenuAdd() {
 		setIsBlockMenuAdd(true);
 	}
 

@@ -30,7 +30,7 @@ public class ClientNew implements Serializable {
 	}
 
 	public void newClientFormOnCancel() {
-		clientsAll.menuOnAddComplete();
+		hide();
 	}
 
 	public boolean getIsShowNewClientForm() {

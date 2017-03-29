@@ -42,7 +42,7 @@ public class ClientSelected {
 
 	public void selectedFormOnUpdate() {
 		clientsAll.blockTable();
-		clientsAll.hideMenuForm();
+		clientsAll.unBlockMenuAdd();
 		hide();
 		clientUpdate.init(selectedClient);
 		clientUpdate.show();
@@ -53,7 +53,7 @@ public class ClientSelected {
 		clientsAll.unBlockTable();
 		clientsAll.allClientsUpdate();
 		clientUpdate.hide();
-		clientsAll.showMenuForm();
+		clientsAll.blockMenuAdd();
 		selectedClient = null;
 
 	}
