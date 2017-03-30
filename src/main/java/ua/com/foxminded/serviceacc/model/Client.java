@@ -1,16 +1,6 @@
 package ua.com.foxminded.serviceacc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
@@ -24,11 +14,11 @@ public class Client {
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
 	
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "person_id")
 	private Person person;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn (name = "manager_id")
 	private Manager manager;
     
