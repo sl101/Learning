@@ -5,21 +5,21 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<p:panelGrid style="margin-bottom:10px" columns="2"
-		columnClasses="label, value" rendered="#{clientNew.isShowNewClientForm}">
+		columnClasses="label, value" rendered="#{clientAddNew.isShowNewClientForm}">
 		<f:facet name="header">
 			<h:outputText value="New client" />
 		</f:facet>
 		<h:outputText value="Firstname: *" />
-		<h:inputText value="#{clientNew.firstName}" required="true"
+		<h:inputText value="#{clientAddNew.firstName}" required="true"
 			label="Firstname" />
 		<h:outputText value="Lastname: *" />
-		<p:inputText value="#{clientNew.secondName}" required="true"
+		<p:inputText value="#{clientAddNew.secondName}" required="true"
 			label="Lastname" />
 		<p:commandButton id="addSave" value="Save"
-			actionListener="#{clientNew.newClientFormOnSave}"
+			actionListener="#{clientAddNew.newClientFormOnSave}"
 			update="@form:clientMain" />
 		<p:commandButton id="addCancel" value="Cancel"
-			actionListener="#{clientNew.newClientFormOnCancel}"
+			actionListener="#{clientAddNew.newClientFormOnCancel}"
 			update="@form:clientMain"
 			immediate="true" />
 	</p:panelGrid>

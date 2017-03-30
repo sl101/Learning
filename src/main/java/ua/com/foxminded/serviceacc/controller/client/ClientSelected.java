@@ -13,7 +13,7 @@ public class ClientSelected {
 	private ClientServices clientServices;
 
 	@Inject
-	private ClientsAll clientsAll;
+	private ClientController clientController;
 
 	@Inject
 	private ClientUpdate clientUpdate;
@@ -23,37 +23,37 @@ public class ClientSelected {
 	private boolean isShowSelectedClientForm;
 
 	public void hide() {
+		clientUpdate.hide();
 		setIsShowSelectedClientForm(false);
 	}
 
 	public void show() {
+
 		setIsShowSelectedClientForm(true);
 	}
 
 	public void selectedFormOnOk() {
-		clientsAll.onRowSelectComplete();
+		hide();
 	}
 
 	public void selectedFormOnDelete() {
 		clientServices.delete(selectedClient);
-		clientsAll.allClientsUpdate();
-		clientsAll.onRowSelectComplete();
+		clientController.allClientsUpdate();
+		hide();
 	}
 
 	public void selectedFormOnUpdate() {
-		clientsAll.blockTable();
-		clientsAll.unBlockMenuAdd();
 		hide();
+		clientController.blockTable();
 		clientUpdate.init(selectedClient);
 		clientUpdate.show();
-		clientsAll.allClientsUpdate();
+		clientController.allClientsUpdate();
 	}
 
 	public void selectedFormOnUpdateComplete() {
-		clientsAll.unBlockTable();
-		clientsAll.allClientsUpdate();
+		clientController.unBlockTable();
+		clientController.allClientsUpdate();
 		clientUpdate.hide();
-		clientsAll.blockMenuAdd();
 		selectedClient = null;
 
 	}
@@ -66,12 +66,12 @@ public class ClientSelected {
 		this.clientServices = clientServices;
 	}
 
-	public ClientsAll getClients() {
-		return clientsAll;
+	public ClientController getClients() {
+		return clientController;
 	}
 
-	public void setClients(ClientsAll clientsAll) {
-		this.clientsAll = clientsAll;
+	public void setClients(ClientController clientController) {
+		this.clientController = clientController;
 	}
 
 	public boolean getIsShowSelectedClientForm() {

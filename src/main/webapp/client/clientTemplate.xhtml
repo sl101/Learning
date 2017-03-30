@@ -12,7 +12,7 @@
 
 	<h:form id="clientMain">
 		<p:fieldset legend="FOXMINDED" style="margin-bottom:20px">
-<h:panelGroup id="ClientMenu">
+			<h:panelGroup id="ClientMenu">
 				<ui:include src="/menu/menu.xhtml" />
 			</h:panelGroup>
 
@@ -25,13 +25,11 @@
 			</h:panelGroup>
 
 			<h:panelGroup id="ClientUpdateForm">
-				<ui:include src="/client/clientUpdate.xhtml" />
+				<ui:include srA="/client/clientUpdate.xhtml" />
 			</h:panelGroup>
 
-			
-
-			<h:panelGroup id="ClientTable">
-				<ui:include src="/client/clientsAll.xhtml" />
+			<h:panelGroup id="ClientList">
+				<ui:include src="/client/clientList.xhtml" />
 			</h:panelGroup>
 
 		</p:fieldset>

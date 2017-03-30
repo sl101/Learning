@@ -8,18 +8,17 @@
 	<p:growl autoUpdate="true" />
 				<p:menubar style="margin-bottom:10px" >
 				<p:menuitem value="Main" 						
-						actionListener="#{clientsAll.menuOnMain}"
+						actionListener="#{clientController.menuOnMain}"
 						
 						update="@form:clientMain" />
 			
 				<p:submenu label="Client">				
 				<p:menuitem value="All" 
-						actionListener="#{clientsAll.menuOnAll}"
+						actionListener="#{clientController.showAllClient}"
 						icon="ui-icon-plus" 
 						update="@form:clientMain" />
 					<p:menuitem value="Add" 
-						disabled="#{clientsAll.isBlockMenuAdd}"
-						actionListener="#{clientsAll.menuOnAdd}"
+												actionListener="#{clientController.showNewClientForm}"
 						icon="ui-icon-plus" 
 						update="@form:clientMain" />
 				</p:submenu>

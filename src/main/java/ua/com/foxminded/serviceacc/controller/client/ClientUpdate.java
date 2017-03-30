@@ -42,7 +42,7 @@ public class ClientUpdate {
 	}
 
 	public void updateFormButtonCancel() {
-		clientSelected.selectedFormOnUpdateComplete();
+		hide();
 	}
 
 	public void updateFormChangeLevel(String level) {

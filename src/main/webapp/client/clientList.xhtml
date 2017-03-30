@@ -8,13 +8,13 @@
 
 	
 <p:dataTable id="table" 
-		rendered="#{clientsAll.isShowClients}"
-		var="client" value="#{clientsAll.list}"
+		rendered="#{clientList.isShowClients}"
+		var="client" value="#{clientList.list}"
 		selectionMode="single" selection="#{clientSelected.selectedClient}"
 		rowKey="#{client.id}">
 
-		<p:ajax disabled="#{clients.isBlockTable}" event="rowSelect" process="@this"
-			listener="#{clientsAll.onRowSelect}" update="@form:clientMain" />
+		<p:ajax disabled="#{clientList.isBlockTable}" event="rowSelect" process="@this"
+			listener="#{clientController.onRowSelect}" update="@form:clientMain" />
 
 		<p:column headerText="id">
 			<h:outputText value="#{client.id}" />

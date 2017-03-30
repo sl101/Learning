@@ -14,9 +14,9 @@
 		</f:facet>
 
 		<h:outputText value="first:" />
-		<h:inputText value="#{clientUpdate.firstName}" />
+		<h:inputText value="#{clientUpdate.firstName}" required="true"/>
 		<h:outputText value="second name:" />
-		<h:inputText value="#{clientUpdate.secondName}" />
+		<h:inputText value="#{clientUpdate.secondName}" required="true"/>
 		<h:outputText value="status:" />
 		<p:tieredMenu style="width:200px">
 			<p:submenu label="#{clientUpdate.client.statusAsString}"
@@ -43,7 +43,8 @@
 		<p:commandButton id="updateFormButtonCancel"
 			value="Cancel"			
 			actionListener="#{clientUpdate.updateFormButtonCancel}"
-			update="@form:clientMain" />
+			update="@form:clientMain"
+			immediate="true" />
 
 
 

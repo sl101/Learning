@@ -2,9 +2,18 @@
 <faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+ 
+   <!-- menu -->
+    <managed-bean>
+  <managed-bean-name>menu</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.menu.Menu</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>  
+ </managed-bean>
+ 
+ <!-- add new client -->
  <managed-bean>
-  <managed-bean-name>clientNew</managed-bean-name>
-  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientNew</managed-bean-class>
+  <managed-bean-name>clientAddNew</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientAddNew</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
   <managed-property>
    <property-name>isShowNewClientForm</property-name>
@@ -32,19 +41,25 @@
    <value>#{isShowUpdateForm}</value>
   </managed-property>
  </managed-bean>
- <managed-bean>
+
  
-  <managed-bean-name>clientsAll</managed-bean-name>
-  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientsAll</managed-bean-class>
+  <!-- all client -->
+   <managed-bean>
+  <managed-bean-name>clientController</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientController</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+ 
+ 
+ <!-- all client -->
+  <managed-bean> 
+  <managed-bean-name>clientsList</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientList</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
   <managed-property>
    <property-name>clientServices</property-name>
    <value>#{clientServices}</value>
-  </managed-property>
-  <managed-property>
-   <property-name>isBlockMenuAdd</property-name>
-   <value>#{isShowMenuForm}</value>
-  </managed-property>
+  </managed-property>  
   <managed-property>
    <property-name>list</property-name>
    <value>#{list}</value>
@@ -60,10 +75,7 @@
  </managed-bean>
  <managed-bean>
  
- 
- 
- 
- 
+  <!-- selected client --> 
   <managed-bean-name>clientSelected</managed-bean-name>
   <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientSelected</managed-bean-class>
   <managed-bean-scope>session</managed-bean-scope>
@@ -79,6 +91,8 @@
  
 
  
+
+  <!-- start page -->
  <navigation-rule>
   <navigation-case>
    <from-outcome>client</from-outcome>

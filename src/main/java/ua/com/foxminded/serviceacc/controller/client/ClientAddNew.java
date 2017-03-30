@@ -9,7 +9,7 @@ import ua.com.foxminded.serviceacc.model.domain.Client;
 import ua.com.foxminded.serviceacc.service.ClientServices;
 
 @Named
-public class ClientNew implements Serializable {
+public class ClientAddNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean isShowNewClientForm;
 	private String firstName;
@@ -18,15 +18,12 @@ public class ClientNew implements Serializable {
 	@Inject
 	private ClientServices clientServices;
 
-	@Inject
-	private ClientsAll clientsAll;
-
 	public void newClientFormOnSave() {
 		Client addNewClient = new Client();
 		addNewClient.setFirstName(firstName);
 		addNewClient.setSecondName(secondName);
 		clientServices.save(addNewClient);
-		clientsAll.menuOnAddComplete();
+		hide();
 	}
 
 	public void newClientFormOnCancel() {
