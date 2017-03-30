@@ -3,6 +3,7 @@ package ua.com.foxminded.serviceacc.controller.client;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,6 +23,11 @@ public class ClientList implements Serializable {
 
 	@Inject
 	private ClientServices clientServices;
+
+	@PostConstruct
+	public void init() {
+		updateData();
+	}
 
 	public void updateData() {
 		list = clientServices.getAll();

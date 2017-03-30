@@ -2,7 +2,6 @@ package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,11 +20,6 @@ public class ClientController implements Serializable {
 
 	@Inject
 	private ClientSelected clientSelected;
-
-	@PostConstruct
-	public void init() {
-		allClientsUpdate();
-	}
 
 	public void allClientsUpdate() {
 		clientList.updateData();

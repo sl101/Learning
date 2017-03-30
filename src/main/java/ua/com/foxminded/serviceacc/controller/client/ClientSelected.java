@@ -28,7 +28,7 @@ public class ClientSelected {
 	}
 
 	public void show() {
-
+		clientUpdate.hide();
 		setIsShowSelectedClientForm(true);
 	}
 
