@@ -6,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,16 +24,17 @@ import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 public class ClientStatusHistory {
 	
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name = "generator", sequenceName = "clientStatusHistory_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column (name = "id", unique = true, nullable = false)
     private Long id;
     
-    @OneToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "client_id")
 	private Client client;
     
     @Column (name = "status_changed")
-    @Enumerated (EnumType.ORDINAL)
+    @Enumerated (EnumType.STRING)
 	private ClientStatus statusChanged;
 	
 	@Temporal(TemporalType.DATE)

@@ -6,28 +6,31 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "managers")
+@Table (name = "manager")
 public class Manager {
 	
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name = "generator", sequenceName = "manager_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
     
-    @OneToOne
+    @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "person_id")
 	private Person person;
     
-	@OneToMany(mappedBy = "manager", cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
 
 	public Manager() {
