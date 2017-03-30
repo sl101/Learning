@@ -1,12 +1,36 @@
 package ua.com.foxminded.serviceacc.model;
+ 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
+@Entity
+@Table (name = "contacts")
 public class Contact {
-
+	
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name = "id", unique = true, nullable = false)
 	private Long id;
+    
+    @ManyToOne
+    @JoinColumn (name = "person_id")
 	private Person person;
-	private String contact;
+    
+    @Column (name = "contact_definition")
+	private String contactDefinition;
+    
+    @Column (name = "contact_type")
+    @Enumerated (EnumType.ORDINAL)
 	private ContactType contactType;
 
 	public Contact() {
@@ -14,10 +38,10 @@ public class Contact {
 
     public Contact(Person person, String contact, ContactType contactType) {
         this.person = person;
-        this.contact = contact;
+        this.contactDefinition = contact;
         this.contactType = contactType;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -25,7 +49,7 @@ public class Contact {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public Person getPerson() {
         return person;
     }
@@ -34,14 +58,14 @@ public class Contact {
         this.person = person;
     }
 
-    public String getContact() {
-        return contact;
+    public String getContactDefinition() {
+        return contactDefinition;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setContactDefinition(String contact) {
+        this.contactDefinition = contact;
     }
-
+    
     public ContactType getContactType() {
         return contactType;
     }

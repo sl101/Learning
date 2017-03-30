@@ -3,11 +3,32 @@ package ua.com.foxminded.serviceacc.model;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Manager {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table (name = "managers")
+public class Manager {
+	
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name = "id", unique = true, nullable = false)
 	private Long id;
+    
+    @OneToOne
+    @JoinColumn (name = "person_id")
 	private Person person;
-	private Set<Client> clients = new HashSet<>();
+    
+	@OneToMany(mappedBy = "manager", cascade=CascadeType.ALL,orphanRemoval=true)
+    private Set<Client> clients = new HashSet<>();
 
 	public Manager() {
 
