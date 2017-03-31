@@ -1,21 +1,15 @@
 package ua.com.foxminded.serviceacc.repository;
 
-import org.hibernate.exception.ConstraintViolationException;
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.foxminded.serviceacc.config.PersistenceConfig;
-import ua.com.foxminded.serviceacc.model.Contact;
 import ua.com.foxminded.serviceacc.model.Person;
 
-import javax.persistence.Persistence;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -32,10 +26,11 @@ public class PersonRepositoryTest {
     PersonRepository personRepository;
     @Autowired
     ContactRepository contactRepository;
+    @Autowired
+    ManagerRepository managerRepository;
 
-    @Before
+    @After
     public void deleteData(){
-        clientRepository.deleteAll();
         personRepository.deleteAll();
         contactRepository.deleteAll();
     }

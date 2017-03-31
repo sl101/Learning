@@ -1,8 +1,6 @@
 package ua.com.foxminded.serviceacc.repository;
 
-import ua.com.foxminded.serviceacc.model.Client;
-import ua.com.foxminded.serviceacc.model.Contact;
-import ua.com.foxminded.serviceacc.model.Person;
+import ua.com.foxminded.serviceacc.model.*;
 import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
 import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 import ua.com.foxminded.serviceacc.model.constant.ContactType;
@@ -44,6 +42,26 @@ public class ModelBuilder {
         client.setManager(null);
 
         return client;
+    }
+
+    public static Manager buildTestManager(){
+        Person person = buildTestPerson();
+        person.setFirstName("Andrey");
+        person.setFirstName("Sidorov");
+
+        Client client = buildTestClient();
+
+        Manager manager = new Manager();
+        manager.setPerson(person);
+        manager.getClients().add(client);
+
+        return manager;
+    }
+
+    public static ClientStatusHistory buildTestClientHistory(Client client, ClientStatus changedStatus){
+        ClientStatusHistory clientStatusHistory = new ClientStatusHistory(client, changedStatus, new Date());
+
+        return clientStatusHistory;
     }
 
 

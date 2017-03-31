@@ -1,6 +1,6 @@
 package ua.com.foxminded.serviceacc.repository;
 
-import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +22,12 @@ import static org.junit.Assert.assertThat;
 public class ContactRepositoryTest {
 
     @Autowired
-    ClientRepository clientRepository;
-    @Autowired
     PersonRepository personRepository;
     @Autowired
     ContactRepository contactRepository;
 
-    @Before
+    @After
     public void deleteData(){
-        clientRepository.deleteAll();
-        personRepository.deleteAll();
         contactRepository.deleteAll();
     }
 
