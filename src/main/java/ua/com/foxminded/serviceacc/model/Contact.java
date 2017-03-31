@@ -1,36 +1,28 @@
 package ua.com.foxminded.serviceacc.model;
- 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
+import javax.persistence.*;
+
 @Entity
-@Table (name = "contacts")
+@Table (name = "contact")
 public class Contact {
-	
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name = "generator", sequenceName = "contact_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "person_id")
 	private Person person;
     
-    @Column (name = "contact_definition")
-	private String contactDefinition;
+    @Column (name = "contact_name")
+	private String contactName;
     
     @Column (name = "contact_type")
-    @Enumerated (EnumType.ORDINAL)
+    @Enumerated (EnumType.STRING)
 	private ContactType contactType;
 
 	public Contact() {
@@ -38,7 +30,7 @@ public class Contact {
 
     public Contact(Person person, String contact, ContactType contactType) {
         this.person = person;
-        this.contactDefinition = contact;
+        this.contactName = contact;
         this.contactType = contactType;
     }
     
@@ -58,12 +50,12 @@ public class Contact {
         this.person = person;
     }
 
-    public String getContactDefinition() {
-        return contactDefinition;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setContactDefinition(String contact) {
-        this.contactDefinition = contact;
+    public void setContactName(String contact) {
+        this.contactName = contact;
     }
     
     public ContactType getContactType() {

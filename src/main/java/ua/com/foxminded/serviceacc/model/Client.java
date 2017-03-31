@@ -21,7 +21,7 @@ public class Client {
     @JoinColumn (name = "person_id")
 	private Person person;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn (name = "manager_id")
 	private Manager manager;
     

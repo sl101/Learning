@@ -5,19 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table (name = "managers")
+@Table (name = "manager")
 public class Manager {
-	
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name = "generator", sequenceName = "manager_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn (name = "person_id")
 	private Person person;
     
-	@OneToMany(mappedBy = "manager", cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", cascade=CascadeType.ALL,orphanRemoval=true)
     private Set<Client> clients = new HashSet<>();
 
 	public Manager() {

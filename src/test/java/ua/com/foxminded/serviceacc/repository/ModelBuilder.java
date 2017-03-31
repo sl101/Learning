@@ -14,7 +14,7 @@ public class ModelBuilder {
 
     public static Contact buildTestContact(){
         Contact contact = new Contact();
-        contact.setContactDefinition("066-123-45-67");
+        contact.setContactName("066-123-45-67");
         contact.setContactType(ContactType.phone);
         contact.setPerson(null);
 
