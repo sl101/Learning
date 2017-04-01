@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+ 
+   <!-- menu -->
+    <managed-bean>
+  <managed-bean-name>menu</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.menu.Menu</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>  
+ </managed-bean>
+ 
+ <!-- add new client -->
+ <managed-bean>
+  <managed-bean-name>clientAddNew</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientAddNew</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>isShowNewClientForm</property-name>
+   <value>#{isShowNewClientForm}</value>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+  <managed-bean-name>clientUpdate</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientUpdate</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>firstName</property-name>
+   <value>#{firstName}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>secondName</property-name>
+   <value>#{secondName}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>client</property-name>
+   <value>#{client}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>isShowUpdateForm</property-name>
+   <value>#{isShowUpdateForm}</value>
+  </managed-property>
+ </managed-bean>
+
+ 
+  <!-- all client -->
+   <managed-bean>
+  <managed-bean-name>clientController</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientController</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>
+ 
+ 
+ <!-- all client -->
+  <managed-bean> 
+  <managed-bean-name>clientsList</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientList</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>clientServices</property-name>
+   <value>#{clientServices}</value>
+  </managed-property>  
+  <managed-property>
+   <property-name>list</property-name>
+   <value>#{list}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>isBlockTable</property-name>
+   <value>#{isBlockTable}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>isShowClients</property-name>
+   <value>#{isShowClients}</value>
+  </managed-property>
+ </managed-bean>
+ <managed-bean>
+ 
+  <!-- selected client --> 
+  <managed-bean-name>clientSelected</managed-bean-name>
+  <managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientSelected</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>selectedClient</property-name>
+   <value>#{selectedClient}</value>
+  </managed-property>
+  <managed-property>
+   <property-name>isShowSelectedClientForm</property-name>
+   <value>#{isShowSelectedClientForm}</value>   
+  </managed-property>  
+ </managed-bean>
+ 
+
+ 
+
+  <!-- start page -->
+ <navigation-rule>
+  <navigation-case>
+   <from-outcome>client</from-outcome>
+   <to-view-id>/client/clientTemplate.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ <application>
+  <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+ </application>
+</faces-config>
