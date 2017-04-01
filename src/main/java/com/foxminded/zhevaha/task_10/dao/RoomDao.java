@@ -21,8 +21,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 	private final String UPDATE = "UPDATE Rooms SET name = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM Rooms WHERE id = ?;";
 
-	public Set<Room> getAll() {
-		log.info("Find rooms in date base");
+	public Set<Room> getAll() throws DaoException {
+		log.info("Get all rooms");
 		Set<Room> rooms = new HashSet<Room>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -30,22 +30,19 @@ public class RoomDao implements GenericDao<Room, Long> {
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(GET_ALL);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				while (resultSet.next()) {
-					String name = resultSet.getString("name");
-					Room room = new Room(name);
-					long id = resultSet.getLong("id");
-					room.setId(id);
-					rooms.add(room);
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				String name = resultSet.getString("name");
+				Room room = new Room(name);
+				long id = resultSet.getLong("id");
+				room.setId(id);
+				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Rooms list was not got: - " + e.getMessage());
+			throw new DaoException(RoomDao.class.getName() + ": - rooms list was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -57,7 +54,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 		return rooms;
 	}
 
-	public Room getById(Long id) {
+	public Room getById(Long id) throws DaoException {
 		log.info("Find Room by ID");
 		Room room = null;
 		Connection connection = null;
@@ -67,29 +64,26 @@ public class RoomDao implements GenericDao<Room, Long> {
 		try {
 			statement = connection.prepareStatement(GET_BY_ID);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				if (resultSet.next()) {
-					String name = resultSet.getString("name");
-					room = new Room(name);
-					room.setId(id);
-				} else {
-					log.info("resultSet has not data");
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			if (resultSet.next()) {
+				String name = resultSet.getString("name");
+				room = new Room(name);
+				room.setId(id);
+			} else {
+				log.info("resultSet has not data");
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Room was not got: - " + e.getMessage());
+			throw new DaoException(RoomDao.class.getName() + ": - room was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return room;
 	}
 
-	public Room update(Room room) {
+	public Room update(Room room) throws DaoException {
 		log.info("Update Room");
 		if (room.getId() != 0) {
 			Connection connection = null;
@@ -100,21 +94,22 @@ public class RoomDao implements GenericDao<Room, Long> {
 				statement.setString(1, room.getName());
 				statement.setLong(2, room.getId());
 				statement.executeUpdate();
-				log.info("statement was created");
+				log.info("Create statement");
 			} catch (SQLException e) {
-				log.error("ERROR. Statement was not created", e);
+				log.error("Room was not updated: - " + e.getMessage());
+				throw new DaoException(RoomDao.class.getName() + ": - room was not updated due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement);
 			}
 			room = getById(room.getId());
 			return room;
 		} else {
-			log.info("Room was not created");
+			log.info("Room is not existed");
 			return null;
 		}
 	}
 
-	public void delete(Room room) {
+	public void delete(Room room) throws DaoException {
 		log.info("Delete room");
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -123,16 +118,17 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
-			log.info("statement was created");
+			log.info("Create statement");
 			log.info("Room was deleted");
 		} catch (SQLException e) {
-			log.fatal("Room was not deleted", e);
+			log.error("Room was not deleted: - " + e.getMessage());
+			throw new DaoException(RoomDao.class.getName() + ": - room was not deleted due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(Room room) {
+	public void create(Room room) throws DaoException {
 		log.info("Create Room");
 		if (room.getId() == 0) {
 			Connection connection = null;
@@ -143,22 +139,20 @@ public class RoomDao implements GenericDao<Room, Long> {
 				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, room.getName());
 				statement.executeUpdate();
-				log.info("statement was created");
-				try {
-					resultSet = statement.getGeneratedKeys();
-					if (resultSet.next()) {
-						room.setId(resultSet.getLong("id"));
-						log.info("Room was created");
-					}
-				} catch (SQLException e) {
-					log.error("ERROR. ResultSet was not created", e);
+				log.info("Create statement");
+				resultSet = statement.getGeneratedKeys();
+				if (resultSet.next()) {
+					room.setId(resultSet.getLong("id"));
+					log.info("Room was created");
 				}
 			} catch (SQLException e) {
-				log.fatal("Room was not created", e);
+				log.error("Room was not created: - " + e.getMessage());
+				throw new DaoException(RoomDao.class.getName() + ": - room was not created due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+		} else {
+			log.fatal("Room is already exist");
 		}
-		log.fatal("Room is already exist");
 	}
 }

@@ -25,8 +25,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 	private final String ENROLL_STUDENT = "UPDATE Students set group_id = ? WHERE id = ?";
 	private final String GET_GROUP_STUDENTS = "SELECT * FROM Students WHERE group_id = ?";
 
-	public Set<Student> getAll() {
-		log.info("Find students in date base");
+	public Set<Student> getAll() throws DaoException {
+		log.info("Get all students");
 		Set<Student> students = new HashSet<Student>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -34,35 +34,32 @@ public class StudentDao implements GenericDao<Student, Long> {
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(GET_ALL);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				while (resultSet.next()) {
-					String name = resultSet.getString("name");
-					Date dayOfBirth = resultSet.getDate("dayofbirth");
-					Student student = new Student(name, dayOfBirth);
-					student.setId(resultSet.getLong("id"));
-					students.add(student);
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				String name = resultSet.getString("name");
+				Date dayOfBirth = resultSet.getDate("dayofbirth");
+				Student student = new Student(name, dayOfBirth);
+				student.setId(resultSet.getLong("id"));
+				students.add(student);
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Stidents list was not got: - " + e.getMessage());
+			throw new DaoException(StudentDao.class.getName() + ": - students list was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		if (students.isEmpty()) {
-			log.fatal("There were no registered students\nThe list is empty");
+			log.fatal("There were no registered students. The list is empty");
 		} else {
 			log.info("Students list was created");
 		}
 		return students;
 	}
 
-	public Student getById(Long id) {
-		log.info("Find student by ID");
+	public Student getById(Long id) throws DaoException {
+		log.info("Get student by ID");
 		Student student = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -71,30 +68,27 @@ public class StudentDao implements GenericDao<Student, Long> {
 		try {
 			statement = connection.prepareStatement(GET_BY_ID);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				if (resultSet.next()) {
-					String name = resultSet.getString("name");
-					Date dayOfBirth = resultSet.getDate("dayofbirth");
-					student = new Student(name, dayOfBirth);
-					student.setId(id);
-				} else {
-					log.info("resultSet has not data");
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			if (resultSet.next()) {
+				String name = resultSet.getString("name");
+				Date dayOfBirth = resultSet.getDate("dayofbirth");
+				student = new Student(name, dayOfBirth);
+				student.setId(id);
+			} else {
+				log.info("resultSet has not data");
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Student was not got: - " + e.getMessage());
+			throw new DaoException(StudentDao.class.getName() + ": - student was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return student;
 	}
 
-	public Student update(Student student) {
+	public Student update(Student student) throws DaoException {
 		log.info("Update Student");
 		if (student.getId() != 0) {
 			Connection connection = null;
@@ -106,22 +100,23 @@ public class StudentDao implements GenericDao<Student, Long> {
 				statement.setString(2, student.getDayOfBirth().toString());
 				statement.setLong(3, student.getId());
 				statement.executeUpdate();
-				log.info("statement was created");
+				log.info("Create statement");
 			} catch (SQLException e) {
-				log.error("ERROR. Statement was not created", e);
+				log.error("Student was not updated: - " + e.getMessage());
+				throw new DaoException(StudentDao.class.getName() + ": - student was not updated due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement);
 			}
 			student = getById(student.getId());
 			return student;
 		} else {
-			log.info("Student was not created");
+			log.info("Student is not existed");
 			return null;
 		}
 
 	}
 
-	public void delete(Student student) {
+	public void delete(Student student) throws DaoException {
 		log.info("Delete student");
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -130,16 +125,17 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, student.getId());
 			statement.executeUpdate();
-			log.info("statement was created");
+			log.info("Create statement");
 			log.info("Student was deleted");
 		} catch (SQLException e) {
-			log.fatal("Student was not deleted", e);
+			log.error("Student was not deleted: - " + e.getMessage());
+			throw new DaoException(StudentDao.class.getName() + ": - student was not deleted due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(Student student) {
+	public void create(Student student) throws DaoException {
 		log.info("Create student");
 		if (student.getId() == 0) {
 			Connection connection = null;
@@ -151,27 +147,25 @@ public class StudentDao implements GenericDao<Student, Long> {
 				statement.setString(1, student.getName());
 				statement.setDate(2, (java.sql.Date) student.getDayOfBirth());
 				statement.executeUpdate();
-				log.info("statement was created");
-				try {
-					resultSet = statement.getGeneratedKeys();
-					if (resultSet.next()) {
-						log.info("resultSet get generated key");
-						student.setId(resultSet.getLong("id"));
-						log.info("Student was created");
-					}
-				} catch (SQLException e) {
-					log.error("ERROR. ResultSet was not created", e);
+				log.info("Create statement");
+				resultSet = statement.getGeneratedKeys();
+				log.info("Create resultSet");
+				if (resultSet.next()) {
+					student.setId(resultSet.getLong("id"));
+					log.info("Student was created");
 				}
 			} catch (SQLException e) {
-				log.fatal("Student was not created", e);
+				log.error("Student was not created: - " + e.getMessage());
+				throw new DaoException(StudentDao.class.getName() + ": - student was not created due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+		} else {
+			log.fatal("Student is already exist");
 		}
-		log.fatal("Student is already exist");
 	}
 
-	public Set<Student> getGroupStudets(Long id) {
+	public Set<Student> getGroupStudets(Long id) throws DaoException {
 		log.info("Get studens of group");
 		Set<Student> students = new HashSet<Student>();
 		Connection connection = null;
@@ -181,31 +175,33 @@ public class StudentDao implements GenericDao<Student, Long> {
 		try {
 			statement = connection.prepareStatement(GET_GROUP_STUDENTS);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				while (resultSet.next()) {
-					String name = resultSet.getString("name");
-					Date dayOfBirth = resultSet.getDate("dayofbirth");
-					Student student = new Student(name, dayOfBirth);
-					student.setId(resultSet.getLong("id"));
-					students.add(student);
-				}
-				log.info("List students of group was created");
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				String name = resultSet.getString("name");
+				Date dayOfBirth = resultSet.getDate("dayofbirth");
+				Student student = new Student(name, dayOfBirth);
+				student.setId(resultSet.getLong("id"));
+				students.add(student);
 			}
+
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Group students list was not got: - " + e.getMessage());
+			throw new DaoException(StudentDao.class.getName() + ": - group students list was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
+		}
+		if (students.isEmpty()) {
+			log.fatal("This group has not registered students. The list is empty");
+		} else {
+			log.info("Group students list was created");
 		}
 		return students;
 	}
 
-	public void enroll(Student student, Group group) {
-		log.info("Enroll student in group in database");
+	public void enroll(Student student, Group group) throws DaoException {
+		log.info("Enroll student in group");
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -214,9 +210,10 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(1, group.getId());
 			statement.setLong(2, student.getId());
 			statement.executeUpdate();
-			log.info("statement was created");
+			log.info("Create statement");
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Student was not enrolled: - " + e.getMessage());
+			throw new DaoException(StudentDao.class.getName() + ": - student was not enrolled due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}

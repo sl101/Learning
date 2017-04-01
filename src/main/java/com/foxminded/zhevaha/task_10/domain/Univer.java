@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.dao.CourseDao;
+import com.foxminded.zhevaha.task_10.dao.DaoException;
 import com.foxminded.zhevaha.task_10.dao.SchedulePositionDao;
 import com.foxminded.zhevaha.task_10.dao.StudentDao;
 import com.foxminded.zhevaha.task_10.dao.TeacherDao;
@@ -37,7 +38,7 @@ public class Univer {
 		schedule = new HashSet<SchedulePosition>();
 	}
 
-	public Univer enrollTeacher(Teacher teacher, Course course) {
+	public Univer enrollTeacher(Teacher teacher, Course course) throws DaoException {
 		log.info("Enroll teacher");
 		if (teacher.getId() == 0) {
 			new TeacherDao().create(teacher);
@@ -52,7 +53,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer fireTeacher(Teacher teacher, List<Teacher> courseTeachers) {
+	public Univer fireTeacher(Teacher teacher, List<Teacher> courseTeachers) throws DaoException {
 		if (!teachers.contains(teacher)) {
 			log.fatal("This person did not identified");
 		} else {
@@ -64,7 +65,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer enrollStudent(Student student, Group group) {
+	public Univer enrollStudent(Student student, Group group) throws DaoException {
 		log.info("Enroll student");
 		if (student.getId() == 0) {
 			new StudentDao().create(student);
@@ -87,7 +88,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer expelStudent(Student student) {
+	public Univer expelStudent(Student student) throws DaoException {
 		if (!students.contains(student)) {
 			log.fatal("This person did not identified");
 		} else {
@@ -96,7 +97,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer createSchedule(Set<SchedulePosition> schedulePositions) {
+	public Univer createSchedule(Set<SchedulePosition> schedulePositions) throws DaoException {
 		Iterator<SchedulePosition> schedulePositionIterator = schedulePositions.iterator();
 		while (schedulePositionIterator.hasNext()) {
 			SchedulePosition schedulePosition = schedulePositionIterator.next();
@@ -128,7 +129,7 @@ public class Univer {
 									+ periodSchedule.get(i).getLecture().getLectureTopic() + " teacher: "
 									+ periodSchedule.get(i).getTeacher().getName());
 				} else {
-					log.error("The person was not identified");
+					log.error("No schedule for this person");
 				}
 			}
 		}

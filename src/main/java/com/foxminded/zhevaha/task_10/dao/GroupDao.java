@@ -24,8 +24,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 	private final String UPDATE = "UPDATE Groups SET name = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM Groups WHERE id = ?;";
 
-	public Set<Group> getAll() {
-		log.info("Find groups in database");
+	public Set<Group> getAll() throws DaoException {
+		log.info("Get all groups");
 		Set<Group> groups = new HashSet<Group>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -33,44 +33,41 @@ public class GroupDao implements GenericDao<Group, Long> {
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(GET_ALL);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				while (resultSet.next()) {
-					String name = resultSet.getString("name");
-					Group group = new Group(name);
-					long id = resultSet.getLong("id");
-					group.setId(id);
-					Set<Student> students = new StudentDao().getGroupStudets(id);
-					Iterator<Student> iteratorStudents = students.iterator();
-					while (iteratorStudents.hasNext()) {
-						group.addStudent(iteratorStudents.next());
-					}
-					Set<Course> groupCourses = new CourseDao().getGroupCourses(id);
-					Iterator<Course> iteratorGroupCourses = groupCourses.iterator();
-					while (iteratorGroupCourses.hasNext()) {
-						group.addCourse(iteratorGroupCourses.next());
-					}
-					groups.add(group);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				String name = resultSet.getString("name");
+				Group group = new Group(name);
+				long id = resultSet.getLong("id");
+				group.setId(id);
+				Set<Student> students = new StudentDao().getGroupStudets(id);
+				Iterator<Student> iteratorStudents = students.iterator();
+				while (iteratorStudents.hasNext()) {
+					group.addStudent(iteratorStudents.next());
 				}
-				log.info("resultSet was created");
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+				Set<Course> groupCourses = new CourseDao().getGroupCourses(id);
+				Iterator<Course> iteratorGroupCourses = groupCourses.iterator();
+				while (iteratorGroupCourses.hasNext()) {
+					group.addCourse(iteratorGroupCourses.next());
+				}
+				groups.add(group);
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Groups list was not got: - " + e.getMessage());
+			throw new DaoException(GroupDao.class.getName() + ": - groups list was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		if (groups.isEmpty()) {
-			log.fatal("There were no registered groups\nThe list is empty");
+			log.fatal("There were no registered groups. The list is empty");
 		} else {
 			log.info("Groups list was created");
 		}
 		return groups;
 	}
 
-	public Group getById(Long id) {
+	public Group getById(Long id) throws DaoException {
 		log.info("Find group by ID");
 		Group group = null;
 		Connection connection = null;
@@ -80,40 +77,37 @@ public class GroupDao implements GenericDao<Group, Long> {
 		try {
 			statement = connection.prepareStatement(GET_BY_ID);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				if (resultSet.next()) {
-					String name = resultSet.getString("name");
-					group = new Group(name);
-					group.setId(id);
-					Set<Student> students = new StudentDao().getGroupStudets(id);
-					Iterator<Student> iteratorStudents = students.iterator();
-					while (iteratorStudents.hasNext()) {
-						group.addStudent(iteratorStudents.next());
-					}
-					Set<Course> groupCourses = new CourseDao().getGroupCourses(id);
-					Iterator<Course> iteratorGroupCourses = groupCourses.iterator();
-					while (iteratorGroupCourses.hasNext()) {
-						group.addCourse(iteratorGroupCourses.next());
-					}
-				} else {
-					log.info("resultSet has not data");
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			if (resultSet.next()) {
+				String name = resultSet.getString("name");
+				group = new Group(name);
+				group.setId(id);
+				Set<Student> students = new StudentDao().getGroupStudets(id);
+				Iterator<Student> iteratorStudents = students.iterator();
+				while (iteratorStudents.hasNext()) {
+					group.addStudent(iteratorStudents.next());
 				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+				Set<Course> groupCourses = new CourseDao().getGroupCourses(id);
+				Iterator<Course> iteratorGroupCourses = groupCourses.iterator();
+				while (iteratorGroupCourses.hasNext()) {
+					group.addCourse(iteratorGroupCourses.next());
+				}
+			} else {
+				log.info("resultSet has not data");
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Group was not got: - " + e.getMessage());
+			throw new DaoException(GroupDao.class.getName() + ": - group was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return group;
 	}
 
-	public Group update(Group group) {
-		log.info("Update Group");
+	public Group update(Group group) throws DaoException {
+		log.info("Update group");
 		if (group.getId() != 0) {
 			Connection connection = null;
 			PreparedStatement statement = null;
@@ -124,21 +118,22 @@ public class GroupDao implements GenericDao<Group, Long> {
 				statement.setString(1, group.getName());
 				statement.setLong(2, group.getId());
 				statement.executeUpdate();
-				log.info("statement was created");
+				log.info("Create statement");
 			} catch (SQLException e) {
-				log.error("ERROR. Statement was not created", e);
+				log.error("Group was not updated: - " + e.getMessage());
+				throw new DaoException(GroupDao.class.getName() + ": - group was not updated due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement);
 			}
 			group = getById(group.getId());
 			return group;
 		} else {
-			log.info("Group was not created");
+			log.info("Group is not existed");
 			return null;
 		}
 	}
 
-	public void delete(Group group) {
+	public void delete(Group group) throws DaoException {
 		log.info("Delete group");
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -147,16 +142,17 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
-			log.info("statement was created");
+			log.info("Create statement");
 			log.info("Group was deleted");
 		} catch (SQLException e) {
-			log.fatal("Group was not deleted", e);
+			log.error("Group was not deleted: - " + e.getMessage());
+			throw new DaoException(GroupDao.class.getName() + ": - group was not deleted due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(Group group) {
+	public void create(Group group) throws DaoException {
 		log.info("Create group");
 		if (group.getId() == 0) {
 			Connection connection = null;
@@ -167,24 +163,22 @@ public class GroupDao implements GenericDao<Group, Long> {
 				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, group.getName());
 				statement.executeUpdate();
-				log.info("statement was created");
-				try {
-					resultSet = statement.getGeneratedKeys();
-					if (resultSet.next()) {
-						group.setId(resultSet.getLong("id"));
-						log.info("Group was created");
-					}
-
-				} catch (SQLException e) {
-					log.error("ERROR. ResultSet was not created", e);
+				log.info("Create statement");
+				resultSet = statement.getGeneratedKeys();
+				log.info("Create resultSet");
+				if (resultSet.next()) {
+					group.setId(resultSet.getLong("id"));
+					log.info("Group was created");
 				}
 			} catch (SQLException e) {
-				log.fatal("Group was not created", e);
+				log.error("Group was not created: - " + e.getMessage());
+				throw new DaoException(GroupDao.class.getName() + ": - group was not ctreated due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
+		} else {
+			log.fatal("Group is already exist");
 		}
-		log.fatal("Group is already exist");
 	}
 
 }

@@ -20,91 +20,97 @@ public class ConnectionFactory {
 	private static final Logger log = Logger.getLogger(ConnectionFactory.class);
 	private static Properties property;
 
-	private ConnectionFactory() {
+	private ConnectionFactory() throws DaoException {
 		try {
-			log.info("Create sql driver");
 			Class.forName(driver);
+			log.info("Create sql driver");
 		} catch (ClassNotFoundException e) {
-			log.error("Driver not found", e);
+			log.error("Driver was not created: - " + e.getMessage());
+			throw new DaoException(ConnectionFactory.class.getName() + ": - driver was not created due to " + e);
 		}
 	}
 
-	private static void getProperties() {
+	private static void getProperties() throws DaoException {
 		FileInputStream fis;
 		property = new Properties();
-
 		try {
 			fis = new FileInputStream("src/main/resources/config.properties");
 			property.load(fis);
-
 			driver = property.getProperty("db.driver = org.postgresql.Driver");
 			url = property.getProperty("db.host");
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
-
 		} catch (IOException e) {
-			log.error("ERROR:properties file is disavaliable ", e);
+			log.error("Properties was not got: - " + e.getMessage());
+			throw new DaoException(ConnectionFactory.class.getName() + ": - Properties was not got due to " + e);
 		}
 	}
 
-	private static Connection createConnection() {
+	private static Connection createConnection() throws DaoException {
 		Connection connection = null;
 		try {
-			log.info("connection was created");
 			connection = DriverManager.getConnection(url, login, password);
+			log.info("Create connection");
 		} catch (SQLException e) {
-			log.error("ERROR: Unable to Connect to Database.");
+			log.error("Connection was not created: - " + e.getMessage());
+			throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not created due to " + e);
 		}
 		return connection;
 	}
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws DaoException {
 		getProperties();
 		return createConnection();
 	}
 
-	public static void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
+	public static void closeConnection(Connection connection, Statement statement, ResultSet resultSet)
+			throws DaoException {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
-				log.info("resulSet was closed");
+				log.info("Close resulSet");
 			} catch (SQLException e) {
-				log.error("Error. ResultSet not closed", e);
+				log.error("ResultSet was not closed: - " + e.getMessage());
+				throw new DaoException(ConnectionFactory.class.getName() + ": - resultSet was not closed due to " + e);
 			}
 		}
 		if (statement != null) {
 			try {
 				statement.close();
-				log.info("statement was cloused");
+				log.info("Close statement");
 			} catch (SQLException e) {
-				log.error("Error. Statement not closed", e);
+				log.error("Statement was not closed: - " + e.getMessage());
+				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
-				log.info("connection was cloused");
+				log.info("Close connection");
 			} catch (SQLException e) {
-				log.error("Error. Connection not closed", e);
+				log.error("Connection was not closed: - " + e.getMessage());
+				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
 			}
 		}
 	}
 
-	public static void closeConnection(Connection connection, Statement statement) {
+	public static void closeConnection(Connection connection, Statement statement) throws DaoException {
 		if (statement != null) {
 			try {
 				statement.close();
-				log.info("statement was cloused");
+				log.info("Close statement");
 			} catch (SQLException e) {
-				log.error("Error. Statement not closed", e);
+				log.error("Statement was not closed: - " + e.getMessage());
+				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
-				log.info("connection was cloused");
+				log.info("Close connection");
 			} catch (SQLException e) {
-				log.error("Error. Connection not closed", e);
+				log.error("Connection was not closed: - " + e.getMessage());
+				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
 			}
 		}
 	}

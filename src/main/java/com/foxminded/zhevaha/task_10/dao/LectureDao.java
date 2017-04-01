@@ -25,8 +25,8 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 	private final String UPDATE = "UPDATE Lectures SET group_id = ?, course_id =?, topic = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM Lectures WHERE id = ?;";
 
-	public Set<Lecture> getAll() {
-		log.info("Find all lectures in database");
+	public Set<Lecture> getAll() throws DaoException {
+		log.info("Get all lectures");
 		Set<Lecture> lectures = new HashSet<Lecture>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -34,25 +34,22 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(GET_ALL);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				while (resultSet.next()) {
-					long groupID = resultSet.getLong("group_id");
-					long courseID = resultSet.getLong("course_id");
-					String topic = resultSet.getString("topic");
-					Group group = new GroupDao().getById(groupID);
-					Course course = new CourseDao().getById(courseID);
-					Lecture lecture = new Lecture(group, course, topic);
-					lecture.setId(resultSet.getLong("id"));
-					lectures.add(lecture);
-				}
-				log.info("resultSet was created");
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				long groupID = resultSet.getLong("group_id");
+				long courseID = resultSet.getLong("course_id");
+				String topic = resultSet.getString("topic");
+				Group group = new GroupDao().getById(groupID);
+				Course course = new CourseDao().getById(courseID);
+				Lecture lecture = new Lecture(group, course, topic);
+				lecture.setId(resultSet.getLong("id"));
+				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Lectures list was not got: - " + e.getMessage());
+			throw new DaoException(LectureDao.class.getName() + ": - lectures list was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -64,7 +61,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		return lectures;
 	}
 
-	public Lecture getById(Long id) {
+	public Lecture getById(Long id) throws DaoException {
 		log.info("Find Lecture by ID");
 		Lecture lecture = null;
 		Connection connection = null;
@@ -74,31 +71,28 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		try {
 			statement = connection.prepareStatement(GET_BY_ID);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				log.info("resultSet was created");
-				if (resultSet.next()) {
-					Group group = new GroupDao().getById(resultSet.getLong("group_id"));
-					Course course = new CourseDao().getById(resultSet.getLong("course_id"));
-					String topic = resultSet.getString("topic");
-					lecture = new Lecture(group, course, topic);
-					lecture.setId(id);
-				} else {
-					log.info("resultSet has not data");
-				}
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			if (resultSet.next()) {
+				Group group = new GroupDao().getById(resultSet.getLong("group_id"));
+				Course course = new CourseDao().getById(resultSet.getLong("course_id"));
+				String topic = resultSet.getString("topic");
+				lecture = new Lecture(group, course, topic);
+				lecture.setId(id);
+			} else {
+				log.info("resultSet has not data");
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Lecture was not got: - " + e.getMessage());
+			throw new DaoException(LectureDao.class.getName() + ": - lecture was not got due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return lecture;
 	}
 
-	public Lecture update(Lecture lecture) {
+	public Lecture update(Lecture lecture) throws DaoException {
 		log.info("Update Lecture");
 		if (lecture.getId() != 0) {
 			Connection connection = null;
@@ -111,22 +105,23 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				statement.setString(3, lecture.getLectureTopic());
 				statement.setLong(4, lecture.getId());
 				statement.executeUpdate();
-				log.info("statement was created");
+				log.info("Create statement");
 			} catch (SQLException e) {
-				log.error("ERROR. Statement was not created", e);
+				log.error("Lecture was not updated: - " + e.getMessage());
+				throw new DaoException(LectureDao.class.getName() + ": - lecture was not updated due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement);
 			}
 			lecture = getById(lecture.getId());
 			return lecture;
 		} else {
-			log.info("Lecture was not created");
+			log.info("Lecture is not existed");
 			return null;
 		}
 
 	}
 
-	public void delete(Lecture lecture) {
+	public void delete(Lecture lecture) throws DaoException {
 		log.info("Delete Lecture");
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -135,10 +130,11 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, lecture.getId());
 			statement.executeUpdate();
-			log.info("statement was created");
+			log.info("Create statement");
 			log.info("Lecture was deleted");
 		} catch (SQLException e) {
-			log.fatal("Lecture was not deleted", e);
+			log.error("Lecture was not deleted: - " + e.getMessage());
+			throw new DaoException(LectureDao.class.getName() + ": - lecture was not deleted due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -150,7 +146,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		throw new RuntimeException("Method deprecated");
 	}
 
-	public void create(Lecture lecture, AcademicPlan academicPlan) {
+	public void create(Lecture lecture, AcademicPlan academicPlan) throws DaoException {
 		log.info("Create planed Lecture");
 		if (academicPlan.getId() != 0) {
 			Connection connection = null;
@@ -164,27 +160,25 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				statement.setString(3, lecture.getLectureTopic());
 				statement.setLong(4, academicPlan.getId());
 				statement.executeUpdate();
-				log.info("statement was created");
-				try {
-					resultSet = statement.getGeneratedKeys();
-					if (resultSet.next()) {
-						lecture.setId(resultSet.getLong("id"));
-						log.info("Lecture was created");
-					}
-				} catch (SQLException e) {
-					log.error("ERROR. ResultSet was not created", e);
+				log.info("Create statement");
+				resultSet = statement.getGeneratedKeys();
+				log.info("Create resultSet");
+				if (resultSet.next()) {
+					lecture.setId(resultSet.getLong("id"));
+					log.info("Lecture was created");
 				}
 			} catch (SQLException e) {
-				log.fatal("Lecture was not created", e);
+				log.error("Lecture was not created: - " + e.getMessage());
+				throw new DaoException(LectureDao.class.getName() + ": - lecture was not created due to " + e);
 			} finally {
 				ConnectionFactory.closeConnection(connection, statement, resultSet);
 			}
 		} else {
-			log.fatal("AcademicPlan is not exist");
+			log.fatal("Lecture is already exist");
 		}
 	}
 
-	public Set<Lecture> getPlannedLectures(Long id) {
+	public Set<Lecture> getPlannedLectures(Long id) throws DaoException {
 		log.info("Find planned lectures");
 		Set<Lecture> lectures = new HashSet<Lecture>();
 		Connection connection = null;
@@ -194,30 +188,27 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		try {
 			statement = connection.prepareStatement(GET_PLANNED_LECTURES);
 			statement.setLong(1, id);
-			log.info("statement was created");
-			try {
-				resultSet = statement.executeQuery();
-				while (resultSet.next()) {
-					long groupID = resultSet.getLong("group_id");
-					long courseID = resultSet.getLong("course_id");
-					String topic = resultSet.getString("topic");
-					Group group = new GroupDao().getById(groupID);
-					Course course = new CourseDao().getById(courseID);
-					Lecture lecture = new Lecture(group, course, topic);
-					lecture.setId(resultSet.getLong("id"));
-					lectures.add(lecture);
-				}
-				log.info("resultSet was created");
-			} catch (SQLException e) {
-				log.error("ERROR. ResultSet was not created", e);
+			log.info("Create statement");
+			resultSet = statement.executeQuery();
+			log.info("Create resultSet");
+			while (resultSet.next()) {
+				long groupID = resultSet.getLong("group_id");
+				long courseID = resultSet.getLong("course_id");
+				String topic = resultSet.getString("topic");
+				Group group = new GroupDao().getById(groupID);
+				Course course = new CourseDao().getById(courseID);
+				Lecture lecture = new Lecture(group, course, topic);
+				lecture.setId(resultSet.getLong("id"));
+				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			log.error("ERROR. Statement was not created", e);
+			log.error("Lecture was not created: - " + e.getMessage());
+			throw new DaoException(LectureDao.class.getName() + ": - lecture was not created due to " + e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		if (lectures.isEmpty()) {
-			log.fatal("There were no registered lectures\nThe list is empty");
+			log.fatal("There were no registered lectures. The list is empty");
 		} else {
 			log.info("Planned lectures list was created");
 		}
