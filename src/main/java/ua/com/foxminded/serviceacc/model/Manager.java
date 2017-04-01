@@ -4,6 +4,19 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
 @Entity
 @Table (name = "manager")
 public class Manager {
@@ -14,11 +27,11 @@ public class Manager {
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
     
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "person_id")
 	private Person person;
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
 
 	public Manager() {

@@ -5,14 +5,27 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 @Entity
 @Table (name = "person")
 public class Person {
-
-	@Id
-	@SequenceGenerator (name = "generator", sequenceName = "person_id_seq")
-	@GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
-	@Column (name = "id", unique = true, nullable = false)
+	
+    @Id
+    @SequenceGenerator (name = "generator", sequenceName = "person_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
+    @Column (name = "id", unique = true, nullable = false)
     private Long id;
     
 	@Column (name = "first_name")
@@ -25,7 +38,7 @@ public class Person {
 	@Column (name = "birth_day")
 	private Date birthday;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Contact> contacts = new HashSet<>();
 
 	public Person() {
