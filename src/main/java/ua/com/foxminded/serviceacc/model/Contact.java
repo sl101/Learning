@@ -15,10 +15,12 @@ import javax.persistence.Table;
 
 import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
+import javax.persistence.*;
+
 @Entity
 @Table (name = "contact")
 public class Contact {
-	
+
     @Id
     @SequenceGenerator (name = "generator", sequenceName = "contact_id_seq")
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")

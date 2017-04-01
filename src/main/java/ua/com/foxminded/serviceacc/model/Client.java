@@ -21,6 +21,11 @@ import javax.persistence.Table;
 
 import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
+import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table (name = "client")
@@ -49,6 +54,9 @@ public class Client {
 	private ClientStatus status;
     
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ClientStatusHistory> clientHistory = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClientStatusHistory> clientHistory = new HashSet<>();
 
 	public Client() {

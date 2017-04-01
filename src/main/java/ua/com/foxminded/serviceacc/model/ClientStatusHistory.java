@@ -19,6 +19,9 @@ import javax.persistence.TemporalType;
 
 import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
 
+import javax.persistence.*;
+import java.util.Date;
+
 @Entity
 @Table (name = "client_status_history")
 public class ClientStatusHistory {

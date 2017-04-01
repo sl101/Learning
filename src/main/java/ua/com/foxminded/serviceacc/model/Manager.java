@@ -1,5 +1,6 @@
 package ua.com.foxminded.serviceacc.model;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table (name = "manager")
 public class Manager {
-	
+
     @Id
     @SequenceGenerator (name = "generator", sequenceName = "manager_id_seq")
     @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
