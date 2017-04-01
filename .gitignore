@@ -3,6 +3,6 @@
 /.idea/
 /serviceacc.iml
 /target/
-/.project
-/.classpath
-/.tern-project
+.classpath
+.settings
+.project
