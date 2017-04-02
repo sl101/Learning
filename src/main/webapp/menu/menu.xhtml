@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:growl autoUpdate="true" />
+	<p:menubar style="margin-bottom:10px">
+		<p:menuitem value="Main"
+			actionListener="#{clientController.menuOnMain}"
+			update="@form:clientMain" />
+
+		<p:submenu label="Client">
+			<p:menuitem value="All"
+				actionListener="#{clientController.showAllClient}"
+				icon="ui-icon-plus" update="@form:clientMain" />
+			<p:menuitem value="Add"
+				actionListener="#{clientController.showNewClientForm}"
+				icon="ui-icon-plus" update="@form:clientMain" />
+		</p:submenu>
+
+		<p:submenu label="Manager">
+			<p:menuitem disabled="true" value="Add" icon="ui-icon-plus" />
+		</p:submenu>
+
+		<p:submenu label="Order">
+			<p:menuitem disabled="true" value="Add" icon="ui-icon-plus" />
+		</p:submenu>
+
+		<p:submenu label="Services">
+			<p:menuitem disabled="true" value="Add" icon="ui-icon-plus" />
+		</p:submenu>
+	</p:menubar>
+</ui:composition>
