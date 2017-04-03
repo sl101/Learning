@@ -15,6 +15,7 @@ import java.util.Set;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.foxminded.zhevaha.task_10.dao.DaoException;
 import com.foxminded.zhevaha.task_10.domain.Course;
 import com.foxminded.zhevaha.task_10.domain.Group;
 import com.foxminded.zhevaha.task_10.domain.Lecture;
@@ -43,7 +44,7 @@ public class DomainTests {
 	private static SimpleDateFormat periodDateFormat = new SimpleDateFormat("yyyy.MM.dd hh:ss");
 
 	@BeforeClass
-	public static void initiateVariables() {
+	public static void initiateVariables() throws DaoException {
 		univer = new Univer("\"FOXminded\" University");
 		for (String courseName : courses) {
 			course = new Course(courseName);
@@ -111,7 +112,7 @@ public class DomainTests {
 	}
 
 	@Test
-	public void testEnrollTeacher() {
+	public void testEnrollTeacher() throws DaoException {
 		person = new Teacher("Trump", createRandomDayOfBirth("teacher"));
 		course = new Course("Geography");
 		univer.enrollTeacher((Teacher) person, course);
@@ -120,7 +121,7 @@ public class DomainTests {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testEnrollExistingTeacher() {
+	public void testEnrollExistingTeacher() throws DaoException {
 		Iterator<Teacher> iteratorTeacher = univer.getTeachers().iterator();
 		iteratorTeacher.hasNext();
 		person = iteratorTeacher.next();
@@ -131,14 +132,14 @@ public class DomainTests {
 	}
 
 	@Test
-	public void testFireTeacher() {
+	public void testFireTeacher() throws DaoException {
 		List<Teacher> courseTeachers = new ArrayList<Teacher>(course.getCourseTeachers());
 		univer.fireTeacher((Teacher) person, courseTeachers);
 		assertTrue(!univer.getTeachers().contains(person));
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testFireAbsentTeacher() {
+	public void testFireAbsentTeacher() throws DaoException {
 		person = new Teacher("Pupkin", createRandomDayOfBirth("teacher"));
 		course = new Course("History");
 		List<Teacher> courseTeachers = new ArrayList<Teacher>(course.getCourseTeachers());
@@ -146,7 +147,7 @@ public class DomainTests {
 	}
 
 	@Test
-	public void testEnrollStudent() {
+	public void testEnrollStudent() throws DaoException {
 		Person newStudent = new Student("Petrov", createRandomDayOfBirth("student"));
 		Group newGroup = new Group("testGroup");
 		univer.enrollStudent((Student) newStudent, newGroup);
@@ -155,7 +156,7 @@ public class DomainTests {
 	}
 
 	@Test
-	public void testExpelStudent() {
+	public void testExpelStudent() throws DaoException {
 		List<Student> arrayStudents = new ArrayList<Student>(univer.getStudents());
 		Student student = arrayStudents.get((int) (arrayStudents.size() * Math.random()));
 		univer = univer.expelStudent(student);
@@ -163,14 +164,14 @@ public class DomainTests {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testExpelAbsentStudent() {
+	public void testExpelAbsentStudent() throws DaoException {
 		Person newStudent = new Student("Petrov", createRandomDayOfBirth("student"));
 		Group newGroup = new Group("testGroup");
 		univer.expelStudent((Student) newStudent);
 	}
 
 	@Test
-	public void testCeateLectureTopic() {
+	public void testCeateLectureTopic() throws DaoException {
 		Lecture testLecture = new Lecture(new Group("777"), new Course("Biology"), "Some lecture");
 		period = setTime(2017, (int) (4 * Math.random()), (int) (30 * Math.random()), (int) (9 + 6 * Math.random()),
 				(int) 0);

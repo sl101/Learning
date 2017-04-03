@@ -24,7 +24,6 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 	private final String DELETE = "DELETE FROM academic_plan WHERE id = ?;";
 
 	public Set<AcademicPlan> getAll() throws DaoException {
-		log.info("Get all academicPlans");
 		Set<AcademicPlan> academicPlans = new HashSet<AcademicPlan>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -32,9 +31,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		connection = ConnectionFactory.getConnection();
 		try {
 			statement = connection.prepareStatement(GET_ALL);
-			log.info("Create statement");
 			resultSet = statement.executeQuery();
-			log.info("Create resultSet");
 			while (resultSet.next()) {
 				int year = resultSet.getInt("year");
 				AcademicPlan academicPlan = new AcademicPlan(year);
@@ -53,16 +50,10 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
-		if (academicPlans.isEmpty()) {
-			log.fatal("There were no registered any academicPlans. The list is empty");
-		} else {
-			log.info("AcademicPlans list was got");
-		}
 		return academicPlans;
 	}
 
 	public AcademicPlan getById(Long id) throws DaoException {
-		log.info("Find academicPlan by ID");
 		AcademicPlan academicPlan = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -71,20 +62,14 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 		try {
 			statement = connection.prepareStatement(GET_BY_ID);
 			statement.setLong(1, id);
-			log.info("Create statement");
 			resultSet = statement.executeQuery();
-			log.info("Create resultSet");
-			if (resultSet.next()) {
-				int year = resultSet.getInt("year");
-				academicPlan = new AcademicPlan(year);
-				academicPlan.setId(id);
-				Set<Lecture> lectures = new LectureDao().getPlannedLectures(id);
-				Iterator<Lecture> iteratorLectures = lectures.iterator();
-				while (iteratorLectures.hasNext()) {
-					academicPlan.addLecture(iteratorLectures.next());
-				}
-			} else {
-				log.info("resultSet has not data");
+			int year = resultSet.getInt("year");
+			academicPlan = new AcademicPlan(year);
+			academicPlan.setId(id);
+			Set<Lecture> lectures = new LectureDao().getPlannedLectures(id);
+			Iterator<Lecture> iteratorLectures = lectures.iterator();
+			while (iteratorLectures.hasNext()) {
+				academicPlan.addLecture(iteratorLectures.next());
 			}
 		} catch (SQLException e) {
 			log.error("AcademicPlan was not got: - " + e.getMessage());
@@ -96,33 +81,25 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 	}
 
 	public AcademicPlan update(AcademicPlan academicPlan) throws DaoException {
-		log.info("Update academicPlan");
-		if (academicPlan.getId() != 0) {
-			Connection connection = null;
-			PreparedStatement statement = null;
-			connection = ConnectionFactory.getConnection();
-			try {
-				statement = connection.prepareStatement(UPDATE);
-				statement.setInt(1, academicPlan.getYear());
-				statement.setLong(2, academicPlan.getId());
-				statement.executeUpdate();
-				log.info("Create statement");
-			} catch (SQLException e) {
-				log.error("AcademicPlan was not updated: - " + e.getMessage());
-				throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not updated due to " + e);
-			} finally {
-				ConnectionFactory.closeConnection(connection, statement);
-			}
-			academicPlan = getById(academicPlan.getId());
-			return academicPlan;
-		} else {
-			log.info("AcademicPlan is not exist");
-			return null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(UPDATE);
+			statement.setInt(1, academicPlan.getYear());
+			statement.setLong(2, academicPlan.getId());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			log.error("AcademicPlan was not updated: - " + e.getMessage());
+			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not updated due to " + e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement);
 		}
+		academicPlan = getById(academicPlan.getId());
+		return academicPlan;
 	}
 
 	public void delete(AcademicPlan academicPlan) throws DaoException {
-		log.info("Delete academicPlan");
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -130,7 +107,6 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement = connection.prepareStatement(DELETE);
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
-			log.info("Create statement");
 		} catch (SQLException e) {
 			log.error("AcademicPlan was not deleted: - " + e.getMessage());
 			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not deleted due to " + e);
@@ -140,32 +116,21 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 	}
 
 	public void create(AcademicPlan academicPlan) throws DaoException {
-		log.info("Create academicPlan");
-		if (academicPlan.getId() == 0) {
-			Connection connection = null;
-			PreparedStatement statement = null;
-			ResultSet resultSet = null;
-			connection = ConnectionFactory.getConnection();
-			try {
-				statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
-				statement.setInt(1, academicPlan.getYear());
-				statement.executeUpdate();
-				log.info("Create statement");
-				resultSet = statement.getGeneratedKeys();
-				log.info("Create resultSet");
-				if (resultSet.next()) {
-					academicPlan.setId(resultSet.getLong("id"));
-					log.info("AcademicPlan was created");
-				}
-			} catch (SQLException e) {
-				log.error("AcademicPlan was not created: - " + e.getMessage());
-				throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not created due to " + e);
-			} finally {
-				ConnectionFactory.closeConnection(connection, statement, resultSet);
-			}
-		} else {
-			log.fatal("AcademicPlan is already exist");
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		connection = ConnectionFactory.getConnection();
+		try {
+			statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS);
+			statement.setInt(1, academicPlan.getYear());
+			statement.executeUpdate();
+			resultSet = statement.getGeneratedKeys();
+			academicPlan.setId(resultSet.getLong("id"));
+		} catch (SQLException e) {
+			log.error("AcademicPlan was not created: - " + e.getMessage());
+			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not created due to " + e);
+		} finally {
+			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
-
 }

@@ -23,7 +23,6 @@ public class ConnectionFactory {
 	private ConnectionFactory() throws DaoException {
 		try {
 			Class.forName(driver);
-			log.info("Create sql driver");
 		} catch (ClassNotFoundException e) {
 			log.error("Driver was not created: - " + e.getMessage());
 			throw new DaoException(ConnectionFactory.class.getName() + ": - driver was not created due to " + e);
@@ -50,7 +49,6 @@ public class ConnectionFactory {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url, login, password);
-			log.info("Create connection");
 		} catch (SQLException e) {
 			log.error("Connection was not created: - " + e.getMessage());
 			throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not created due to " + e);
@@ -68,7 +66,6 @@ public class ConnectionFactory {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
-				log.info("Close resulSet");
 			} catch (SQLException e) {
 				log.error("ResultSet was not closed: - " + e.getMessage());
 				throw new DaoException(ConnectionFactory.class.getName() + ": - resultSet was not closed due to " + e);
@@ -77,7 +74,6 @@ public class ConnectionFactory {
 		if (statement != null) {
 			try {
 				statement.close();
-				log.info("Close statement");
 			} catch (SQLException e) {
 				log.error("Statement was not closed: - " + e.getMessage());
 				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
@@ -86,7 +82,6 @@ public class ConnectionFactory {
 		if (connection != null) {
 			try {
 				connection.close();
-				log.info("Close connection");
 			} catch (SQLException e) {
 				log.error("Connection was not closed: - " + e.getMessage());
 				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
@@ -98,7 +93,6 @@ public class ConnectionFactory {
 		if (statement != null) {
 			try {
 				statement.close();
-				log.info("Close statement");
 			} catch (SQLException e) {
 				log.error("Statement was not closed: - " + e.getMessage());
 				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
@@ -107,7 +101,6 @@ public class ConnectionFactory {
 		if (connection != null) {
 			try {
 				connection.close();
-				log.info("Close connection");
 			} catch (SQLException e) {
 				log.error("Connection was not closed: - " + e.getMessage());
 				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
