@@ -5,8 +5,10 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import ua.com.foxminded.serviceacc.model.domain.ClientView;
-import ua.com.foxminded.serviceacc.service.ClientServices;
+import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.Person;
+import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientAddNew implements Serializable {
@@ -16,13 +18,23 @@ public class ClientAddNew implements Serializable {
 	private String secondName;
 
 	@Inject
-	private ClientServices clientServices;
+	private ClientService clientService;
+
+	@Inject
+	private PersonService personService;
+
+	@Inject
+	private ClientController clientController;
 
 	public void newClientFormOnSave() {
-		ClientView addNewClient = new ClientView();
-		addNewClient.setFirstName(firstName);
-		addNewClient.setSecondName(secondName);
-		clientServices.save(addNewClient);
+		Person person = new Person();
+		person.setFirstName(firstName);
+		person.setLastName(secondName);
+		Client addNewClient = new Client();
+		addNewClient.setPerson(personService.create(person));
+		clientService.create(addNewClient);
+		clientController.allClientsUpdate();
+
 		hide();
 	}
 

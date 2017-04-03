@@ -3,29 +3,37 @@ package ua.com.foxminded.serviceacc.controller.client;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import ua.com.foxminded.serviceacc.model.domain.ClientView;
-import ua.com.foxminded.serviceacc.service.ClientServices;
+import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.Person;
+import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientUpdate {
 
 	private boolean isShowUpdateForm;
 
-	private ClientView client;
+	private Client client;
+	private Person person;
 
 	@Inject
-	private ClientServices clientServices;
+	private ClientService clientService;
 
 	@Inject
+	private PersonService personService;
+
 	private ClientSelected clientSelected;
 
-	public void init(ClientView selectedClient) {
-		client = new ClientView();
+	public void init(ClientSelected clientSelected) {
+		this.clientSelected = clientSelected;
+		client = new Client();
+		person = new Person();
+		client.setPerson(person);
 		client.setId(clientSelected.getSelectedClient().getId());
-		client.setFirstName(clientSelected.getSelectedClient().getFirstName());
-		client.setSecondName(clientSelected.getSelectedClient().getSecondName());
-		client.setLevel(clientSelected.getSelectedClient().getLevel());
-		client.setStatus(clientSelected.getSelectedClient().getStatus());
+		person.setId(clientSelected.getSelectedClient().getPerson().getId());
+		person.setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
+		person.setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
+
 	}
 
 	public void hide() {
@@ -37,7 +45,8 @@ public class ClientUpdate {
 	}
 
 	public void updateFormButtonOk() {
-		clientServices.update(client);
+		personService.update(person);
+		clientService.update(client);
 		clientSelected.selectedFormOnUpdateComplete();
 	}
 
@@ -46,11 +55,11 @@ public class ClientUpdate {
 	}
 
 	public void updateFormChangeLevel(String level) {
-		client.setLevelAsString(level);
+		// client.setLevelAsString(level);
 	}
 
 	public void updateFormChangeStatus(String status) {
-		client.setStatusAsString(status);
+		// client.setStatusAsString(status);
 	}
 
 	public boolean getIsShowUpdateForm() {
@@ -62,42 +71,42 @@ public class ClientUpdate {
 	}
 
 	public String getFirstName() {
-		return client.getFirstName();
+		return client.getPerson().getFirstName();
 	}
 
 	public void setFirstName(String firstName) {
-		client.setFirstName(firstName);
+		client.getPerson().setFirstName(firstName);
 	}
 
 	public String getSecondName() {
-		return client.getSecondName();
+		return client.getPerson().getLastName();
 	}
 
 	public void setSecondName(String secondName) {
-		client.setSecondName(secondName);
+		client.getPerson().setLastName(secondName);
 	}
 
-	public ClientServices getClientServices() {
-		return clientServices;
+	public ClientService getClientService() {
+		return clientService;
 	}
 
-	public void setClientServices(ClientServices clientServices) {
-		this.clientServices = clientServices;
+	public void setClientService(ClientService clientService) {
+		this.clientService = clientService;
 	}
 
-	public ClientSelected getClientSelected() {
-		return clientSelected;
-	}
+	// public ClientSelected getClientSelected() {
+	// return clientSelected;
+	// }
+	//
+	// public void setClientSelected(ClientSelected clientSelected) {
+	// this.clientSelected = clientSelected;
+	// }
 
-	public void setClientSelected(ClientSelected clientSelected) {
-		this.clientSelected = clientSelected;
-	}
-
-	public ClientView getClient() {
+	public Client getClient() {
 		return client;
 	}
 
-	public void setClient(ClientView client) {
+	public void setClient(Client client) {
 		this.client = client;
 	}
 }

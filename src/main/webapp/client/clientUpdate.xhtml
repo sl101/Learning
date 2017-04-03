@@ -14,27 +14,10 @@
 		</f:facet>
 
 		<h:outputText value="first:" />
-		<h:inputText value="#{clientUpdate.firstName}" required="true"/>
+		<h:inputText value="#{clientUpdate.client.person.firstName}" required="true"/>
 		<h:outputText value="second name:" />
-		<h:inputText value="#{clientUpdate.secondName}" required="true"/>
-		<h:outputText value="status:" />
-		<p:tieredMenu style="width:200px">
-			<p:submenu label="#{clientUpdate.client.statusAsString}"
-				icon="ui-icon-refresh">
-				<p:menuitem value="Active" action="#{clientUpdate.updateFormChangeStatus('Active')}" icon="ui-icon-disk" update="@form:clientMain"/>
-				<p:menuitem value="Frozen" action="#{clientUpdate.updateFormChangeStatus('Frozen')}" icon="ui-icon-disk" update="@form:clientMain"/>				
-			</p:submenu>
-		</p:tieredMenu>
-		<h:outputText value="level:" />
-		<p:tieredMenu style="width:200px">
-			<p:submenu label="#{clientUpdate.client.levelAsString}"
-				icon="ui-icon-refresh">
-				<p:menuitem value="Applicant" action="#{clientUpdate.updateFormChangeLevel('Applicant')}" icon="ui-icon-disk" update="@form:clientMain"/>
-				<p:menuitem value="Beginner" action="#{clientUpdate.updateFormChangeLevel('Beginner')}" icon="ui-icon-disk" update="@form:clientMain"/>
-				<p:menuitem value="Regular" action="#{clientUpdate.updateFormChangeLevel('Regular')}" icon="ui-icon-disk" update="@form:clientMain"/>
-				<p:menuitem value="Graduate" action="#{clientUpdate.updateFormChangeLevel('Graduate')}" icon="ui-icon-disk" update="@form:clientMain"/>
-			</p:submenu>
-		</p:tieredMenu>
+		<h:inputText value="#{clientUpdate.client.person.lastName}" required="true"/>
+		
 
 		<p:commandButton id="updateFormButtonOk" value="Ok"		
 			actionListener="#{clientUpdate.updateFormButtonOk}"
