@@ -27,7 +27,7 @@ public class Manager {
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
     
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn (name = "person_id")
 	private Person person;
     

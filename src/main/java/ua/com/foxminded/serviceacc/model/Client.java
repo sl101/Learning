@@ -37,7 +37,7 @@ public class Client {
     @Column (name = "id", unique = true, nullable = false)
 	private Long id;
 	
-    @OneToOne (fetch = FetchType.LAZY)
+    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn (name = "person_id")
 	private Person person;
     
@@ -53,9 +53,6 @@ public class Client {
     @Enumerated (EnumType.STRING)
 	private ClientStatus status;
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ClientStatusHistory> clientHistory = new HashSet<>();
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClientStatusHistory> clientHistory = new HashSet<>();
 
