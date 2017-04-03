@@ -7,22 +7,27 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import ua.com.foxminded.serviceacc.model.domain.ClientView;
-import ua.com.foxminded.serviceacc.service.ClientServices;
+import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.Person;
+import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<ClientView> list;
+	private ArrayList<Client> list;
 
 	private boolean isShowClients = false;
 
 	private boolean isBlockTable;
 
 	@Inject
-	private ClientServices clientServices;
+	private ClientService clientService;
+
+	@Inject
+	private PersonService personService;
 
 	@PostConstruct
 	public void init() {
@@ -30,7 +35,28 @@ public class ClientList implements Serializable {
 	}
 
 	public void updateData() {
-		list = clientServices.getAll();
+		Person person1 = new Person();
+		person1.setFirstName("firstName1");
+		person1.setLastName("lastName1");
+		person1 = personService.create(person1);
+
+		Person person2 = new Person();
+		person2.setFirstName("firstName2");
+		person2.setLastName("lastName2");
+		person2 = personService.create(person2);
+
+		Client client1 = new Client();
+		Client client2 = new Client();
+
+		client1 = clientService.create(client1);
+		client1.setPerson(person1);
+		clientService.create(client1);
+
+		client2 = clientService.create(client2);
+		client2.setPerson(person2);
+		clientService.create(client2);
+
+		list = (ArrayList<Client>) clientService.findAll();
 	}
 
 	public boolean getIsShowClients() {
@@ -67,19 +93,27 @@ public class ClientList implements Serializable {
 
 	}
 
-	public ArrayList<ClientView> getList() {
+	public ArrayList<Client> getList() {
 		return list;
 	}
 
-	public void setList(ArrayList<ClientView> list) {
+	public void setList(ArrayList<Client> list) {
 		this.list = list;
 	}
 
-	public ClientServices getClientServices() {
-		return clientServices;
+	public ClientService getClientService() {
+		return clientService;
 	}
 
-	public void setClientServices(ClientServices clientServices) {
-		this.clientServices = clientServices;
+	public void setClientService(ClientService clientService) {
+		this.clientService = clientService;
+	}
+
+	public PersonService getPersonService() {
+		return personService;
+	}
+
+	public void setPersonService(PersonService personService) {
+		this.personService = personService;
 	}
 }
