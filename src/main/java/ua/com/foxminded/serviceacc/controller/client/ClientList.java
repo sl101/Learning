@@ -11,7 +11,6 @@ import javax.inject.Named;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
-import ua.com.foxminded.serviceacc.service.ClientServices;
 
 @Named
 public class ClientList implements Serializable {

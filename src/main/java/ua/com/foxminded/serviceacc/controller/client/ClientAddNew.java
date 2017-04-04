@@ -8,8 +8,8 @@ import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.model.Client;
-import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
-import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
+import ua.com.foxminded.serviceacc.model.ClientLevelType;
+import ua.com.foxminded.serviceacc.model.ClientStatusType;
 import ua.com.foxminded.serviceacc.service.ClientService;
 
 @Named
@@ -29,8 +29,8 @@ public class ClientAddNew implements Serializable {
 		person.setLastName(lastName);
 		person.setBirthday(new Date());
 		addNewClient.setPerson(person);
-		addNewClient.setStatus(ClientStatus.Active);
-		addNewClient.setLevel(ClientLevel.Applicant);
+		addNewClient.setStatus(new ClientStatusType("Active"));
+		addNewClient.setLevel(new ClientLevelType("Applicant"));
 		clientService.create(addNewClient);
 		hide();
 	}

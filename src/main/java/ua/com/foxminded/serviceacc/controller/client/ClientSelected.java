@@ -5,7 +5,6 @@ import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
-import ua.com.foxminded.serviceacc.service.ClientServices;
 
 @Named
 public class ClientSelected {
