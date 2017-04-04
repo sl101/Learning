@@ -34,6 +34,7 @@ public class ClientAddNew implements Serializable {
 		addNewClient.setPerson(personService.create(person));
 		clientService.create(addNewClient);
 		clientController.allClientsUpdate();
+		hide();
 	}
 
 	public void newClientFormOnCancel() {
