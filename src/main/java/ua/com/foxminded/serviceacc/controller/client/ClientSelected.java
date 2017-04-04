@@ -65,14 +65,6 @@ public class ClientSelected {
 		this.clientService = clientService;
 	}
 
-	public ClientController getClients() {
-		return clientController;
-	}
-
-	public void setClients(ClientController clientController) {
-		this.clientController = clientController;
-	}
-
 	public boolean getIsShowSelectedClientForm() {
 		return isShowSelectedClientForm;
 	}
@@ -88,13 +80,4 @@ public class ClientSelected {
 	public void setSelectedClient(Client selectedClient) {
 		this.selectedClient = selectedClient;
 	}
-
-	public ClientUpdate getClientUpdate() {
-		return clientUpdate;
-	}
-
-	public void setClientUpdate(ClientUpdate clientUpdate) {
-		this.clientUpdate = clientUpdate;
-	}
-
 }

@@ -32,11 +32,11 @@ public class Client {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id")
 	private Person person;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "manager_id")
 	private Manager manager;
 
@@ -48,7 +48,7 @@ public class Client {
 	@Enumerated(EnumType.STRING)
 	private ClientStatus status;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ClientStatusHistory> clientHistory = new HashSet<>();
 
 	public Client() {

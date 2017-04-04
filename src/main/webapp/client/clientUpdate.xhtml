@@ -18,7 +18,6 @@
 		<h:outputText value="second name:" />
 		<h:inputText value="#{clientUpdate.client.person.lastName}" required="true"/>
 		
-
 		<p:commandButton id="updateFormButtonOk" value="Ok"		
 			actionListener="#{clientUpdate.updateFormButtonOk}"
 			update="@form:clientMain" />
@@ -28,13 +27,6 @@
 			actionListener="#{clientUpdate.updateFormButtonCancel}"
 			update="@form:clientMain"
 			immediate="true" />
-
-
-
 	</p:panelGrid>
-
-
-
-
 
 </ui:composition>

@@ -14,8 +14,6 @@
 		<h:outputText value="#{clientSelected.selectedClient.person.firstName}" />
 		<h:outputText value="second name:" />
 		<h:outputText value="#{clientSelected.selectedClient.person.lastName}" />
-		
-		
 		<p:commandButton id="selectedFormButtonOk" value="Ok"
 			actionListener="#{clientSelected.selectedFormOnOk}"
 			update="@form:clientMain" />

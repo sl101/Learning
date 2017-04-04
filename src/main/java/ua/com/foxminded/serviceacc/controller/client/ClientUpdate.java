@@ -14,6 +14,7 @@ public class ClientUpdate {
 	private boolean isShowUpdateForm;
 
 	private Client client;
+
 	private Person person;
 
 	@Inject
@@ -33,7 +34,6 @@ public class ClientUpdate {
 		person.setId(clientSelected.getSelectedClient().getPerson().getId());
 		person.setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
 		person.setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
-
 	}
 
 	public void hide() {
@@ -94,14 +94,6 @@ public class ClientUpdate {
 		this.clientService = clientService;
 	}
 
-	// public ClientSelected getClientSelected() {
-	// return clientSelected;
-	// }
-	//
-	// public void setClientSelected(ClientSelected clientSelected) {
-	// this.clientSelected = clientSelected;
-	// }
-
 	public Client getClient() {
 		return client;
 	}
@@ -109,4 +101,5 @@ public class ClientUpdate {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
 }
