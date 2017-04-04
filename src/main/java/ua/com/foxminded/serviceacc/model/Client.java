@@ -52,9 +52,6 @@ public class Client {
     @Column (name = "status")
     @Enumerated (EnumType.STRING)
 	private ClientStatus status;
-    
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ClientStatusHistory> clientHistory = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClientStatusHistory> clientHistory = new HashSet<>();
