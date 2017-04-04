@@ -11,7 +11,7 @@ import java.util.List;
  * Created by andreb on 04.04.17.
  */
 @Service("contactTypeService")
-public class ContactTypeServiceRepository implements ContactTypeService{
+public class ContactTypeServiceDataJpa implements ContactTypeService{
 
     @Autowired
     ContactTypeRepository contactTypeRepository;

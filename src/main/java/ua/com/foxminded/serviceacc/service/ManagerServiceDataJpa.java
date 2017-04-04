@@ -11,7 +11,7 @@ import java.util.List;
  * Created by andreb on 31.03.17.
  */
 @Service("managerServiceRepository")
-public class ManagerServiceRepository implements ManagerService {
+public class ManagerServiceDataJpa implements ManagerService {
 
     @Autowired
     ManagerRepository managerRepository;
