@@ -29,8 +29,8 @@ public class ClientAddNew implements Serializable {
 		person.setLastName(lastName);
 		person.setBirthday(new Date());
 		addNewClient.setPerson(person);
-		addNewClient.setStatus(new ClientStatusType("Active"));
-		addNewClient.setLevel(new ClientLevelType("Applicant"));
+//		addNewClient.setStatus(new ClientStatusType("Active"));
+//		addNewClient.setLevel(new ClientLevelType("Applicant"));
 		clientService.create(addNewClient);
 		hide();
 	}
