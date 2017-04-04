@@ -18,7 +18,6 @@ public class ClientServiceRepository implements ClientService {
 
     @Override
     public Client create(Client client) {
-        System.out.println(client);
         return clientRepository.save(client);
     }
 
