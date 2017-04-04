@@ -23,4 +23,20 @@ public class ContactType {
     public ContactType(String contactType) {
         this.contactType = contactType;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContactType() {
+        return contactType;
+    }
+
+    public void setContactType(String contactType) {
+        this.contactType = contactType;
+    }
 }
