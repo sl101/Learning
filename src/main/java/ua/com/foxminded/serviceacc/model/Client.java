@@ -115,4 +115,15 @@ public class Client {
 		this.clientHistory = clientHistory;
 	}
 
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", person=" + person +
+                ", manager=" + manager +
+                ", level=" + level +
+                ", status=" + status +
+                ", clientHistory=" + clientHistory +
+                '}';
+    }
 }
