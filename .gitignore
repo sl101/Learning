@@ -1,8 +1,29 @@
-/build/*
-/target/*
-.classpath
-.settings
-.project
-.tern-project
+*.class
+*.iml
+.idea/
+.mvn/
 /target/
-/.springBeans
+/build/
+.gradle/
+/logs/
+mvnw*
+/out/
+.tern-project
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
+
+# Package Files #
+*.jar
+*.war
+*.ear
