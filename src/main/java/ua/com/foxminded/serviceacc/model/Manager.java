@@ -31,7 +31,7 @@ public class Manager {
     @JoinColumn (name = "person_id")
 	private Person person;
     
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
 
 	public Manager() {
