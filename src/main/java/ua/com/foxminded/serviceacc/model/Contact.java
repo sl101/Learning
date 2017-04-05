@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import ua.com.foxminded.serviceacc.model.ContactType;
+import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
 import javax.persistence.*;
 
@@ -33,9 +33,9 @@ public class Contact {
     
     @Column (name = "contact_name")
 	private String contactName;
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "contact_type_id")
+    
+    @Column (name = "contact_type")
+    @Enumerated (EnumType.STRING)
 	private ContactType contactType;
 
 	public Contact() {

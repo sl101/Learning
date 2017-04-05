@@ -45,7 +45,7 @@ public class ClientSelected {
 	public void selectedFormOnUpdate() {
 		hide();
 		clientController.blockTable();
-		clientUpdate.init(selectedClient);
+		clientUpdate.init(this);
 		clientUpdate.show();
 		clientController.allClientsUpdate();
 	}
@@ -55,7 +55,6 @@ public class ClientSelected {
 		clientController.allClientsUpdate();
 		clientUpdate.hide();
 		selectedClient = null;
-
 	}
 
 	public ClientService getClientService() {
@@ -64,14 +63,6 @@ public class ClientSelected {
 
 	public void setClientService(ClientService clientService) {
 		this.clientService = clientService;
-	}
-
-	public ClientController getClients() {
-		return clientController;
-	}
-
-	public void setClients(ClientController clientController) {
-		this.clientController = clientController;
 	}
 
 	public boolean getIsShowSelectedClientForm() {
@@ -89,13 +80,4 @@ public class ClientSelected {
 	public void setSelectedClient(Client selectedClient) {
 		this.selectedClient = selectedClient;
 	}
-
-	public ClientUpdate getClientUpdate() {
-		return clientUpdate;
-	}
-
-	public void setClientUpdate(ClientUpdate clientUpdate) {
-		this.clientUpdate = clientUpdate;
-	}
-
 }

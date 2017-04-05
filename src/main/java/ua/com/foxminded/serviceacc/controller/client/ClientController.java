@@ -5,8 +5,6 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
-
 @Named
 public class ClientController implements Serializable {
 
@@ -25,7 +23,7 @@ public class ClientController implements Serializable {
 		clientList.updateData();
 	}
 
-	public void onRowSelect(SelectEvent event) {
+	public void onRowSelect() {
 		clientAddNew.hide();
 		clientSelected.show();
 	}

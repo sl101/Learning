@@ -1,8 +1,8 @@
-# Created by .ignore support plugin (hsz.mobi)
-
-/.idea/
-/serviceacc.iml
-/target/
+/build/*
+/target/*
 .classpath
 .settings
 .project
+.tern-project
+/target/
+/.springBeans

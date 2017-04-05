@@ -13,8 +13,8 @@
 		<h:inputText value="#{clientAddNew.firstName}" required="true"
 			label="Firstname" />
 		<h:outputText value="Lastname: *" />
-		<p:inputText value="#{clientAddNew.lastName}" required="true"
-                     label="Lastname" />
+		<p:inputText value="#{clientAddNew.secondName}" required="true"
+			label="Lastname" />
 		<p:commandButton id="addSave" value="Save"
 			actionListener="#{clientAddNew.newClientFormOnSave}"
 			update="@form:clientMain" />

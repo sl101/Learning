@@ -11,7 +11,7 @@ import java.util.List;
  * Created by andreb on 31.03.17.
  */
 @Service("personServiceRepository")
-public class PersonServiceDataJpa implements PersonService{
+public class PersonServiceRepository implements PersonService{
 
     @Autowired
     PersonRepository personRepository;
