@@ -37,7 +37,7 @@
 	</managed-bean>
 
 
-	<!-- all client -->
+	<!-- client controller -->
 	<managed-bean>
 		<managed-bean-name>clientController</managed-bean-name>
 		<managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientController</managed-bean-class>
