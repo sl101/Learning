@@ -1,27 +1,57 @@
 package ua.com.foxminded.serviceacc.model;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table (name = "person")
 public class Person {
-	private Long id;
+	
+    @Id
+    @SequenceGenerator (name = "generator", sequenceName = "person_id_seq")
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
+    @Column (name = "id", unique = true, nullable = false)
+    private Long id;
+    
+	@Column (name = "first_name")
 	private String firstName;
+	
+	@Column (name = "last_name")
 	private String lastName;
-	private Date birthDay;
+	
+	@Temporal(TemporalType.DATE)
+	@Column (name = "birth_day")
+	private Date birthday;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Contact> contacts = new HashSet<>();
 
 	public Person() {
 
 	}
 
-	public Person(String firstName, String lastName, Date birthDay, Set<Contact> contacts) {
+	public Person(String firstName, String lastName, Date birthday, Set<Contact> contacts) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.birthDay = birthDay;
+		this.birthday = birthday;
 		this.contacts = contacts;
 	}
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -29,7 +59,7 @@ public class Person {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -37,7 +67,7 @@ public class Person {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
+	
 	public String getLastName() {
 		return lastName;
 	}
@@ -45,15 +75,15 @@ public class Person {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-	public Date getBirthDay() {
-		return birthDay;
+	
+	public Date getBirthday() {
+		return birthday;
 	}
 
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
 	}
-
+	
 	public Set<Contact> getContacts() {
 		return contacts;
 	}
