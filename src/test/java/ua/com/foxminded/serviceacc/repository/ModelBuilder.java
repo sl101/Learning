@@ -3,7 +3,6 @@ package ua.com.foxminded.serviceacc.repository;
 import ua.com.foxminded.serviceacc.model.*;
 import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
 import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
-import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
 import java.util.Date;
 

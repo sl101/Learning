@@ -2,6 +2,8 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+
 public class Contract {
 	private Long id;
 	private String number;
@@ -11,6 +13,9 @@ public class Contract {
 	private Service service;
 	private Money clientRate;
 	private Money managerRate;
+	
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Contract() {
 

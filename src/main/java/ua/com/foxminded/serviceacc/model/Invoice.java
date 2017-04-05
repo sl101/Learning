@@ -2,7 +2,7 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Date;
 
-import ua.com.foxminded.serviceacc.model.constants.PayStatus;
+import javax.persistence.Column;
 
 public class Invoice {
 	private Long id;
@@ -12,6 +12,9 @@ public class Invoice {
 	private Money price;
 	private PayStatus status;
 	private Payment payment;
+	
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Invoice() {
 

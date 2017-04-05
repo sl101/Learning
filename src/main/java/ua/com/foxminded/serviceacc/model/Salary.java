@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import ua.com.foxminded.serviceacc.model.constants.PayStatus;
+import javax.persistence.Column;
 
 public class Salary {
 	private Long id;
@@ -13,6 +13,9 @@ public class Salary {
 	private Money amount;
 	private PayStatus status;
 	private Set<Invoice> invoices = new HashSet<>();
+	
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Salary() {
 

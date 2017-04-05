@@ -1,12 +1,15 @@
 package ua.com.foxminded.serviceacc.model;
 
-import ua.com.foxminded.serviceacc.model.constants.ServiceType;
+import javax.persistence.Column;
 
 public class Service {
 	private Long id;
 	private String name;
 	private Money price;
 	private ServiceType type;
+	
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Service() {
 

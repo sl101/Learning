@@ -2,10 +2,15 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Currency;
 
+import javax.persistence.Column;
+
 public class Money {
 	private Long id;
 	private Currency currency;
 	private int amount;
+	
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Money() {
 

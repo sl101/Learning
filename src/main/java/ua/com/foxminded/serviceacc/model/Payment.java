@@ -2,7 +2,7 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Date;
 
-import ua.com.foxminded.serviceacc.model.constants.PaymentType;
+import javax.persistence.Column;
 
 public class Payment {
 	private Long id;
@@ -10,6 +10,9 @@ public class Payment {
 	private Money money;
 	private PaymentType type;
 
+	@Column(name = "active")
+	private boolean active = true;
+	
 	public Payment() {
 
 	}

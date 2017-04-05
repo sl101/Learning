@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.foxminded.serviceacc.config.PersistenceConfig;
 import ua.com.foxminded.serviceacc.model.Contact;
-import ua.com.foxminded.serviceacc.model.constant.ContactType;
+import ua.com.foxminded.serviceacc.model.ContactType;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
