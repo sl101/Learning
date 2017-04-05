@@ -51,8 +51,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 				groups.add(group);
 			}
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -83,8 +83,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 				group.addCourse(iteratorGroupCourses.next());
 			}
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -101,8 +101,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(2, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -119,8 +119,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -138,8 +138,8 @@ public class GroupDao implements GenericDao<Group, Long> {
 			resultSet = statement.getGeneratedKeys();
 			group.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

@@ -44,8 +44,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				schedule.add(schedulePosition);
 			}
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -69,8 +69,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 			schedulePosition.setId(id);
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -89,8 +89,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(3, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -107,8 +107,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(1, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -129,8 +129,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			resultSet = statement.getGeneratedKeys();
 			schedulePosition.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

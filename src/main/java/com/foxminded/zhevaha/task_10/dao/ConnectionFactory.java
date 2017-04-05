@@ -24,8 +24,8 @@ public class ConnectionFactory {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -40,8 +40,8 @@ public class ConnectionFactory {
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
 		} catch (IOException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		}
 	}
 
@@ -50,8 +50,8 @@ public class ConnectionFactory {
 		try {
 			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
-			log.error("Problem connect DB", e);
-			throw new DaoException("Problem connect DB due to ", e);
+			log.error("Problem get data", e);
+			throw new DaoException(e);
 		}
 		return connection;
 	}
@@ -67,24 +67,24 @@ public class ConnectionFactory {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				log.error("Problem connect DB", e);
-				throw new DaoException("Problem connect DB due to ", e);
+				log.error("Problem get data", e);
+				throw new DaoException(e);
 			}
 		}
 		if (statement != null) {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Problem connect DB", e);
-				throw new DaoException("Problem connect DB due to ", e);
+				log.error("Problem get data", e);
+				throw new DaoException(e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Problem connect DB", e);
-				throw new DaoException("Problem connect DB due to ", e);
+				log.error("Problem get data", e);
+				throw new DaoException(e);
 			}
 		}
 	}
@@ -94,16 +94,16 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Problem connect DB", e);
-				throw new DaoException("Problem connect DB due to ", e);
+				log.error("Problem get data", e);
+				throw new DaoException(e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Problem connect DB", e);
-				throw new DaoException("Problem connect DB due to ", e);
+				log.error("Problem get data", e);
+				throw new DaoException(e);
 			}
 		}
 	}

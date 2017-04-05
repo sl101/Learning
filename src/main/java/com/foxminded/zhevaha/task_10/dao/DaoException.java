@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class DaoException extends SQLException {
 
-	public DaoException(String message, Exception e) {
-		super("\n" + message + e);
+	public DaoException(Exception e) {
+		super("Problem get data due to " + e);
 	}
 }
