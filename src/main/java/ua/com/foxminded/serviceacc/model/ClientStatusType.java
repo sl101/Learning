@@ -1,6 +1,8 @@
 package ua.com.foxminded.serviceacc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andreb on 04.04.17.
@@ -16,6 +18,8 @@ public class ClientStatusType {
     private Long id;
     @Column (name = "status", unique = true, nullable = false)
     private String status;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", orphanRemoval = true)
+    private Set<Client> clients = new HashSet<>();
 
     public ClientStatusType() {
     }
@@ -38,5 +42,13 @@ public class ClientStatusType {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
     }
 }

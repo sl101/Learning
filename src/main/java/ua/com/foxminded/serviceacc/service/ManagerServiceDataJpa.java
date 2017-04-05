@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by andreb on 31.03.17.
  */
-@Service("managerServiceRepository")
+@Service("managerService")
 public class ManagerServiceDataJpa implements ManagerService {
 
     @Autowired

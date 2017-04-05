@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by andreb on 31.03.17.
  */
-@Service("clientStatusHistoryServiceRepository")
+@Service("clientStatusHistoryService")
 public class ClientStatusHistoryServiceDataJpa implements ClientStatusHistoryService {
 
     @Autowired

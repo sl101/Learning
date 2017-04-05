@@ -1,6 +1,8 @@
 package ua.com.foxminded.serviceacc.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andreb on 04.04.17.
@@ -16,6 +18,8 @@ public class ClientLevelType {
     private Long id;
     @Column (name = "level", unique = true, nullable = false)
     private String level;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "level", orphanRemoval = true)
+    private Set<Client> clients = new HashSet<>();
 
     public ClientLevelType(){
     }

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by andreb on 31.03.17.
  */
-@Service("clientServiceRepository")
+@Service("clientService")
 public class ClientServiceDataJpa implements ClientService {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ClientServiceDataJpa implements ClientService {
 
     @Override
     public List<Client> findAll() {
-        return clientRepository.findAllAndFetchPersonEagly();
+        return clientRepository.findAllAndFetchPersonEager();
     }
 
     @Override
