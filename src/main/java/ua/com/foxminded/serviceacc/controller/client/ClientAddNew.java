@@ -1,7 +1,6 @@
 package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -9,25 +8,32 @@ import javax.inject.Named;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientAddNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean isShowNewClientForm;
 	private String firstName;
-	private String lastName;
+	private String secondName;
 
 	@Inject
 	private ClientService clientService;
 
+	@Inject
+	private PersonService personService;
+
+	@Inject
+	private ClientController clientController;
+
 	public void newClientFormOnSave() {
-		Client addNewClient = new Client();
 		Person person = new Person();
 		person.setFirstName(firstName);
-		person.setLastName(lastName);
-		person.setBirthday(new Date());
-		addNewClient.setPerson(person);
+		person.setLastName(secondName);
+		Client addNewClient = new Client();
+		addNewClient.setPerson(personService.create(person));
 		clientService.create(addNewClient);
+		clientController.allClientsUpdate();
 		hide();
 	}
 
@@ -51,12 +57,12 @@ public class ClientAddNew implements Serializable {
 		setIsShowNewClientForm(true);
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getSecondName() {
+		return secondName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
 	}
 
 	public String getFirstName() {

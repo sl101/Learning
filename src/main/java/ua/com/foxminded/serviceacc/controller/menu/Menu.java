@@ -12,19 +12,27 @@ public class Menu {
 	private ClientController clientController;
 
 	public void menuOnAdd() {
+		clientController.blockTable();
 		clientController.showNewClientForm();
+
 	}
 
 	public void menuOnAddComplete() {
+		clientController.unBlockTable();
 		clientController.allClientsUpdate();
 		clientController.hideNewClientForm();
+
 	}
 
-	public ClientController getController() {
+	// public void menuOnAll() {
+	// clientController.showAllClient();
+	// }
+
+	public ClientController getClientsAll() {
 		return clientController;
 	}
 
-	public void setClientController(ClientController clientController) {
+	public void setClientsAll(ClientController clientController) {
 		this.clientController = clientController;
 	}
 
