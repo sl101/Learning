@@ -69,11 +69,11 @@ public class ClientUpdate {
 		client.getPerson().setFirstName(firstName);
 	}
 
-	public String getSecondName() {
+	public String getLastName() {
 		return client.getPerson().getLastName();
 	}
 
-	public void setSecondName(String secondName) {
+	public void setLastName(String secondName) {
 		client.getPerson().setLastName(secondName);
 	}
 
