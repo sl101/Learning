@@ -31,16 +31,9 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-<<<<<<< HEAD
-	
-    @OneToOne (fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "person_id")
-
-=======
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "person_id")
->>>>>>> 2c777928f4e167aac535ff0ef8a3cc7ccf2e933d
 	private Person person;
 
 	@ManyToOne(fetch = FetchType.EAGER)

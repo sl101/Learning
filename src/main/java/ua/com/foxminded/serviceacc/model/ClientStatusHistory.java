@@ -48,12 +48,7 @@ public class ClientStatusHistory {
 
 	}
 
-<<<<<<< HEAD
-
-    public ClientStatusHistory(Client client, ClientStatusType statusChanged, Date dateChanged) {
-=======
     public ClientStatusHistory(Client client, ClientStatus statusChanged, Date dateChanged) {
->>>>>>> 2c777928f4e167aac535ff0ef8a3cc7ccf2e933d
         this.client = client;
         this.statusChanged = statusChanged;
         this.dateChanged = dateChanged;
