@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * Created by andreb on 31.03.17.
  */
-@Service("contactServiceRepository")
-public class ContactServiceRepository implements ContactService {
+@Service("contactService")
+public class ContactServiceDataJpa implements ContactService {
 
     @Autowired
     ContactRepository contactRepository;

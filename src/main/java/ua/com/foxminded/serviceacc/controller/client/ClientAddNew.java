@@ -1,28 +1,37 @@
 package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import ua.com.foxminded.serviceacc.model.domain.Client;
-import ua.com.foxminded.serviceacc.service.ClientServices;
+import ua.com.foxminded.serviceacc.model.Person;
+import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.ClientLevelType;
+import ua.com.foxminded.serviceacc.model.ClientStatusType;
+import ua.com.foxminded.serviceacc.service.ClientService;
 
 @Named
 public class ClientAddNew implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean isShowNewClientForm;
 	private String firstName;
-	private String secondName;
+	private String lastName;
 
 	@Inject
-	private ClientServices clientServices;
+	private ClientService clientService;
 
 	public void newClientFormOnSave() {
 		Client addNewClient = new Client();
-		addNewClient.setFirstName(firstName);
-		addNewClient.setSecondName(secondName);
-		clientServices.save(addNewClient);
+		Person person = new Person();
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
+		person.setBirthday(new Date());
+		addNewClient.setPerson(person);
+//		addNewClient.setStatus(new ClientStatusType("Active"));
+//		addNewClient.setLevel(new ClientLevelType("Applicant"));
+		clientService.create(addNewClient);
 		hide();
 	}
 
@@ -46,12 +55,12 @@ public class ClientAddNew implements Serializable {
 		setIsShowNewClientForm(true);
 	}
 
-	public String getSecondName() {
-		return secondName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getFirstName() {
