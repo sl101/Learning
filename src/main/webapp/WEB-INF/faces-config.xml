@@ -21,17 +21,11 @@
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
+	
+	<!-- update client -->
 		<managed-bean-name>clientUpdate</managed-bean-name>
 		<managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientUpdate</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-		<managed-property>
-			<property-name>firstName</property-name>
-			<value>#{firstName}</value>
-		</managed-property>
-		<managed-property>
-			<property-name>secondName</property-name>
-			<value>#{secondName}</value>
-		</managed-property>
+		<managed-bean-scope>session</managed-bean-scope>		
 		<managed-property>
 			<property-name>client</property-name>
 			<value>#{client}</value>
