@@ -24,8 +24,8 @@ public class ConnectionFactory {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			log.error("Driver was not created: - " + e.getMessage());
-			throw new DaoException(ConnectionFactory.class.getName() + ": - driver was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		}
 	}
 
@@ -40,8 +40,8 @@ public class ConnectionFactory {
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
 		} catch (IOException e) {
-			log.error("Properties was not got: - " + e.getMessage());
-			throw new DaoException(ConnectionFactory.class.getName() + ": - Properties was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		}
 	}
 
@@ -50,8 +50,8 @@ public class ConnectionFactory {
 		try {
 			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
-			log.error("Connection was not created: - " + e.getMessage());
-			throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		}
 		return connection;
 	}
@@ -67,24 +67,24 @@ public class ConnectionFactory {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				log.error("ResultSet was not closed: - " + e.getMessage());
-				throw new DaoException(ConnectionFactory.class.getName() + ": - resultSet was not closed due to " + e);
+				log.error("Problem connect DB", e);
+				throw new DaoException("Problem connect DB due to ", e);
 			}
 		}
 		if (statement != null) {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Statement was not closed: - " + e.getMessage());
-				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
+				log.error("Problem connect DB", e);
+				throw new DaoException("Problem connect DB due to ", e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Connection was not closed: - " + e.getMessage());
-				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
+				log.error("Problem connect DB", e);
+				throw new DaoException("Problem connect DB due to ", e);
 			}
 		}
 	}
@@ -94,16 +94,16 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Statement was not closed: - " + e.getMessage());
-				throw new DaoException(ConnectionFactory.class.getName() + ": - statement was not closed due to " + e);
+				log.error("Problem connect DB", e);
+				throw new DaoException("Problem connect DB due to ", e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Connection was not closed: - " + e.getMessage());
-				throw new DaoException(ConnectionFactory.class.getName() + ": - connection was not closed due to " + e);
+				log.error("Problem connect DB", e);
+				throw new DaoException("Problem connect DB due to ", e);
 			}
 		}
 	}

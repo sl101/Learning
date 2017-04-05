@@ -52,12 +52,11 @@ public class RunMe {
 		academicPlan = new AcademicPlan(2017);
 		academicPlanDao = new AcademicPlanDao();
 
-		// List<AcademicPlan> academicPlans = new
-		// ArrayList<AcademicPlan>(academicPlanDao.getAll());
-		// for (int i = 0; i < academicPlans.size(); i++) {
-		// System.out.println(academicPlans.get(i).getYear());
-		// }
-		createUnivers();
+		List<AcademicPlan> academicPlans = new ArrayList<AcademicPlan>(academicPlanDao.getAll());
+		for (int i = 0; i < academicPlans.size(); i++) {
+			System.out.println(academicPlans.get(i).getYear());
+		}
+		// createUnivers();
 		// deleteUnivers();
 		// createCourses();
 		// deleteCourses();
@@ -72,13 +71,13 @@ public class RunMe {
 		// deleteStudents();
 		// createLectures();
 		// deleteLectures();
-		createAcademicPlan();
+		// createAcademicPlan();
 		// enrollTeachers();
 		// fireTeacher();
 		// enrollStudent();
 		// expelStudent();
-		createSchedule();
-		showSchedule();
+		// createSchedule();
+		// showSchedule();
 
 	}
 

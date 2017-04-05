@@ -45,8 +45,8 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlans.add(academicPlan);
 			}
 		} catch (SQLException e) {
-			log.error("AcademicPlans list was not got: - " + e.getMessage());
-			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlans list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -72,8 +72,8 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlan.addLecture(iteratorLectures.next());
 			}
 		} catch (SQLException e) {
-			log.error("AcademicPlan was not got: - " + e.getMessage());
-			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -90,8 +90,8 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(2, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("AcademicPlan was not updated: - " + e.getMessage());
-			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not updated due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -108,8 +108,8 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("AcademicPlan was not deleted: - " + e.getMessage());
-			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not deleted due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -127,8 +127,8 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			resultSet = statement.getGeneratedKeys();
 			academicPlan.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("AcademicPlan was not created: - " + e.getMessage());
-			throw new DaoException(AcademicPlan.class.getName() + ": - academicPlan was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

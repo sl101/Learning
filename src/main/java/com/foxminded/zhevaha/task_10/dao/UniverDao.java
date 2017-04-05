@@ -75,8 +75,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univers.add(univer);
 			}
 		} catch (SQLException e) {
-			log.error("Univers list was not got: - " + e.getMessage());
-			throw new DaoException(UniverDao.class.getName() + ": - Univers list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -127,8 +127,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univer.addSchedulePosition(iteratorSchedule.next());
 			}
 		} catch (SQLException e) {
-			log.error("Univer was not got: - " + e.getMessage());
-			throw new DaoException(UniverDao.class.getName() + ": - Univer was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -145,8 +145,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(2, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Univer was not updated: - " + e.getMessage());
-			throw new DaoException(UniverDao.class.getName() + ": - Univer was not updated due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -163,8 +163,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(1, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Univer was not deleted: - " + e.getMessage());
-			throw new DaoException(UniverDao.class.getName() + ": - univer was not deleted due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -182,8 +182,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			resultSet = statement.getGeneratedKeys();
 			univer.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Univer was not created: - " + e.getMessage());
-			throw new DaoException(UniverDao.class.getName() + ": - univer was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

@@ -49,8 +49,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			log.error("Teachers list was not got: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teachers list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -77,8 +77,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teacher.addCourse(iteratorTeacherCourses.next());
 			}
 		} catch (SQLException e) {
-			log.error("Teacher was not got: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teacher was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -96,8 +96,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(3, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Teacher was not updated: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teacher was not updated due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -114,8 +114,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(1, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Teacher was not deleted: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teacher was not deleted due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -134,8 +134,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			resultSet = statement.getGeneratedKeys();
 			teacher.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Teacher was not created: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teacher was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -159,8 +159,8 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			log.error("Teachers of course were not got: - " + e.getMessage());
-			throw new DaoException(TeacherDao.class.getName() + ": - Teachers of course were not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

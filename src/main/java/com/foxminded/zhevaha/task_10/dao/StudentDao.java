@@ -42,8 +42,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 				students.add(student);
 			}
 		} catch (SQLException e) {
-			log.error("Stidents list was not got: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - students list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -65,8 +65,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 			student = new Student(name, dayOfBirth);
 			student.setId(id);
 		} catch (SQLException e) {
-			log.error("Student was not got: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - student was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -84,8 +84,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(3, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Student was not updated: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - student was not updated due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -103,8 +103,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(1, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Student was not deleted: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - student was not deleted due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -123,8 +123,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 			resultSet = statement.getGeneratedKeys();
 			student.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Student was not created: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - student was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -148,8 +148,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 				students.add(student);
 			}
 		} catch (SQLException e) {
-			log.error("Group students list was not got: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - group students list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -166,8 +166,8 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(2, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Student was not enrolled: - " + e.getMessage());
-			throw new DaoException(StudentDao.class.getName() + ": - student was not enrolled due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}

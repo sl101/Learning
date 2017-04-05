@@ -44,8 +44,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				schedule.add(schedulePosition);
 			}
 		} catch (SQLException e) {
-			log.error("Schedule was not got: - " + e.getMessage());
-			throw new DaoException(SchedulePositionDao.class.getName() + ": - schedule was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -69,9 +69,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 			schedulePosition.setId(id);
 		} catch (SQLException e) {
-			log.error("SchedulePOsition was not got: - " + e.getMessage());
-			throw new DaoException(
-					SchedulePositionDao.class.getName() + ": - schedulePosition was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -90,9 +89,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(3, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("SchedulePosition was not updated: - " + e.getMessage());
-			throw new DaoException(
-					SchedulePositionDao.class.getName() + ": - schedulePosition was not got updated to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -109,9 +107,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(1, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("SchedulePosition was not deleted: - " + e.getMessage());
-			throw new DaoException(
-					SchedulePositionDao.class.getName() + ": - schedulePosition was not got deleted to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -132,9 +129,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			resultSet = statement.getGeneratedKeys();
 			schedulePosition.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("SchedulePosition was not created: - " + e.getMessage());
-			throw new DaoException(
-					SchedulePositionDao.class.getName() + ": - schedulePosition was not got created to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

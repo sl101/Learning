@@ -38,8 +38,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			log.error("Rooms list was not got: - " + e.getMessage());
-			throw new DaoException(RoomDao.class.getName() + ": - rooms list was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -60,8 +60,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 			room = new Room(name);
 			room.setId(id);
 		} catch (SQLException e) {
-			log.error("Room was not got: - " + e.getMessage());
-			throw new DaoException(RoomDao.class.getName() + ": - room was not got due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
@@ -78,8 +78,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(2, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Room was not updated: - " + e.getMessage());
-			throw new DaoException(RoomDao.class.getName() + ": - room was not updated due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -96,8 +96,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Room was not deleted: - " + e.getMessage());
-			throw new DaoException(RoomDao.class.getName() + ": - room was not deleted due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -115,8 +115,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 			resultSet = statement.getGeneratedKeys();
 			room.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Room was not created: - " + e.getMessage());
-			throw new DaoException(RoomDao.class.getName() + ": - room was not created due to " + e);
+			log.error("Problem connect DB", e);
+			throw new DaoException("Problem connect DB due to ", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
