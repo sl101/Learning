@@ -9,7 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.com.foxminded.serviceacc.config.PersistenceConfig;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.model.ClientLevelType;
-import ua.com.foxminded.serviceacc.model.ClientStatusType;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
@@ -50,15 +49,8 @@ public class ClientRepositoryTest {
         personRepository.save(client.getPerson());
         clientRepository.save(client);
         assertThat(clientRepository.findAll(), hasSize(1));
-
-//        client.setLevel(new ClientLevelType("Regular"));
-//        client.setStatus(new ClientStatusType("Frozen"));
-        clientRepository.save(client);
-        Client fetched = clientRepository.findOne(client.getId());
-//        assertThat(fetched.getLevel(), is(new ClientLevelType("Regular")));
-//        assertThat(fetched.getStatus().getStatus(), is(new ClientStatusType("Frozen")));
-//        assertThat(fetched.getStatus(), not(ClientStatus.Active));
     }
+
 
     @Test
     public void deleteClient(){

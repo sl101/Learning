@@ -1,7 +1,6 @@
 package ua.com.foxminded.serviceacc.repository;
 
 import ua.com.foxminded.serviceacc.model.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +45,7 @@ public class ModelBuilder {
     public static Manager buildTestManager(){
         Person person = buildTestPerson();
         person.setFirstName("Andrey");
-        person.setFirstName("Sidorov");
+        person.setLastName("Sidorov");
 
         Client client = buildTestClient();
 
@@ -65,9 +64,9 @@ public class ModelBuilder {
 
     public static List<ClientStatusType> buildListTestClientStatusType(){
         List<ClientStatusType> statuses = new ArrayList<>();
-        ClientStatusType active = new ClientStatusType("Active");
-        ClientStatusType frozen = new ClientStatusType("Frozen");
-        ClientStatusType pending = new ClientStatusType("Pending");
+        ClientStatusType active = new ClientStatusType("01", "Active");
+        ClientStatusType frozen = new ClientStatusType("02", "Frozen");
+        ClientStatusType pending = new ClientStatusType("00", "Pending");
         statuses.add(active);
         statuses.add(frozen);
         statuses.add(pending);

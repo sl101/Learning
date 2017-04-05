@@ -21,7 +21,7 @@
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-	
+
 	<!-- update client -->
 		<managed-bean-name>clientUpdate</managed-bean-name>
 		<managed-bean-class>ua.com.foxminded.serviceacc.controller.client.ClientUpdate</managed-bean-class>
@@ -35,7 +35,6 @@
 			<value>#{isShowUpdateForm}</value>
 		</managed-property>
 	</managed-bean>
-
 
 	<!-- client controller -->
 	<managed-bean>
