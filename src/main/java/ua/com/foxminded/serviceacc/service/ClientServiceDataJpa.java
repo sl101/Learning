@@ -11,8 +11,8 @@ import ua.com.foxminded.serviceacc.repository.ClientRepository;
 /**
  * Created by andreb on 31.03.17.
  */
-@Service("clientServiceRepository")
-public class ClientServiceRepository implements ClientService {
+@Service("clientService")
+public class ClientServiceDataJpa implements ClientService {
 
 	@Autowired
 	ClientRepository clientRepository;
@@ -34,7 +34,7 @@ public class ClientServiceRepository implements ClientService {
 
 	@Override
 	public List<Client> findAll() {
-		return clientRepository.findAll();
+		return clientRepository.findAllAndFetchPersonEagly();
 	}
 
 	@Override

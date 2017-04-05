@@ -1,11 +1,13 @@
 package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
@@ -16,7 +18,7 @@ public class ClientList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ArrayList<Client> list;
+	private List<Client> list;
 
 	private boolean isShowClients = false;
 
@@ -34,8 +36,7 @@ public class ClientList implements Serializable {
 	}
 
 	public void updateData() {
-		list = (ArrayList<Client>) clientService.findAll();
-
+		list = getList();
 	}
 
 	public boolean getIsShowClients() {
@@ -72,11 +73,13 @@ public class ClientList implements Serializable {
 
 	}
 
-	public ArrayList<Client> getList() {
+	@Transactional
+	public List<Client> getList() {
+		list = clientService.findAll();
 		return list;
 	}
 
-	public void setList(ArrayList<Client> list) {
+	public void setList(List<Client> list) {
 		this.list = list;
 	}
 
@@ -86,6 +89,7 @@ public class ClientList implements Serializable {
 
 	public void setClientService(ClientService clientService) {
 		this.clientService = clientService;
+
 	}
 
 	public PersonService getPersonService() {

@@ -44,14 +44,12 @@ public class ClientSelected {
 
 	public void selectedFormOnUpdate() {
 		hide();
-		clientController.blockTable();
 		clientUpdate.init(this);
 		clientUpdate.show();
 		clientController.allClientsUpdate();
 	}
 
 	public void selectedFormOnUpdateComplete() {
-		clientController.unBlockTable();
 		clientController.allClientsUpdate();
 		clientUpdate.hide();
 		selectedClient = null;
@@ -63,6 +61,14 @@ public class ClientSelected {
 
 	public void setClientService(ClientService clientService) {
 		this.clientService = clientService;
+	}
+
+	public ClientController getClients() {
+		return clientController;
+	}
+
+	public void setClients(ClientController clientController) {
+		this.clientController = clientController;
 	}
 
 	public boolean getIsShowSelectedClientForm() {

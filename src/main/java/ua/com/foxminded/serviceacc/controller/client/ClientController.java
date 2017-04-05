@@ -32,14 +32,6 @@ public class ClientController implements Serializable {
 		clientList.hide();
 	}
 
-	public void blockTable() {
-		clientList.block();
-	}
-
-	public void unBlockTable() {
-		clientList.unBlock();
-	}
-
 	public void showAllClient() {
 		clientList.show();
 	}

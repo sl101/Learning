@@ -94,6 +94,14 @@ public class ClientUpdate {
 		this.clientService = clientService;
 	}
 
+	public ClientSelected getClientSelected() {
+		return clientSelected;
+	}
+
+	public void setClientSelected(ClientSelected clientSelected) {
+		this.clientSelected = clientSelected;
+	}
+
 	public Client getClient() {
 		return client;
 	}
