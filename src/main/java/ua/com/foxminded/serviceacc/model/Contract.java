@@ -3,17 +3,55 @@ package ua.com.foxminded.serviceacc.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+@Entity
+@Table(name = "contract")
 public class Contract {
+
+	@Id
+	@SequenceGenerator(name = "generator", sequenceName = "contract_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
+
+	@Column(name = "number")
 	private String number;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date")
 	private Date date;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_id")
 	private Client client;
-	private Manager manager;
-	private Service service;
-	private Money clientRate;
-	private Money managerRate;
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "manager_id")
+	private Manager manager;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "service_id")
+	private Service service;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "money_id")
+	private Money clientRate;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "money_id")
+	private Money managerRate;
+
 	@Column(name = "active")
 	private boolean active = true;
 
