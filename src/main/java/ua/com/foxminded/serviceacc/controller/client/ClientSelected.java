@@ -3,14 +3,14 @@ package ua.com.foxminded.serviceacc.controller.client;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import ua.com.foxminded.serviceacc.model.domain.Client;
-import ua.com.foxminded.serviceacc.service.ClientServices;
+import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.service.ClientService;
 
 @Named
 public class ClientSelected {
 
 	@Inject
-	private ClientServices clientServices;
+	private ClientService clientService;
 
 	@Inject
 	private ClientController clientController;
@@ -37,7 +37,7 @@ public class ClientSelected {
 	}
 
 	public void selectedFormOnDelete() {
-		clientServices.delete(selectedClient);
+		clientService.delete(selectedClient.getId());
 		clientController.allClientsUpdate();
 		hide();
 	}
@@ -45,7 +45,7 @@ public class ClientSelected {
 	public void selectedFormOnUpdate() {
 		hide();
 		clientController.blockTable();
-		clientUpdate.init(selectedClient);
+		clientUpdate.init(this);
 		clientUpdate.show();
 		clientController.allClientsUpdate();
 	}
@@ -55,23 +55,14 @@ public class ClientSelected {
 		clientController.allClientsUpdate();
 		clientUpdate.hide();
 		selectedClient = null;
-
 	}
 
-	public ClientServices getClientServices() {
-		return clientServices;
+	public ClientService getClientService() {
+		return clientService;
 	}
 
-	public void setClientServices(ClientServices clientServices) {
-		this.clientServices = clientServices;
-	}
-
-	public ClientController getClients() {
-		return clientController;
-	}
-
-	public void setClients(ClientController clientController) {
-		this.clientController = clientController;
+	public void setClientService(ClientService clientService) {
+		this.clientService = clientService;
 	}
 
 	public boolean getIsShowSelectedClientForm() {
@@ -89,13 +80,4 @@ public class ClientSelected {
 	public void setSelectedClient(Client selectedClient) {
 		this.selectedClient = selectedClient;
 	}
-
-	public ClientUpdate getClientUpdate() {
-		return clientUpdate;
-	}
-
-	public void setClientUpdate(ClientUpdate clientUpdate) {
-		this.clientUpdate = clientUpdate;
-	}
-
 }

@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
+import ua.com.foxminded.serviceacc.model.ClientStatusType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -35,20 +35,19 @@ public class ClientStatusHistory {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "client_id")
 	private Client client;
-    
-    @Column (name = "status_changed")
-    @Enumerated (EnumType.STRING)
-	private ClientStatus statusChanged;
+
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn (name = "client_status_type_id")
+	private ClientStatusType statusChanged;
 	
 	@Temporal(TemporalType.DATE)
 	@Column (name = "date_changed")
 	private Date dateChanged;
 
 	public ClientStatusHistory() {
-
 	}
 
-    public ClientStatusHistory(Client client, ClientStatus statusChanged, Date dateChanged) {
+    public ClientStatusHistory(Client client, ClientStatusType statusChanged, Date dateChanged) {
         this.client = client;
         this.statusChanged = statusChanged;
         this.dateChanged = dateChanged;
@@ -70,11 +69,11 @@ public class ClientStatusHistory {
 		this.client = client;
 	}
 
-	public ClientStatus getStatusChanged() {
+	public ClientStatusType getStatusChanged() {
 		return statusChanged;
 	}
 
-	public void setStatusChanged(ClientStatus statusChanged) {
+	public void setStatusChanged(ClientStatusType statusChanged) {
 		this.statusChanged = statusChanged;
 	}
 

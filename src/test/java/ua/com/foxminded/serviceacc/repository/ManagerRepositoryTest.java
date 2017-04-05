@@ -42,6 +42,7 @@ public class ManagerRepositoryTest {
     @Test
     public void saveManager(){
         Manager manager = ModelBuilder.buildTestManager();
+        personRepository.save(manager.getPerson());
         managerRepository.save(manager);
         assertThat(managerRepository.findAll(), hasSize(1));
     }
@@ -49,6 +50,7 @@ public class ManagerRepositoryTest {
     @Test
     public void addNewClientToManager(){
         Manager manager = ModelBuilder.buildTestManager();
+        personRepository.save(manager.getPerson());
         Manager fetched = managerRepository.save(manager);
         assertThat(managerRepository.findAll(), hasSize(1));
         assertThat(fetched.getClients(), hasSize(1));
@@ -59,6 +61,8 @@ public class ManagerRepositoryTest {
         Client client2 = ModelBuilder.buildTestClient();
         client2.setPerson(person2);
         fetched.getClients().add(client2);
+        personRepository.save(person2);
+        clientRepository.save(client2);
         fetched = managerRepository.save(fetched);
         assertThat(managerRepository.findAll(), hasSize(1));
         assertThat(fetched.getClients(), hasSize(2));
@@ -67,6 +71,7 @@ public class ManagerRepositoryTest {
     @Test
     public void deleteManager(){
         Manager manager = ModelBuilder.buildTestManager();
+        personRepository.save(manager.getPerson());
         managerRepository.save(manager);
         assertThat(managerRepository.findAll(), hasSize(1));
         managerRepository.delete(manager.getId());
