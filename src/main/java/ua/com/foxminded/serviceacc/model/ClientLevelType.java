@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class ClientLevelType {
 
 	@Id
-	@SequenceGenerator(name = "generator", sequenceName = "client_level_type_id_seq")
+	@SequenceGenerator(name = "generator", sequenceName = "client_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
@@ -21,7 +21,7 @@ public class ClientLevelType {
 	@Column(name = "level", unique = true, nullable = false)
 	private String level;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client_level_type", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "level", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Client> clients = new HashSet<>();
 
 	@Column(name = "active")

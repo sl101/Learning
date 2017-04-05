@@ -20,7 +20,7 @@ public class ContactType {
 	@Column(name = "contact_type", unique = true, nullable = false)
 	private String contactType;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contact_type", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contactType", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Contact> contacts = new HashSet<>();
 	
 	@Column(name = "active")

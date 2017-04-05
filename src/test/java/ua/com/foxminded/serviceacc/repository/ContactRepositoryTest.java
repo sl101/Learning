@@ -39,16 +39,16 @@ public class ContactRepositoryTest {
         assertThat(contactRepository.findAll(), hasSize(1));
     }
 
-    @Test
-    public void updateContact(){
-        Contact contact = ModelBuilder.buildTestContact();
-        contactRepository.save(contact);
-        assertThat(contactRepository.findAll(), hasSize(1));
-
-        contact.setContactType(ContactType.mail);
-        contactRepository.save(contact);
-        assertThat((contactRepository.findOne(contact.getId())).getContactType(), is(ContactType.mail));
-    }
+//    @Test
+//    public void updateContact(){
+//        Contact contact = ModelBuilder.buildTestContact();
+//        contactRepository.save(contact);
+//        assertThat(contactRepository.findAll(), hasSize(1));
+//
+//        contact.setContactType(ContactType.mail);
+//        contactRepository.save(contact);
+//        assertThat((contactRepository.findOne(contact.getId())).getContactType(), is(ContactType.mail));
+//    }
 
     @Test
     public void deleteContact(){

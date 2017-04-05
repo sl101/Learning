@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class ClientStatusType {
 
 	@Id
-	@SequenceGenerator(name = "generator", sequenceName = "client_status_type_id_seq")
+	@SequenceGenerator(name = "generator", sequenceName = "client_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
@@ -21,7 +21,7 @@ public class ClientStatusType {
 	@Column(name = "status", unique = true, nullable = false)
 	private String status;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "client_status_type", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "status", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Client> clients = new HashSet<>();
 
 	@Column(name = "active")
