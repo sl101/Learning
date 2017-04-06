@@ -5,36 +5,23 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-
-	
-<p:dataTable id="table" 
-		rendered="#{clientList.isShowClients}"
-		var="client" value="#{clientList.list}"
-		selectionMode="single" selection="#{clientSelected.selectedClient}"
-		rowKey="#{client.id}">
-
-		<p:ajax disabled="#{clientList.isBlockTable}" event="rowSelect" process="@this"
-			listener="#{clientController.onRowSelect}" update="@form:clientMain" />
-
+	<p:dataTable id="table" rendered="#{clientList.isShowClients}"
+		var="client" value="#{clientList.list}" selectionMode="single"
+		selection="#{clientSelected.selectedClient}" rowKey="#{client.id}">
 		<p:column headerText="id">
 			<h:outputText value="#{client.id}" />
 		</p:column>
-
 		<p:column headerText="first name">
-			<h:outputText value="#{client.firstName}" />
+			<h:outputText value="#{client.person.firstName}" />
 		</p:column>
-
 		<p:column headerText="second name">
-			<h:outputText value="#{client.secondName}" />
+			<h:outputText value="#{client.person.lastName}" />
 		</p:column>
-
-		<p:column headerText="status">
-			<h:outputText value="#{client.statusAsString}" />
-		</p:column>
-
-		<p:column headerText="level">
-			<h:outputText value="#{client.levelAsString}" />
-		</p:column>
+		
 	</p:dataTable>
-	
+	<p:contextMenu for="table">
+		<p:menuitem value="View"
+			actionListener="#{clientController.onRowSelect}"
+			update="@form:clientMain" />
+	</p:contextMenu>
 </ui:composition>

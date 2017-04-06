@@ -11,13 +11,9 @@
 			<h:outputText value="Client" />
 		</f:facet>
 		<h:outputText value="first:" />
-		<h:outputText value="#{clientSelected.selectedClient.getFirstName()}" />
+		<h:outputText value="#{clientSelected.selectedClient.person.firstName}" />
 		<h:outputText value="second name:" />
-		<h:outputText value="#{clientSelected.selectedClient.getSecondName()}" />
-		<h:outputText value="status:" />
-		<h:outputText value="#{clientSelected.selectedClient.getStatusAsString()}" />
-		<h:outputText value="level:" />
-		<h:outputText value="#{clientSelected.selectedClient.getLevelAsString()}" />
+		<h:outputText value="#{clientSelected.selectedClient.person.lastName}" />
 		<p:commandButton id="selectedFormButtonOk" value="Ok"
 			actionListener="#{clientSelected.selectedFormOnOk}"
 			update="@form:clientMain" />

@@ -1,8 +1,29 @@
-# Created by .ignore support plugin (hsz.mobi)
-
-/.idea/
-/serviceacc.iml
+*.class
+*.iml
+.idea/*
+.mvn/
 /target/
+/build/
+.gradle/
+/logs/
+mvnw*
+/out/
+.tern-project
+
+### STS ###
+.apt_generated
 .classpath
-.settings
+.factorypath
 .project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+*.iws
+*.iml
+*.ipr
+
+# Package Files #
+*.jar
+*.war
+*.ear

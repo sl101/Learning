@@ -1,21 +1,28 @@
 package ua.com.foxminded.serviceacc.repository;
 
 import ua.com.foxminded.serviceacc.model.*;
-import ua.com.foxminded.serviceacc.model.constant.ClientLevel;
-import ua.com.foxminded.serviceacc.model.constant.ClientStatus;
-import ua.com.foxminded.serviceacc.model.constant.ContactType;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by andreb on 30.03.17.
  */
 public class ModelBuilder {
 
+    public static final String BEGINNER = "Beginner";
+    public static final String APPLICANT = "Applicant";
+    public static final String REGULAR = "Regular";
+
+    public static final String ACTIVE = "Active";
+    public static final String FROZEN = "Frozen";
+    public static final String PENDING = "Pending";
+
     public static Contact buildTestContact(){
         Contact contact = new Contact();
         contact.setContactName("066-123-45-67");
-        contact.setContactType(ContactType.phone);
+        contact.setContactType(null);
         contact.setPerson(null);
 
         return contact;
@@ -37,8 +44,8 @@ public class ModelBuilder {
         Person person = buildTestPerson();
         Client client = new Client();
         client.setPerson(person);
-        client.setStatus(ClientStatus.Active);
-        client.setLevel(ClientLevel.Applicant);
+        client.setStatus(null);
+        client.setLevel(null);
         client.setManager(null);
 
         return client;
@@ -58,10 +65,30 @@ public class ModelBuilder {
         return manager;
     }
 
-    public static ClientStatusHistory buildTestClientHistory(Client client, ClientStatus changedStatus){
+    public static ClientStatusHistory buildTestClientHistory(Client client, ClientStatusType changedStatus){
         ClientStatusHistory clientStatusHistory = new ClientStatusHistory(client, changedStatus, new Date());
 
         return clientStatusHistory;
+    }
+
+    public static List<ClientStatusType> buildListTestClientStatusType(){
+        List<ClientStatusType> statuses = new ArrayList<>();
+        ClientStatusType active = new ClientStatusType(ACTIVE);
+        ClientStatusType frozen = new ClientStatusType(FROZEN);
+        ClientStatusType pending = new ClientStatusType(PENDING);
+        statuses.add(active);
+        statuses.add(frozen);
+        statuses.add(pending);
+        return statuses;
+    }
+
+    public static List<ClientLevelType> buildListTestClientLevelType(){
+        List<ClientLevelType> levels = new ArrayList<>();
+        levels.add(new ClientLevelType(BEGINNER));
+        levels.add(new ClientLevelType(APPLICANT));
+        levels.add(new ClientLevelType(REGULAR));
+
+        return levels;
     }
 
 
