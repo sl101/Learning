@@ -43,7 +43,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				schedule.add(schedulePosition);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -68,7 +68,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 			schedulePosition.setId(id);
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +88,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(3, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -106,7 +106,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(1, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -128,14 +128,14 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			resultSet = statement.getGeneratedKeys();
 			schedulePosition.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(SchedulePositionDao.class);
 		log.error("Problem with data base", e);
 	}

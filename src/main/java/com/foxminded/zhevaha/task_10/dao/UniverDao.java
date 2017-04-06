@@ -74,7 +74,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univers.add(univer);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -126,7 +126,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univer.addSchedulePosition(iteratorSchedule.next());
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -144,7 +144,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(2, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -162,7 +162,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(1, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -181,14 +181,14 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			resultSet = statement.getGeneratedKeys();
 			univer.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(UniverDao.class);
 		log.error("Problem with data base", e);
 	}

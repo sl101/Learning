@@ -44,7 +44,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -68,7 +68,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			lecture = new Lecture(group, course, topic);
 			lecture.setId(id);
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +88,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			statement.setLong(4, lecture.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -106,7 +106,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			statement.setLong(1, lecture.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -133,7 +133,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			resultSet = statement.getGeneratedKeys();
 			lecture.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -161,7 +161,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -169,7 +169,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 		return lectures;
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(LectureDao.class);
 		log.error("Problem with data base", e);
 	}

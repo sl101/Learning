@@ -41,7 +41,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 				students.add(student);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -64,7 +64,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 			student = new Student(name, dayOfBirth);
 			student.setId(id);
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -83,7 +83,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(3, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -102,7 +102,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(1, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -122,7 +122,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 			resultSet = statement.getGeneratedKeys();
 			student.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -147,7 +147,7 @@ public class StudentDao implements GenericDao<Student, Long> {
 				students.add(student);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -165,14 +165,14 @@ public class StudentDao implements GenericDao<Student, Long> {
 			statement.setLong(2, student.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(StudentDao.class);
 		log.error("Problem with data base", e);
 	}

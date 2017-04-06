@@ -44,7 +44,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlans.add(academicPlan);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -71,7 +71,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlan.addLecture(iteratorLectures.next());
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -89,7 +89,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(2, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -107,7 +107,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -126,14 +126,14 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			resultSet = statement.getGeneratedKeys();
 			academicPlan.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(AcademicPlanDao.class);
 		log.error("Problem with data base", e);
 	}

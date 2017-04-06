@@ -47,7 +47,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -75,7 +75,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teacher.addCourse(iteratorTeacherCourses.next());
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -94,7 +94,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(3, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -112,7 +112,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(1, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -132,7 +132,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			resultSet = statement.getGeneratedKeys();
 			teacher.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -157,7 +157,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -165,7 +165,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		return teachers;
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(TeacherDao.class);
 		log.error("Problem with data base", e);
 	}

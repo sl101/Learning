@@ -56,7 +56,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +88,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				course.addTopic(iteratorTopics.next());
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -106,7 +106,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(2, course.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -124,7 +124,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(1, course.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -143,7 +143,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			resultSet = statement.getGeneratedKeys();
 			course.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -173,7 +173,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -191,7 +191,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -213,7 +213,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				topics.add(topic);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -244,7 +244,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -262,7 +262,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(2, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -279,14 +279,14 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setString(2, topic);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(CourseDao.class);
 		log.error("Problem with data base", e);
 	}

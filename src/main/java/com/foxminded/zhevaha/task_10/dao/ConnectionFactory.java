@@ -23,7 +23,7 @@ public class ConnectionFactory {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		}
 	}
@@ -39,7 +39,7 @@ public class ConnectionFactory {
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
 		} catch (IOException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		}
 	}
@@ -49,7 +49,7 @@ public class ConnectionFactory {
 		try {
 			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		}
 		return connection;
@@ -66,7 +66,7 @@ public class ConnectionFactory {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				addErrorLog(e);
+				addLogError(e);
 				throw new DaoException(e);
 			}
 		}
@@ -74,7 +74,7 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				addErrorLog(e);
+				addLogError(e);
 				throw new DaoException(e);
 			}
 		}
@@ -82,7 +82,7 @@ public class ConnectionFactory {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				addErrorLog(e);
+				addLogError(e);
 				throw new DaoException(e);
 			}
 		}
@@ -93,7 +93,7 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				addErrorLog(e);
+				addLogError(e);
 				throw new DaoException(e);
 			}
 		}
@@ -101,13 +101,13 @@ public class ConnectionFactory {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				addErrorLog(e);
+				addLogError(e);
 				throw new DaoException(e);
 			}
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(ConnectionFactory.class);
 		log.error("Problem with data base", e);
 	}

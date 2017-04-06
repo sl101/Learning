@@ -50,7 +50,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				groups.add(group);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -82,7 +82,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				group.addCourse(iteratorGroupCourses.next());
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -100,7 +100,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(2, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -118,7 +118,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -137,14 +137,14 @@ public class GroupDao implements GenericDao<Group, Long> {
 			resultSet = statement.getGeneratedKeys();
 			group.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(GroupDao.class);
 		log.error("Problem with data base", e);
 	}

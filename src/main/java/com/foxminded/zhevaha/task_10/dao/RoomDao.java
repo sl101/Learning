@@ -37,7 +37,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -59,7 +59,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			room = new Room(name);
 			room.setId(id);
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -77,7 +77,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(2, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -95,7 +95,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -114,14 +114,14 @@ public class RoomDao implements GenericDao<Room, Long> {
 			resultSet = statement.getGeneratedKeys();
 			room.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addErrorLog(e);
+			addLogError(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addErrorLog(Exception e) {
+	private static void addLogError(Exception e) {
 		Logger log = Logger.getLogger(RoomDao.class);
 		log.error("Problem with data base", e);
 	}
