@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import sun.awt.PaintEventDispatcher;
 import ua.com.foxminded.serviceacc.config.PersistenceConfig;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.model.ClientStatusType;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-
+import static ua.com.foxminded.serviceacc.repository.ModelBuilder.*;
 /**
  * Created by andreb on 05.04.17.
  */
@@ -31,10 +30,6 @@ public class ClientStatusTypeRepositoryTest {
     ClientStatusTypeRepository clientStatusTypeRepository;
     @Autowired
     PersonRepository personRepository;
-
-    private static final String ACTIVE = "Active";
-    private static final String FROZEN = "Frozen";
-    private static final String PENDING = "Pending";
 
     @Before
     public void fillClientStatusType(){
