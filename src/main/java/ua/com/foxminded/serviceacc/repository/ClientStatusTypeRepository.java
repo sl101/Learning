@@ -8,5 +8,5 @@ import ua.com.foxminded.serviceacc.model.ClientStatusType;
  * Created by andreb on 04.04.17.
  */
 public interface ClientStatusTypeRepository extends JpaRepository<ClientStatusType, Long>, JpaSpecificationExecutor {
-    ClientStatusType findOneByStatus(String status);
+    ClientStatusType findOneByTitle(String title);
 }

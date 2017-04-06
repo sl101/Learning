@@ -13,14 +13,17 @@
 						update="@form:clientMain" />
 			
 				<p:submenu label="Client">				
-				<p:menuitem value="All" 
+				<p:menuitem value="All"
 						actionListener="#{clientController.showAllClient}"
-						icon="ui-icon-plus" 
+						icon="ui-icon-plus"
 						update="@form:clientMain" />
 					<p:menuitem value="Add" 
 												actionListener="#{clientController.showNewClientForm}"
 						icon="ui-icon-plus" 
 						update="@form:clientMain" />
+
+					<p:menuitem value="Client status types" icon="ui-icon-document"
+								actionListener="#{ClientStatusTypeController.showForm}" update="@form:clientMain"/>
 				</p:submenu>
 			
 				<p:submenu label="Manager">

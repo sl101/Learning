@@ -1,5 +1,7 @@
 package ua.com.foxminded.serviceacc.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,45 +12,26 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "client_status_type")
+@Getter @Setter
+@NoArgsConstructor
 public class ClientStatusType {
     @Id
-    @SequenceGenerator(name = "generator", sequenceName = "client_id_seq")
+    @SequenceGenerator(name = "generator", sequenceName = "client_status_type_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column (name = "status", unique = true, nullable = false)
-    private String status;
+
+    @Column (name = "code", unique = true, nullable = false)
+    private String code;
+
+    @Column (name = "title", nullable = false)
+    private String title;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
 
-    public ClientStatusType() {
-    }
-
-    public ClientStatusType(String status) {
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Set<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
+    public ClientStatusType(String code, String title) {
+        this.code = code;
+        this.title = title;
     }
 }

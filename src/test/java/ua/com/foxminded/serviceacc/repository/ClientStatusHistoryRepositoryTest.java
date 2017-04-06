@@ -43,7 +43,7 @@ public class ClientStatusHistoryRepositoryTest {
         clientStatusHistoryRepository.save(csh);
         assertThat(clientRepository.findAll(), hasSize(1));
         assertThat(clientStatusHistoryRepository.findAll(), hasSize(1));
-        client.setStatus(new ClientStatusType("Frozen"));
+        //client.setStatus(new ClientStatusType("Frozen"));
         csh = ModelBuilder.buildTestClientHistory(client, client.getStatus());
         clientStatusHistoryRepository.save(csh);
         assertThat(clientRepository.findAll(), hasSize(1));

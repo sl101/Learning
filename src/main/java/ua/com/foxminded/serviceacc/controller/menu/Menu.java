@@ -3,6 +3,7 @@ package ua.com.foxminded.serviceacc.controller.menu;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ua.com.foxminded.serviceacc.controller.ClientStatusTypeController;
 import ua.com.foxminded.serviceacc.controller.client.ClientController;
 
 @Named
@@ -10,6 +11,9 @@ public class Menu {
 
 	@Inject
 	private ClientController clientController;
+
+	@Inject
+	private ClientStatusTypeController clientStatusTypeController;
 
 	public void menuOnAdd() {
 		clientController.blockTable();
@@ -36,4 +40,11 @@ public class Menu {
 		this.clientController = clientController;
 	}
 
+	public ClientStatusTypeController getStatusAll() {
+		return clientStatusTypeController;
+	}
+
+	public void setStatusAll(ClientStatusTypeController clientStatusTypeController) {
+		this.clientStatusTypeController = clientStatusTypeController;
+	}
 }
