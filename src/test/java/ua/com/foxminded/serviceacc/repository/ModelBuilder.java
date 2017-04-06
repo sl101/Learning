@@ -1,7 +1,6 @@
 package ua.com.foxminded.serviceacc.repository;
 
 import ua.com.foxminded.serviceacc.model.*;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +53,7 @@ public class ModelBuilder {
     public static Manager buildTestManager(){
         Person person = buildTestPerson();
         person.setFirstName("Andrey");
-        person.setFirstName("Sidorov");
+        person.setLastName("Sidorov");
 
         Client client = buildTestClient();
 
@@ -73,9 +72,9 @@ public class ModelBuilder {
 
     public static List<ClientStatusType> buildListTestClientStatusType(){
         List<ClientStatusType> statuses = new ArrayList<>();
-        ClientStatusType active = new ClientStatusType(ACTIVE);
-        ClientStatusType frozen = new ClientStatusType(FROZEN);
-        ClientStatusType pending = new ClientStatusType(PENDING);
+        ClientStatusType active = new ClientStatusType("01", ACTIVE);
+        ClientStatusType frozen = new ClientStatusType("02", FROZEN);
+        ClientStatusType pending = new ClientStatusType("00", PENDING);
         statuses.add(active);
         statuses.add(frozen);
         statuses.add(pending);
@@ -84,9 +83,9 @@ public class ModelBuilder {
 
     public static List<ClientLevelType> buildListTestClientLevelType(){
         List<ClientLevelType> levels = new ArrayList<>();
-        levels.add(new ClientLevelType(BEGINNER));
-        levels.add(new ClientLevelType(APPLICANT));
-        levels.add(new ClientLevelType(REGULAR));
+        levels.add(new ClientLevelType("01", BEGINNER));
+        levels.add(new ClientLevelType("00", APPLICANT));
+        levels.add(new ClientLevelType("02", REGULAR));
 
         return levels;
     }

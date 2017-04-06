@@ -51,7 +51,7 @@ public class ClientLevelTypeTest {
 
     @Test(expected = DataIntegrityViolationException.class)
     public void saveTheSameStatusTest() {
-        ClientLevelType doubleBeginner = new ClientLevelType("Beginner");
+        ClientLevelType doubleBeginner = new ClientLevelType("01", "Beginner");
         clientLevelTypeRepository.save(doubleBeginner); //Must throws error duplicate key value violates unique constraint
 
         assertThat(clientLevelTypeRepository.findAll(), hasSize(3));

@@ -3,28 +3,10 @@ package ua.com.foxminded.serviceacc.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import ua.com.foxminded.serviceacc.model.ClientStatusType;
 import ua.com.foxminded.serviceacc.model.ClientLevelType;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "client")
@@ -35,7 +17,7 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
-	
+
     @OneToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "person_id")
 	private Person person;
@@ -54,6 +36,9 @@ public class Client {
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ClientStatusHistory> clientHistory = new HashSet<>();
+
+	@Column(name = "active")
+	private boolean active = true;
 
 	public Client() {
 	}
@@ -106,12 +91,16 @@ public class Client {
 		this.status = status;
 	}
 
-	public Set<ClientStatusHistory> getClientHistory() {
-		return clientHistory;
-	}
-
 	public void setClientHistory(Set<ClientStatusHistory> clientHistory) {
 		this.clientHistory = clientHistory;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }

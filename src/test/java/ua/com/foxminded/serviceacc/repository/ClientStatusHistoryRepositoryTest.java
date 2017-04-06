@@ -12,6 +12,7 @@ import ua.com.foxminded.serviceacc.model.ClientStatusType;
 
 import java.util.List;
 
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
@@ -64,4 +65,5 @@ public class ClientStatusHistoryRepositoryTest {
         assertThat(clientStatusHistoryRepository.findAll(), hasSize(2));
 
     }
+
 }

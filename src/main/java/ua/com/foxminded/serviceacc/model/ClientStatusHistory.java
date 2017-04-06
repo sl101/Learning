@@ -2,47 +2,34 @@ package ua.com.foxminded.serviceacc.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import ua.com.foxminded.serviceacc.model.ClientStatusType;
 
-import javax.persistence.*;
-import java.util.Date;
-
 @Entity
-@Table (name = "client_status_history")
+@Table(name = "client_status_history")
 public class ClientStatusHistory {
-	
-    @Id
-    @SequenceGenerator (name = "generator", sequenceName = "clientStatusHistory_id_seq")
-    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "generator")
-    @Column (name = "id", unique = true, nullable = false)
-    private Long id;
-    
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "client_id")
+
+	@Id
+	@SequenceGenerator(name = "generator", sequenceName = "clientStatusHistory_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+	@Column(name = "id", unique = true, nullable = false)
+	private Long id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "client_id")
 	private Client client;
 
 	@ManyToOne (fetch = FetchType.LAZY)
 	@JoinColumn (name = "client_status_type_id")
 	private ClientStatusType statusChanged;
-	
+
 	@Temporal(TemporalType.DATE)
-	@Column (name = "date_changed")
+	@Column(name = "date_changed")
 	private Date dateChanged;
+
+	@Column(name = "active")
+	private boolean active = true;
 
 	public ClientStatusHistory() {
 	}
@@ -53,7 +40,8 @@ public class ClientStatusHistory {
         this.dateChanged = dateChanged;
     }
 
-    public Long getId() {
+
+	public Long getId() {
 		return id;
 	}
 
@@ -83,6 +71,14 @@ public class ClientStatusHistory {
 
 	public void setDateChanged(Date dateChanged) {
 		this.dateChanged = dateChanged;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 }
