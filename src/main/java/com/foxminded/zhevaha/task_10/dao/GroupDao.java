@@ -17,6 +17,7 @@ import com.foxminded.zhevaha.task_10.domain.Student;
 
 public class GroupDao implements GenericDao<Group, Long> {
 
+	private static final Logger log = Logger.getLogger(GroupDao.class);
 	private final String CREATE = "INSERT INTO Groups (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
 	private final String GET_ALL = "SELECT * FROM Groups;";
 	private final String GET_BY_ID = "SELECT * FROM Groups WHERE id = ?;";
@@ -50,7 +51,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				groups.add(group);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -82,7 +83,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 				group.addCourse(iteratorGroupCourses.next());
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -100,7 +101,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(2, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -118,7 +119,7 @@ public class GroupDao implements GenericDao<Group, Long> {
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -137,15 +138,10 @@ public class GroupDao implements GenericDao<Group, Long> {
 			resultSet = statement.getGeneratedKeys();
 			group.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
-	}
-
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(GroupDao.class);
-		log.error("Problem with data base", e);
 	}
 }

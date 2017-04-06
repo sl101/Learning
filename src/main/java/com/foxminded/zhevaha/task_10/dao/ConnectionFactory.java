@@ -18,12 +18,13 @@ public class ConnectionFactory {
 	public static String password = null;
 	public static String driver = null;
 	private static Properties property;
+	private static final Logger log = Logger.getLogger(ConnectionFactory.class);
 
 	private ConnectionFactory() throws DaoException {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			addLogError(e);
+			log.error("Problem get driver", e);
 			throw new DaoException(e);
 		}
 	}
@@ -39,7 +40,7 @@ public class ConnectionFactory {
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
 		} catch (IOException e) {
-			addLogError(e);
+			log.error("Problem get properties", e);
 			throw new DaoException(e);
 		}
 	}
@@ -49,7 +50,7 @@ public class ConnectionFactory {
 		try {
 			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem create connection", e);
 			throw new DaoException(e);
 		}
 		return connection;
@@ -66,7 +67,7 @@ public class ConnectionFactory {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				addLogError(e);
+				log.error("Problem close resultSet", e);
 				throw new DaoException(e);
 			}
 		}
@@ -74,7 +75,7 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				addLogError(e);
+				log.error("Problem close statement", e);
 				throw new DaoException(e);
 			}
 		}
@@ -82,7 +83,7 @@ public class ConnectionFactory {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				addLogError(e);
+				log.error("Problem close connection", e);
 				throw new DaoException(e);
 			}
 		}
@@ -93,7 +94,7 @@ public class ConnectionFactory {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				addLogError(e);
+				log.error("Problem close statement", e);
 				throw new DaoException(e);
 			}
 		}
@@ -101,14 +102,9 @@ public class ConnectionFactory {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				addLogError(e);
+				log.error("Problem close connection", e);
 				throw new DaoException(e);
 			}
 		}
-	}
-
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(ConnectionFactory.class);
-		log.error("Problem with data base", e);
 	}
 }

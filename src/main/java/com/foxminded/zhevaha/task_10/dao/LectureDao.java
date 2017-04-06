@@ -17,6 +17,7 @@ import com.foxminded.zhevaha.task_10.domain.Lecture;
 
 public class LectureDao implements GenericDao<Lecture, Long> {
 
+	private static final Logger log = Logger.getLogger(LectureDao.class);
 	private final String CREATE = "INSERT INTO Lectures (group_id, course_id, topic, academic_plan_id) VALUES (?,?,?,?) ON CONFLICT (group_id, course_id, topic) DO UPDATE SET group_id = excluded.group_id, course_id = excluded.course_id, topic = excluded.topic;";
 	private final String GET_ALL = "SELECT * FROM Lectures;";
 	private final String GET_PLANNED_LECTURES = "SELECT * FROM Lectures WHERE academic_plan_id = ?;";
@@ -44,7 +45,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -68,7 +69,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			lecture = new Lecture(group, course, topic);
 			lecture.setId(id);
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +89,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			statement.setLong(4, lecture.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -106,7 +107,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			statement.setLong(1, lecture.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -115,6 +116,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 
 	@Deprecated
 	public void create(Lecture lecture) {
+		log.error("Method deprecated");
 		throw new RuntimeException("Method deprecated");
 	}
 
@@ -133,7 +135,7 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 			resultSet = statement.getGeneratedKeys();
 			lecture.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -161,16 +163,11 @@ public class LectureDao implements GenericDao<Lecture, Long> {
 				lectures.add(lecture);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return lectures;
-	}
-
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(LectureDao.class);
-		log.error("Problem with data base", e);
 	}
 }

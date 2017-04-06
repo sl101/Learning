@@ -14,6 +14,7 @@ import com.foxminded.zhevaha.task_10.domain.Room;
 
 public class RoomDao implements GenericDao<Room, Long> {
 
+	private static final Logger log = Logger.getLogger(RoomDao.class);
 	private final String CREATE = "INSERT INTO Rooms (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name";
 	private final String GET_ALL = "SELECT * FROM Rooms;";
 	private final String GET_BY_ID = "SELECT * FROM Rooms WHERE id = ?;";
@@ -37,7 +38,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -59,7 +60,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			room = new Room(name);
 			room.setId(id);
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -77,7 +78,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(2, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -95,7 +96,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -114,15 +115,11 @@ public class RoomDao implements GenericDao<Room, Long> {
 			resultSet = statement.getGeneratedKeys();
 			room.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(RoomDao.class);
-		log.error("Problem with data base", e);
-	}
 }

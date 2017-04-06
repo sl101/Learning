@@ -17,6 +17,7 @@ import com.foxminded.zhevaha.task_10.domain.Teacher;
 
 public class TeacherDao implements GenericDao<Teacher, Long> {
 
+	private static final Logger log = Logger.getLogger(CourseDao.class);
 	private final String CREATE = "INSERT INTO Teachers (name, dayOfBirth) VALUES (?, ?);";
 	private final String GET_ALL = "SELECT * FROM Teachers;";
 	private final String GET_BY_ID = "SELECT * FROM Teachers WHERE id = ?;";
@@ -47,7 +48,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -75,7 +76,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teacher.addCourse(iteratorTeacherCourses.next());
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -94,7 +95,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(3, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -112,7 +113,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			statement.setLong(1, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -132,7 +133,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 			resultSet = statement.getGeneratedKeys();
 			teacher.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem create data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -157,7 +158,7 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 				teachers.add(teacher);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -165,8 +166,4 @@ public class TeacherDao implements GenericDao<Teacher, Long> {
 		return teachers;
 	}
 
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(TeacherDao.class);
-		log.error("Problem with data base", e);
-	}
 }

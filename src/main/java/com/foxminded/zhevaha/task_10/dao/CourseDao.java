@@ -17,6 +17,7 @@ import com.foxminded.zhevaha.task_10.domain.Teacher;
 
 public class CourseDao implements GenericDao<Course, Long> {
 
+	private static final Logger log = Logger.getLogger(CourseDao.class);
 	private final String CREATE = "INSERT INTO Courses (name) VALUES (?) ON CONFLICT (name) DO UPDATE SET name = excluded.name;";
 	private final String CREATE_TOPIC = "INSERT INTO Topics (course_id, topic) VALUES (?, ?);";
 	private final String APPOINT_GROUP_COURSE = "INSERT INTO courses_groups (course_id, group_id) VALUES (?, ?) ON CONFLICT (course_id, group_id) DO UPDATE SET course_id = excluded.course_id, group_id = excluded.group_id;";
@@ -56,7 +57,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +89,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				course.addTopic(iteratorTopics.next());
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -106,7 +107,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(2, course.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -124,7 +125,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(1, course.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -143,7 +144,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			resultSet = statement.getGeneratedKeys();
 			course.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem  to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -173,7 +174,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -191,7 +192,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(1, group.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem  to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -213,7 +214,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				topics.add(topic);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -244,7 +245,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 				courses.add(course);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -262,7 +263,7 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setLong(2, teacher.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem  to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -279,15 +280,11 @@ public class CourseDao implements GenericDao<Course, Long> {
 			statement.setString(2, topic);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem  to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(CourseDao.class);
-		log.error("Problem with data base", e);
-	}
 }

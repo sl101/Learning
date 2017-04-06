@@ -17,6 +17,7 @@ import com.foxminded.zhevaha.task_10.domain.Teacher;
 
 public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 
+	private static final Logger log = Logger.getLogger(SchedulePositionDao.class);
 	private final String CREATE = "INSERT INTO schedule_position (lecture_id, room_id, lecturetime, teacher_id) VALUES (?, ?, ?, ?);";
 	private final String GET_ALL = "SELECT * FROM schedule_position;";
 	private final String GET_BY_ID = "SELECT * FROM schedule_position WHERE id = ?;";
@@ -43,7 +44,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				schedule.add(schedulePosition);
 			}
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -68,7 +69,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 			schedulePosition.setId(id);
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem get data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -88,7 +89,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(3, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -106,7 +107,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(1, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -128,15 +129,11 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			resultSet = statement.getGeneratedKeys();
 			schedulePosition.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			addLogError(e);
+			log.error("Problem to save data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 	}
 
-	private static void addLogError(Exception e) {
-		Logger log = Logger.getLogger(SchedulePositionDao.class);
-		log.error("Problem with data base", e);
-	}
 }
