@@ -45,7 +45,7 @@ public class Salary {
 	@JoinColumn(name = "payStatus_id")
 	private PayStatus status;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "salary", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Invoice> invoices = new HashSet<>();
 	
 	@Column(name = "active")

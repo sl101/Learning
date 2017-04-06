@@ -21,7 +21,7 @@ public class Service {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	
-	@Column(name = "active")
+	@Column(name = "name")
 	private String name;
 	
 	@ManyToOne (fetch = FetchType.LAZY)

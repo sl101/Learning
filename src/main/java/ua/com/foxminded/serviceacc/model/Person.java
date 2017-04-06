@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
 @Table(name = "person")
 public class Person {
 
-	@Id
+	@Id 
 	@SequenceGenerator(name = "generator", sequenceName = "person_id_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
 	@Column(name = "id", unique = true, nullable = false)

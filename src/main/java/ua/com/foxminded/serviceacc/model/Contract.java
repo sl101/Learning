@@ -45,11 +45,11 @@ public class Contract {
 	private Service service;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "money_id")
+	@JoinColumn(name = "clientRate")
 	private Money clientRate;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "money_id")
+	@JoinColumn(name = "managerRate")
 	private Money managerRate;
 
 	@Column(name = "active")
