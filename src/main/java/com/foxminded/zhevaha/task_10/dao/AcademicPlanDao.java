@@ -16,7 +16,6 @@ import com.foxminded.zhevaha.task_10.domain.Lecture;
 
 public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 
-	private static final Logger log = Logger.getLogger(AcademicPlanDao.class);
 	private final String CREATE = "INSERT INTO academic_plan (year) VALUES (?) ON CONFLICT (year) DO UPDATE SET year = excluded.year;";
 	private final String GET_ALL = "SELECT * FROM academic_plan;";
 	private final String GET_BY_ID = "SELECT * FROM academic_plan WHERE id = ?;";
@@ -45,7 +44,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlans.add(academicPlan);
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			getLog(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -72,7 +71,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 				academicPlan.addLecture(iteratorLectures.next());
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			getLog(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
@@ -90,7 +89,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(2, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			getLog(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -108,7 +107,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			getLog(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -127,10 +126,15 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			resultSet = statement.getGeneratedKeys();
 			academicPlan.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			getLog(e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
+	}
+
+	private static void getLog(Exception e) {
+		Logger log = Logger.getLogger(ConnectionFactory.class);
+		log.error("Problem with data base", e);
 	}
 }
