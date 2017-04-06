@@ -90,7 +90,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(2, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			log.error("Problem update data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -108,7 +108,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			statement.setLong(1, academicPlan.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			log.error("Problem delete data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
@@ -127,7 +127,7 @@ public class AcademicPlanDao implements GenericDao<AcademicPlan, Long> {
 			resultSet = statement.getGeneratedKeys();
 			academicPlan.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
+			log.error("Problem create data", e);
 			throw new DaoException(e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
