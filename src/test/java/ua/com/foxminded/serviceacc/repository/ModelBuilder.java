@@ -73,9 +73,9 @@ public class ModelBuilder {
 
     public static List<ClientStatusType> buildListTestClientStatusType(){
         List<ClientStatusType> statuses = new ArrayList<>();
-        ClientStatusType active = new ClientStatusType(ACTIVE);
-        ClientStatusType frozen = new ClientStatusType(FROZEN);
-        ClientStatusType pending = new ClientStatusType(PENDING);
+        ClientStatusType active = new ClientStatusType("1", ACTIVE);
+        ClientStatusType frozen = new ClientStatusType("2", FROZEN);
+        ClientStatusType pending = new ClientStatusType("3", PENDING);
         statuses.add(active);
         statuses.add(frozen);
         statuses.add(pending);
