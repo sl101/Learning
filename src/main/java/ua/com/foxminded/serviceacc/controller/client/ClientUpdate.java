@@ -4,7 +4,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientUpdate {
@@ -13,19 +15,25 @@ public class ClientUpdate {
 
 	private Client client;
 
+	private Person person;
+
 	@Inject
 	private ClientService clientService;
 
 	@Inject
+	private PersonService personService;
+
 	private ClientSelected clientSelected;
 
-	public void init(Client selectedClient) {
+	public void init(ClientSelected clientSelected) {
+		this.clientSelected = clientSelected;
 		client = new Client();
+		person = new Person();
+		client.setPerson(person);
 		client.setId(clientSelected.getSelectedClient().getId());
-		client.getPerson().setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
-		client.getPerson().setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
-		client.setLevel(clientSelected.getSelectedClient().getLevel());
-		client.setStatus(clientSelected.getSelectedClient().getStatus());
+		person.setId(clientSelected.getSelectedClient().getPerson().getId());
+		person.setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
+		person.setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
 	}
 
 	public void hide() {
@@ -37,6 +45,7 @@ public class ClientUpdate {
 	}
 
 	public void updateFormButtonOk() {
+		personService.update(person);
 		clientService.update(client);
 		clientSelected.selectedFormOnUpdateComplete();
 	}
@@ -45,13 +54,13 @@ public class ClientUpdate {
 		hide();
 	}
 
-//	public void updateFormChangeLevel(String level) {
-//		client.setLevelAsString(level);
-//	}
-//
-//	public void updateFormChangeStatus(String status) {
-//		client.setStatusAsString(status);
-//	}
+	public void updateFormChangeLevel(String level) {
+		// client.setLevelAsString(level);
+	}
+
+	public void updateFormChangeStatus(String status) {
+		// client.setStatusAsString(status);
+	}
 
 	public boolean getIsShowUpdateForm() {
 		return isShowUpdateForm;
@@ -85,14 +94,6 @@ public class ClientUpdate {
 		this.clientService = clientService;
 	}
 
-	public ClientSelected getClientSelected() {
-		return clientSelected;
-	}
-
-	public void setClientSelected(ClientSelected clientSelected) {
-		this.clientSelected = clientSelected;
-	}
-
 	public Client getClient() {
 		return client;
 	}
@@ -100,4 +101,5 @@ public class ClientUpdate {
 	public void setClient(Client client) {
 		this.client = client;
 	}
+
 }

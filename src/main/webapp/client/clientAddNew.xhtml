@@ -4,23 +4,23 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panelGrid style="margin-bottom:10px" columns="2"
-		columnClasses="label, value" rendered="#{clientAddNew.isShowNewClientForm}">
+	<p:panelGrid id="AddNewClientForm" style="margin-bottom:10px"
+		columns="2" columnClasses="label, value"
+		rendered="#{clientAddNew.isShowNewClientForm}">
 		<f:facet name="header">
 			<h:outputText value="New client" />
 		</f:facet>
 		<h:outputText value="Firstname: *" />
-		<h:inputText value="#{clientAddNew.firstName}" required="true"
-			label="Firstname" />
+		<h:inputText id="AddNewClientFormInputFirstName"
+			value="#{clientAddNew.firstName}" required="true" label="Firstname" />
 		<h:outputText value="Lastname: *" />
-		<p:inputText value="#{clientAddNew.lastName}" required="true"
-                     label="Lastname" />
+		<p:inputText id="AddNewClientFormInputLastName"
+			value="#{clientAddNew.secondName}" required="true" label="Lastname" />
 		<p:commandButton id="addSave" value="Save"
 			actionListener="#{clientAddNew.newClientFormOnSave}"
 			update="@form:clientMain" />
 		<p:commandButton id="addCancel" value="Cancel"
 			actionListener="#{clientAddNew.newClientFormOnCancel}"
-			update="@form:clientMain"
-			immediate="true" />
+			update="@form:clientMain" immediate="true" />
 	</p:panelGrid>
 </ui:composition>

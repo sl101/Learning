@@ -1,8 +1,6 @@
 package ua.com.foxminded.serviceacc.repository;
 
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,6 +9,8 @@ import ua.com.foxminded.serviceacc.config.PersistenceConfig;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.model.ClientStatusHistory;
 import ua.com.foxminded.serviceacc.model.ClientStatusType;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
@@ -27,23 +27,38 @@ public class ClientStatusHistoryRepositoryTest {
     ClientRepository clientRepository;
     @Autowired
     ClientStatusHistoryRepository clientStatusHistoryRepository;
+    @Autowired
+    ClientStatusTypeRepository clientStatusTypeRepository;
+    @Autowired
+    PersonRepository personRepository;
+
+    @Before
+    public void fillClientStatusType(){
+        List<ClientStatusType> statuses = ModelBuilder.buildListTestClientStatusType();
+        clientStatusTypeRepository.save(statuses);
+        assertThat(clientStatusTypeRepository.findAll(), hasSize(3));
+    }
 
     @After
     public void deleteData(){
         clientStatusHistoryRepository.deleteAll();
         clientRepository.deleteAll();
+        clientStatusTypeRepository.deleteAll();
     }
 
     @Ignore
     @Test
     public void saveClientStatusHistory(){
         Client client = ModelBuilder.buildTestClient();
+        ClientStatusType active = clientStatusTypeRepository.findOneByStatus("Active");
+        personRepository.save(client.getPerson());
         clientRepository.save(client);
         ClientStatusHistory csh = ModelBuilder.buildTestClientHistory(client, client.getStatus());
         clientStatusHistoryRepository.save(csh);
         assertThat(clientRepository.findAll(), hasSize(1));
         assertThat(clientStatusHistoryRepository.findAll(), hasSize(1));
-        //client.setStatus(new ClientStatusType("Frozen"));
+        ClientStatusType frozen = clientStatusTypeRepository.findOneByStatus("Frozen");
+        client.setStatus(frozen);
         csh = ModelBuilder.buildTestClientHistory(client, client.getStatus());
         clientStatusHistoryRepository.save(csh);
         assertThat(clientRepository.findAll(), hasSize(1));

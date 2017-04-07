@@ -2,22 +2,21 @@ package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Client> list;
+	private ArrayList<Client> list;
 
 	private boolean isShowClients = false;
 
@@ -26,13 +25,17 @@ public class ClientList implements Serializable {
 	@Inject
 	private ClientService clientService;
 
+	@Inject
+	private PersonService personService;
+
 	@PostConstruct
 	public void init() {
 		updateData();
 	}
 
 	public void updateData() {
-		list = clientService.findAll();
+		list = (ArrayList<Client>) clientService.findAll();
+
 	}
 
 	public boolean getIsShowClients() {
@@ -68,13 +71,12 @@ public class ClientList implements Serializable {
 		isBlockTable = true;
 
 	}
-	@Transactional
-	public List<Client> getList() {
-		list = clientService.findAll();
+
+	public ArrayList<Client> getList() {
 		return list;
 	}
 
-	public void setList(List<Client> list) {
+	public void setList(ArrayList<Client> list) {
 		this.list = list;
 	}
 
@@ -84,5 +86,13 @@ public class ClientList implements Serializable {
 
 	public void setClientService(ClientService clientService) {
 		this.clientService = clientService;
+	}
+
+	public PersonService getPersonService() {
+		return personService;
+	}
+
+	public void setPersonService(PersonService personService) {
+		this.personService = personService;
 	}
 }

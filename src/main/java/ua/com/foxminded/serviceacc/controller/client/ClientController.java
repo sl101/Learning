@@ -5,7 +5,6 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.primefaces.event.SelectEvent;
 import ua.com.foxminded.serviceacc.controller.ClientStatusTypeController;
 
 @Named
@@ -29,7 +28,7 @@ public class ClientController implements Serializable {
 		clientList.updateData();
 	}
 
-	public void onRowSelect(SelectEvent event) {
+	public void onRowSelect() {
 		clientAddNew.hide();
 		clientSelected.show();
 	}

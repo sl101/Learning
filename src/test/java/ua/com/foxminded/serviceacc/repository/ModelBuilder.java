@@ -2,12 +2,22 @@ package ua.com.foxminded.serviceacc.repository;
 
 import ua.com.foxminded.serviceacc.model.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by andreb on 30.03.17.
  */
 public class ModelBuilder {
+
+    public static final String BEGINNER = "Beginner";
+    public static final String APPLICANT = "Applicant";
+    public static final String REGULAR = "Regular";
+
+    public static final String ACTIVE = "Active";
+    public static final String FROZEN = "Frozen";
+    public static final String PENDING = "Pending";
 
     public static Contact buildTestContact(){
         Contact contact = new Contact();
@@ -59,6 +69,26 @@ public class ModelBuilder {
         ClientStatusHistory clientStatusHistory = new ClientStatusHistory(client, changedStatus, new Date());
 
         return clientStatusHistory;
+    }
+
+    public static List<ClientStatusType> buildListTestClientStatusType(){
+        List<ClientStatusType> statuses = new ArrayList<>();
+        ClientStatusType active = new ClientStatusType(ACTIVE);
+        ClientStatusType frozen = new ClientStatusType(FROZEN);
+        ClientStatusType pending = new ClientStatusType(PENDING);
+        statuses.add(active);
+        statuses.add(frozen);
+        statuses.add(pending);
+        return statuses;
+    }
+
+    public static List<ClientLevelType> buildListTestClientLevelType(){
+        List<ClientLevelType> levels = new ArrayList<>();
+        levels.add(new ClientLevelType(BEGINNER));
+        levels.add(new ClientLevelType(APPLICANT));
+        levels.add(new ClientLevelType(REGULAR));
+
+        return levels;
     }
 
 

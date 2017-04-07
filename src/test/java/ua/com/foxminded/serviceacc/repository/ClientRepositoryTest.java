@@ -39,7 +39,7 @@ public class ClientRepositoryTest {
     @Test
     public void saveClient(){
         Client client = ModelBuilder.buildTestClient();
-
+        personRepository.save(client.getPerson());
         clientRepository.save(client);
         assertThat(clientRepository.findAll(), hasSize(1));
     }
@@ -47,7 +47,7 @@ public class ClientRepositoryTest {
     @Test
     public void updateClient(){
         Client client = ModelBuilder.buildTestClient();
-
+        personRepository.save(client.getPerson());
         clientRepository.save(client);
         assertThat(clientRepository.findAll(), hasSize(1));
 
@@ -63,7 +63,7 @@ public class ClientRepositoryTest {
     @Test
     public void deleteClient(){
         Client client = ModelBuilder.buildTestClient();
-
+        personRepository.save(client.getPerson());
         clientRepository.save(client);
         assertThat(clientRepository.findAll(), hasSize(1));
         clientRepository.delete(client);
