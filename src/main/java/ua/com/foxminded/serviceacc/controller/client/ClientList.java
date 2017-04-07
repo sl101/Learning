@@ -2,12 +2,14 @@ package ua.com.foxminded.serviceacc.controller.client;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.service.ClientService;
 import ua.com.foxminded.serviceacc.service.PersonService;
 
@@ -34,7 +36,15 @@ public class ClientList implements Serializable {
 	}
 
 	public void updateData() {
-		list = (ArrayList<Client>) clientService.findAll();
+		list = new ArrayList<>();
+		Person person = new Person();
+		person.setFirstName("firstName");
+		person.setLastName("lastName");
+		Client client = new Client();
+		client.setId(1L);
+		client.setPerson(person);
+		list.add(client);
+		
 
 	}
 

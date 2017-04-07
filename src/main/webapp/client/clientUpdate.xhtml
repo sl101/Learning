@@ -17,6 +17,8 @@
 		<h:inputText value="#{clientUpdate.client.person.firstName}" required="true"/>
 		<h:outputText value="last name:" />
 		<h:inputText value="#{clientUpdate.client.person.lastName}" required="true"/>
+		<h:outputText value="status:" />
+		<p:panelMenu model="#{clientUpdate.model}" />
 		
 		<p:commandButton id="updateFormButtonOk" value="Ok"		
 			actionListener="#{clientUpdate.updateFormButtonOk}"

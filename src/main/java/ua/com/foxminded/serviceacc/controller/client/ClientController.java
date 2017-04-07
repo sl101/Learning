@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ua.com.foxminded.serviceacc.controller.ClientStatusTypeController;
+
 @Named
 public class ClientController implements Serializable {
 
@@ -18,6 +20,9 @@ public class ClientController implements Serializable {
 
 	@Inject
 	private ClientSelected clientSelected;
+
+	@Inject
+	ClientStatusTypeController clientStatusTypeController;
 
 	public void allClientsUpdate() {
 		clientList.updateData();
@@ -42,6 +47,7 @@ public class ClientController implements Serializable {
 
 	public void showAllClient() {
 		clientList.show();
+		clientStatusTypeController.hideForm();
 	}
 
 	public void hideAllClient() {

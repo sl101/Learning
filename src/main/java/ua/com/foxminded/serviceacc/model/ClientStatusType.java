@@ -1,5 +1,7 @@
 package ua.com.foxminded.serviceacc.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,74 +12,31 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "client_status_type")
+@Getter @Setter
+@NoArgsConstructor
 public class ClientStatusType {
-    
-	@Id
-    @SequenceGenerator(name = "generator", sequenceName = "client_id_seq")
+
+    @Id
+    @SequenceGenerator(name = "generator", sequenceName = "client_status_type_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-	
-	@Column(name = "code", unique = true, nullable = false)
-	private String code;
-	
-    @Column (name = "status", nullable = false)
-    private String status;
-    
+
+    @Column (name = "code", unique = true, nullable = false)
+    private String code;
+
+    @Column (name = "title", nullable = false)
+    private String title;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
     
     @Column(name = "active", nullable = false)
 	private boolean active = true;
 
-
-    public ClientStatusType() {
-    }
-
-    public ClientStatusType(String code, String status) {
-        this.status = status;
+    public ClientStatusType(String code, String title) {
         this.code = code;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Set<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
-    }
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+        this.title = title;
+    }	
 
 }

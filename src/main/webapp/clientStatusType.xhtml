@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <p:dataTable id="status_table"
+                 var="status" value="#{ClientStatusTypeController.statusList}"
+                 emptyMessage="No items yet" rendered="#{ClientStatusTypeController.isShowForm}">
+        <f:facet name="header">
+            Client Status Types
+        </f:facet>
+        <p:column headerText="id">
+            <h:outputText value="#{status.id}"/>
+            <f:facet name="footer">
+                Add:
+            </f:facet>
+        </p:column>
+
+        <p:column headerText="code">
+            <h:outputText value="#{status.code}"/>
+            <f:facet name="footer">
+                <h:inputText id="status_code" value="#{ClientStatusTypeController.code}" required="false" label="Code" />
+            </f:facet>
+        </p:column>
+
+        <p:column headerText="title">
+            <h:outputText value="#{status.title}"/>
+            <f:facet name="footer">
+                <h:inputText id="status_title" value="#{ClientStatusTypeController.title}" required="false" label="Title" />
+                <h:inputHidden id="status_id" value="#{ClientStatusTypeController.id}"/>
+            </f:facet>
+        </p:column>
+
+        <p:column headerText="actions">
+
+            <h:commandLink id="status_edit" value="Edit " action="#{ClientStatusTypeController.edit(status)}"/>
+
+            <h:commandLink id="status_delete" value="Delete" action="#{ClientStatusTypeController.delete(status)}"/>
+
+
+            <f:facet name="footer">
+                <p:commandButton id="status_save" value="Save"
+                                 actionListener="#{ClientStatusTypeController.save}"
+                                 update="@form:clientMain" />
+            </f:facet>
+
+        </p:column>
+
+    </p:dataTable>
+
+</ui:composition>

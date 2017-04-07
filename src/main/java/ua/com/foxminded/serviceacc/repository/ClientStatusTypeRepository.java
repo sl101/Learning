@@ -12,7 +12,9 @@ import java.util.List;
  * Created by andreb on 04.04.17.
  */
 public interface ClientStatusTypeRepository extends JpaRepository<ClientStatusType, Long>, JpaSpecificationExecutor {
-    ClientStatusType findOneByStatus(String status);
-    @Query("SELECT c FROM ClientStatusType c JOIN FETCH c.clients WHERE c.status = ?1")
-    ClientStatusType findAllAndFetchClientEagerly(String status);
+    ClientStatusType findOneByTitle(String title);
+
+    @Query("SELECT c FROM ClientStatusType c JOIN FETCH c.clients WHERE c.title = ?1")
+    ClientStatusType findAllAndFetchClientEagerly(String title);
+
 }

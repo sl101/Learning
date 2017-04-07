@@ -3,9 +3,16 @@ package ua.com.foxminded.serviceacc.controller.client;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.model.menu.DefaultMenuItem;
+import org.primefaces.model.menu.DefaultMenuModel;
+import org.primefaces.model.menu.DefaultSubMenu;
+import org.primefaces.model.menu.MenuModel;
+
 import ua.com.foxminded.serviceacc.model.Client;
+import ua.com.foxminded.serviceacc.model.ClientStatusType;
 import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.ClientStatusTypeService;
 import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
@@ -23,7 +30,12 @@ public class ClientUpdate {
 	@Inject
 	private PersonService personService;
 
+	@Inject
+	private ClientStatusTypeService clientStatusTypeService;
+
 	private ClientSelected clientSelected;
+
+	private MenuModel model;
 
 	public void init(ClientSelected clientSelected) {
 		this.clientSelected = clientSelected;
@@ -31,10 +43,25 @@ public class ClientUpdate {
 		person = new Person();
 		client.setPerson(person);
 		client.setId(clientSelected.getSelectedClient().getId());
+		client.setStatus(clientSelected.getSelectedClient().getStatus());
+
 		person.setId(clientSelected.getSelectedClient().getPerson().getId());
 		person.setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
 		person.setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
+
+		createStatusMenu();
 	}
+
+	
+	private void createStatusMenu() {
+		model = new DefaultMenuModel();
+		DefaultSubMenu firstSubmenu = new DefaultSubMenu("choose status");		
+		for (ClientStatusType  statusType: clientStatusTypeService.findAll()){
+			DefaultMenuItem item = new DefaultMenuItem(statusType.getTitle());			
+			firstSubmenu.addElement(item);
+		}
+		model.addElement(firstSubmenu);
+	}	
 
 	public void hide() {
 		setIsShowUpdateForm(false);
@@ -55,11 +82,11 @@ public class ClientUpdate {
 	}
 
 	public void updateFormChangeLevel(String level) {
-		// client.setLevelAsString(level);
+		// TODO: level
 	}
 
-	public void updateFormChangeStatus(String status) {
-		// client.setStatusAsString(status);
+	public void updateFormChangeStatus(String status) {		
+		client.setStatus(clientStatusTypeService.findByStatusName(status));
 	}
 
 	public boolean getIsShowUpdateForm() {
@@ -102,4 +129,19 @@ public class ClientUpdate {
 		this.client = client;
 	}
 
+	public ClientStatusTypeService getClientStatusTypeService() {
+		return clientStatusTypeService;
+	}
+
+	public void setClientStatusTypeService(ClientStatusTypeService clientStatusTypeService) {
+		this.clientStatusTypeService = clientStatusTypeService;
+	}
+
+	public MenuModel getModel() {
+		return model;
+	}
+
+	public void setModel(MenuModel model) {
+		this.model = model;
+	}
 }

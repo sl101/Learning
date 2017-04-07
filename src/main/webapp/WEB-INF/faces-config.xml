@@ -34,6 +34,10 @@
 			<property-name>isShowUpdateForm</property-name>
 			<value>#{isShowUpdateForm}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>model</property-name>
+			<value>#{model}</value>
+		</managed-property>
 	</managed-bean>
 
 	<!-- client controller -->
@@ -83,17 +87,8 @@
 	</managed-bean>
 
 
-
-
-	<!-- start page -->
-	<navigation-rule>
-		<navigation-case>
-			<from-outcome>client</from-outcome>
-			<to-view-id>/client/clientTemplate.xhtml</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
-	<application>
+	
+		<application>
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 
