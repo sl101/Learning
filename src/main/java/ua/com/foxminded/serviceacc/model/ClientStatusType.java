@@ -21,13 +21,13 @@ public class ClientStatusType {
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 	
-    @Column (name = "status", unique = true, nullable = false)
+    @Column (name = "status", nullable = false)
     private String status;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
     
-	@Column(name = "active")
+    @Column(name = "active", nullable = false)
 	private boolean active = true;
 
 

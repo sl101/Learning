@@ -37,7 +37,7 @@ public class Client {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<ClientStatusHistory> clientHistory = new HashSet<>();
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Client() {

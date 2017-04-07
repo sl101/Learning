@@ -24,10 +24,9 @@ public class Contact {
 
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn (name = "contact_type_id")
-
 	private ContactType contactType;
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Contact() {

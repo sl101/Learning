@@ -28,7 +28,7 @@ public class ClientStatusHistory {
 	@Column(name = "date_changed")
 	private Date dateChanged;
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public ClientStatusHistory() {

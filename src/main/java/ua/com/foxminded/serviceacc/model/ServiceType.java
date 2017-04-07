@@ -14,10 +14,10 @@ public class ServiceType {
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 	
-	@Column (name = "title", unique = true, nullable = false)
+	@Column (name = "title", nullable = false)
 	private String title;
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public ServiceType() {

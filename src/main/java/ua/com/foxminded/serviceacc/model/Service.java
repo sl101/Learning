@@ -32,7 +32,7 @@ public class Service {
     @JoinColumn (name = "serviceType_id")
 	private ServiceType type;
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Service() {

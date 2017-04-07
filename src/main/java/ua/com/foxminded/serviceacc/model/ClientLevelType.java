@@ -17,7 +17,7 @@ public class ClientLevelType {
 	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 
-	@Column(name = "code", unique = true, nullable = false)
+	@Column(name = "code", nullable = false)
 	private String code;
 
 	@Column(name = "level", unique = true, nullable = false)
@@ -26,7 +26,7 @@ public class ClientLevelType {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "level", orphanRemoval = true)
 	private Set<Client> clients = new HashSet<>();
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public ClientLevelType() {
@@ -68,4 +68,13 @@ public class ClientLevelType {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+
+	public Set<Client> getClients() {
+		return clients;
+	}
+
+	public void setClients(Set<Client> clients) {
+		this.clients = clients;
+	}
+	
 }

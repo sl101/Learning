@@ -40,7 +40,7 @@ public class Person {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Contact> contacts = new HashSet<>();
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Person() {

@@ -17,7 +17,7 @@ public class PayStatus {
 	@Column (name = "title", unique = true, nullable = false)
 	private String title;
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 	
 	public PayStatus() {

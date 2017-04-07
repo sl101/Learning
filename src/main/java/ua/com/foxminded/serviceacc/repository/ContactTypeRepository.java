@@ -10,5 +10,5 @@ import java.util.List;
  * Created by andreb on 04.04.17.
  */
 public interface ContactTypeRepository extends JpaRepository<ContactType, Long>, JpaSpecificationExecutor {
-    ContactType findOneByContactType(String contactTypeName);
+    ContactType findOneByTitle(String contactTypeName);
 }

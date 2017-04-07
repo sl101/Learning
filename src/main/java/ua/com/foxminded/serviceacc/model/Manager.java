@@ -22,7 +22,7 @@ public class Manager {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "manager", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 

@@ -26,7 +26,7 @@ public class Money {
 	@Column(name = "amount")
 	private int amount;
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Money() {

@@ -33,7 +33,7 @@ public class ContactTypeServiceDataJpa implements ContactTypeService{
 
     @Override
     public ContactType findByTypeName(String contactTypeName) {
-        return contactTypeRepository.findOneByContactType(contactTypeName);
+        return contactTypeRepository.findOneByTitle(contactTypeName);
     }
 
     @Override

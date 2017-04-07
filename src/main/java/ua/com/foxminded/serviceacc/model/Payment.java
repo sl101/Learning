@@ -37,7 +37,7 @@ public class Payment {
     @JoinColumn (name = "paymentType_id")
 	private PaymentType type;
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 	
 	public Payment() {

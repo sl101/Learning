@@ -52,7 +52,7 @@ public class Contract {
 	@JoinColumn(name = "managerRate")
 	private Money managerRate;
 
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Contract() {

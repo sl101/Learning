@@ -48,7 +48,7 @@ public class Invoice {
     @JoinColumn (name = "payment_id")
 	private Payment payment;
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Invoice() {

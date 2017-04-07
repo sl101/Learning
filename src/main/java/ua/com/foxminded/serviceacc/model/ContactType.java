@@ -19,48 +19,41 @@ public class ContactType {
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 	
-    @Column (name = "contact_type", unique = true, nullable = false)
-    private String contactType;
-
-    @Column(name = "active")
+	@Column (name = "title", unique = true, nullable = false)
+    private String title;
+	
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
     
     public ContactType() {
     }
-
-    public ContactType(String code, String contactType) {
+    public ContactType(String code, String title) {
         this.code = code;
-    	this.contactType = contactType;
+    	this.title = title;
     }
-
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getContactType() {
-        return contactType;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setContactType(String contactType) {
-        this.contactType = contactType;
-    }
-
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getCode() {
 		return code;
 	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
-
 	public boolean isActive() {
 		return active;
 	}
-
 	public void setActive(boolean active) {
 		this.active = active;
 	}

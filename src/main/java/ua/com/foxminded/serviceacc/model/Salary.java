@@ -48,7 +48,7 @@ public class Salary {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Invoice> invoices = new HashSet<>();
 	
-	@Column(name = "active")
+	@Column(name = "active", nullable = false)
 	private boolean active = true;
 
 	public Salary() {
