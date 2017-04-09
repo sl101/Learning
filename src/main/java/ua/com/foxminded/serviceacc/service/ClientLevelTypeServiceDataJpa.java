@@ -33,7 +33,7 @@ public class ClientLevelTypeServiceDataJpa implements ClientLevelTypeService {
 
     @Override
     public ClientLevelType findByLevelName(String levelName) {
-        return clientLevelTypeRepository.findOneByLevel(levelName);
+        return clientLevelTypeRepository.findOneByTitle(levelName);
     }
 
     @Override

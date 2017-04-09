@@ -46,38 +46,38 @@ public class ClientStatusTypeRepositoryTest {
 
     @Test
     public void getStatusByStringTest(){
-        ClientStatusType status = clientStatusTypeRepository.findOneByStatus(ACTIVE);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), is(ACTIVE));
-        status = clientStatusTypeRepository.findOneByStatus(FROZEN);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), is(FROZEN));
-        status = clientStatusTypeRepository.findOneByStatus(FROZEN);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), not(PENDING));
-        status = clientStatusTypeRepository.findOneByStatus(PENDING);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), is(PENDING));
+        ClientStatusType status = clientStatusTypeRepository.findOneByTitle(ACTIVE);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), is(ACTIVE));
+        status = clientStatusTypeRepository.findOneByTitle(FROZEN);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), is(FROZEN));
+        status = clientStatusTypeRepository.findOneByTitle(FROZEN);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), not(PENDING));
+        status = clientStatusTypeRepository.findOneByTitle(PENDING);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), is(PENDING));
     }
 
     @Test
     public void updateStatusTest(){
         String other = "Other";
-        ClientStatusType status = clientStatusTypeRepository.findOneByStatus(ACTIVE);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), is(ACTIVE));
-        status.setStatus(other);
+        ClientStatusType status = clientStatusTypeRepository.findOneByTitle(ACTIVE);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), is(ACTIVE));
+        status.setTitle(other);
         clientStatusTypeRepository.save(status);
         assertThat(clientStatusTypeRepository.findAll(), hasSize(3));
 
-        ClientStatusType fetchedStatus = clientStatusTypeRepository.findOneByStatus(other);
-        assertThat(status.getStatus(), notNullValue());
-        assertThat(status.getStatus(), is(other));
+        ClientStatusType fetchedStatus = clientStatusTypeRepository.findOneByTitle(other);
+        assertThat(status.getTitle(), notNullValue());
+        assertThat(status.getTitle(), is(other));
     }
 
     @Test
     public void getClientByStatusTest(){
-        ClientStatusType active = clientStatusTypeRepository.findOneByStatus(ACTIVE);
+        ClientStatusType active = clientStatusTypeRepository.findOneByTitle(ACTIVE);
 
         Client client1 = ModelBuilder.buildTestClient();
         client1.setStatus(active);

@@ -21,8 +21,8 @@ public class ClientStatusType {
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 	
-    @Column (name = "status", nullable = false)
-    private String status;
+    @Column (name = "title", nullable = false)
+    private String title;
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "status", orphanRemoval = true)
     private Set<Client> clients = new HashSet<>();
@@ -34,8 +34,8 @@ public class ClientStatusType {
     public ClientStatusType() {
     }
 
-    public ClientStatusType(String code, String status) {
-        this.status = status;
+    public ClientStatusType(String code, String title) {
+        this.title = title;
         this.code = code;
     }
 
@@ -47,12 +47,12 @@ public class ClientStatusType {
         this.id = id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getTitle() {
+        return title;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Set<Client> getClients() {
