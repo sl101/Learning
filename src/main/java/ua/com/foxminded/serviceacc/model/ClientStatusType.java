@@ -1,5 +1,4 @@
 package ua.com.foxminded.serviceacc.model;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,13 +10,13 @@ import java.util.Set;
 @Entity
 @Table(name = "client_status_type")
 public class ClientStatusType {
-    
-	@Id
-    @SequenceGenerator(name = "generator", sequenceName = "client_id_seq")
+
+    @Id
+    @SequenceGenerator(name = "generator", sequenceName = "client_status_type_id_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-	
+
 	@Column(name = "code", unique = true, nullable = false)
 	private String code;
 	
@@ -29,7 +28,6 @@ public class ClientStatusType {
     
     @Column(name = "active", nullable = false)
 	private boolean active = true;
-
 
     public ClientStatusType() {
     }

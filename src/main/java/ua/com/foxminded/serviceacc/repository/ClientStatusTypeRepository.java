@@ -15,4 +15,5 @@ public interface ClientStatusTypeRepository extends JpaRepository<ClientStatusTy
     ClientStatusType findOneByTitle(String status);
     @Query("SELECT c FROM ClientStatusType c JOIN FETCH c.clients WHERE c.title = ?1")
     ClientStatusType findAllAndFetchClientEagerly(String title);
+
 }

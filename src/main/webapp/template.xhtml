@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="main">
+		<p:layout fullPage="true">
+			<p:layoutUnit header="Left Menu" position="west" resizable="true"
+				size="250" minSize="40" maxSize="200">
+				<ui:include src="/menu/menu.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit position="center">
+				<p:layout>
+					<p:layoutUnit position="north" size="100" header="Panel">
+					</p:layoutUnit>
+					<p:layoutUnit header="List" position="center">
+						<h:panelGroup id="mainLayout">
+							<ui:include src="/client/clientList.xhtml" />
+						</h:panelGroup>
+					</p:layoutUnit>
+				</p:layout>
+			</p:layoutUnit>
+		</p:layout>
+	</h:form>
+</h:body>
+</html>
+

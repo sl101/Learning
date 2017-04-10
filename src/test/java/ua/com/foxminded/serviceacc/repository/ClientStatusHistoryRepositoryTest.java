@@ -45,6 +45,7 @@ public class ClientStatusHistoryRepositoryTest {
         clientStatusTypeRepository.deleteAll();
     }
 
+    @Ignore
     @Test
     public void saveClientStatusHistory(){
         Client client = ModelBuilder.buildTestClient();

@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.service.ClientStatusTypeService;
 
 @Named
 public class ClientAddNew implements Serializable {
@@ -20,11 +21,16 @@ public class ClientAddNew implements Serializable {
 
 	@Inject
 	private ClientController clientController;
-
+	
+	@Inject
+	private ClientStatusTypeService clientStatusTypeService;	
+	
 	public void newClientFormOnSave() {
+
 		Client addNewClient = new Client();
 		addNewClient.setFirstName(firstName);
 		addNewClient.setLastName(secondName);
+		addNewClient.setStatus(clientStatusTypeService.findById(1L));
 		clientService.create(addNewClient);
 		clientController.allClientsUpdate();
 		exit();
@@ -74,6 +80,14 @@ public class ClientAddNew implements Serializable {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	public ClientStatusTypeService getClientStatusTypeService() {
+		return clientStatusTypeService;
+	}
+
+	public void setClientStatusTypeService(ClientStatusTypeService clientStatusTypeService) {
+		this.clientStatusTypeService = clientStatusTypeService;
 	}
 
 }
