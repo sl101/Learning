@@ -28,9 +28,7 @@ public class ClientStatusTypeRepositoryTest {
     ClientRepository clientRepository;
     @Autowired
     ClientStatusTypeRepository clientStatusTypeRepository;
-    @Autowired
-    PersonRepository personRepository;
-
+    
     @Before
     public void fillClientStatusType(){
         List<ClientStatusType> statuses = ModelBuilder.buildListTestClientStatusType();
@@ -88,11 +86,8 @@ public class ClientStatusTypeRepositoryTest {
         Client client3 = ModelBuilder.buildTestClient();
         client3.setStatus(active);
 
-        personRepository.save(client1.getPerson());
         clientRepository.save(client1);
-        personRepository.save(client2.getPerson());
         clientRepository.save(client2);
-        personRepository.save(client3.getPerson());
         clientRepository.save(client3);
 
         assertThat(clientStatusTypeRepository.findAllAndFetchClientEagerly(ACTIVE).getClients().size(), is(3));

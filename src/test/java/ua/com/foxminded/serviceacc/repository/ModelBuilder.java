@@ -22,27 +22,16 @@ public class ModelBuilder {
         Contact contact = new Contact();
         contact.setContactName("066-123-45-67");
         contact.setContactType(null);
-        contact.setPerson(null);
-
+        contact.setClient(null);
+        contact.setManager(null);
+        
         return contact;
     }
 
-    public static Person buildTestPerson(){
-        Person person = new Person();
-        person.setFirstName("Ivan");
-        person.setLastName("Petrov");
-        person.setBirthday(new Date());
-
-        Contact contact = buildTestContact();
-        contact.setPerson(person);
-
-        return person;
-    }
-
     public static Client buildTestClient(){
-        Person person = buildTestPerson();
         Client client = new Client();
-        client.setPerson(person);
+        client.setFirstName("Andrey");
+        client.setLastName("Sidorov");
         client.setStatus(null);
         client.setLevel(null);
         client.setManager(null);
@@ -51,14 +40,10 @@ public class ModelBuilder {
     }
 
     public static Manager buildTestManager(){
-        Person person = buildTestPerson();
-        person.setFirstName("Andrey");
-        person.setLastName("Sidorov");
-
         Client client = buildTestClient();
-
         Manager manager = new Manager();
-        manager.setPerson(person);
+        manager.setFirstName("Andrey");
+        manager.setLastName("Sidorov");
         manager.getClients().add(client);
 
         return manager;

@@ -32,8 +32,6 @@ public class ClientLevelTypeTest {
     ClientRepository clientRepository;
     @Autowired
     ClientLevelTypeRepository clientLevelTypeRepository;
-    @Autowired
-    PersonRepository personRepository;
 
     @Before
     public void fillClientStatusType(){
@@ -46,7 +44,6 @@ public class ClientLevelTypeTest {
     public void deleteData(){
         clientRepository.deleteAll();
         clientLevelTypeRepository.deleteAll();
-        personRepository.deleteAll();
     }
 
     @Test(expected = DataIntegrityViolationException.class)

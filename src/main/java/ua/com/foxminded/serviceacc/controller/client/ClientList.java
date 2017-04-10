@@ -9,7 +9,6 @@ import javax.inject.Named;
 
 import ua.com.foxminded.serviceacc.model.Client;
 import ua.com.foxminded.serviceacc.service.ClientService;
-import ua.com.foxminded.serviceacc.service.PersonService;
 
 @Named
 public class ClientList implements Serializable {
@@ -24,9 +23,6 @@ public class ClientList implements Serializable {
 
 	@Inject
 	private ClientService clientService;
-
-	@Inject
-	private PersonService personService;
 
 	@PostConstruct
 	public void init() {
@@ -88,11 +84,4 @@ public class ClientList implements Serializable {
 		this.clientService = clientService;
 	}
 
-	public PersonService getPersonService() {
-		return personService;
-	}
-
-	public void setPersonService(PersonService personService) {
-		this.personService = personService;
-	}
 }

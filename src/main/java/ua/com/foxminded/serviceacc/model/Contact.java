@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import ua.com.foxminded.serviceacc.model.ContactType;
 
-
 @Entity
 @Table(name = "contact")
 public class Contact {
@@ -16,14 +15,18 @@ public class Contact {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "person_id")
-	private Person person;
+	@JoinColumn(name = "client_id")
+	private Client client;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "manager_id")
+	private Manager manager;
 
 	@Column(name = "contact_name")
 	private String contactName;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name = "contact_type_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "contact_type_id")
 	private ContactType contactType;
 
 	@Column(name = "active", nullable = false)
@@ -32,10 +35,12 @@ public class Contact {
 	public Contact() {
 	}
 
-	public Contact(Person person, String contact, ContactType contactType) {
-		this.person = person;
-		this.contactName = contact;
+	public Contact(Client client, Manager manager, String contactName, ContactType contactType, boolean active) {
+		this.client = client;
+		this.manager = manager;
+		this.contactName = contactName;
 		this.contactType = contactType;
+		this.active = active;
 	}
 
 	public Long getId() {
@@ -46,20 +51,28 @@ public class Contact {
 		this.id = id;
 	}
 
-	public Person getPerson() {
-		return person;
+	public Client getClient() {
+		return client;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 
 	public String getContactName() {
 		return contactName;
 	}
 
-	public void setContactName(String contact) {
-		this.contactName = contact;
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
 	}
 
 	public ContactType getContactType() {
