@@ -42,6 +42,9 @@ public class ClientStatusType {
 		this.code = code;
 		this.title = title;
 	}
+	
+	public ClientStatusType() {
+	}
 
 	public Long getId() {
 		return id;
