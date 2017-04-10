@@ -32,8 +32,6 @@ public class ClientLevelTypeTest {
     ClientRepository clientRepository;
     @Autowired
     ClientLevelTypeRepository clientLevelTypeRepository;
-    @Autowired
-    PersonRepository personRepository;
 
     @Before
     public void fillClientStatusType(){
@@ -46,7 +44,6 @@ public class ClientLevelTypeTest {
     public void deleteData(){
         clientRepository.deleteAll();
         clientLevelTypeRepository.deleteAll();
-        personRepository.deleteAll();
     }
 
     @Test(expected = DataIntegrityViolationException.class)
@@ -59,12 +56,12 @@ public class ClientLevelTypeTest {
 
     @Test
     public void getLevelByStringTest(){
-        ClientLevelType level = clientLevelTypeRepository.findOneByLevel(BEGINNER);
+        ClientLevelType level = clientLevelTypeRepository.findOneByTitle(BEGINNER);
         assertThat(level, notNullValue());
-        assertThat(level.getLevel(), is(BEGINNER));
-        level = clientLevelTypeRepository.findOneByLevel(REGULAR);
+        assertThat(level.getTitle(), is(BEGINNER));
+        level = clientLevelTypeRepository.findOneByTitle(REGULAR);
         assertThat(level, notNullValue());
-        assertThat(level.getLevel(), not(BEGINNER));
-        assertThat(level.getLevel(), is(REGULAR));
+        assertThat(level.getTitle(), not(BEGINNER));
+        assertThat(level.getTitle(), is(REGULAR));
     }
 }

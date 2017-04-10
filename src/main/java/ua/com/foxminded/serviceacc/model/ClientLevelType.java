@@ -20,8 +20,8 @@ public class ClientLevelType {
 	@Column(name = "code", nullable = false)
 	private String code;
 
-	@Column(name = "level", unique = true, nullable = false)
-	private String level;
+	@Column(name = "title", unique = true, nullable = false)
+	private String title;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "level", orphanRemoval = true)
 	private Set<Client> clients = new HashSet<>();
@@ -34,7 +34,7 @@ public class ClientLevelType {
 
 	public ClientLevelType(String code, String level) {
 		this.code = code;
-		this.level = level;
+		this.title = level;
 	}
 
 	public Long getId() {
@@ -45,12 +45,12 @@ public class ClientLevelType {
 		this.id = id;
 	}
 
-	public String getLevel() {
-		return level;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setLevel(String level) {
-		this.level = level;
+	public void setTitle(String level) {
+		this.title = level;
 	}
 
 	public String getCode() {

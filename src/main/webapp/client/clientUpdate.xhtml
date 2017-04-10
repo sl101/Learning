@@ -14,21 +14,20 @@
 		</f:facet>
 
 		<h:outputText value="first:" />
-		<h:inputText value="#{clientUpdate.client.person.firstName}" required="true"/>
+		<h:inputText value="#{clientUpdate.client.firstName}" required="true" />
 		<h:outputText value="last name:" />
-		<h:inputText value="#{clientUpdate.client.person.lastName}" required="true"/>
+
+		<h:inputText value="#{clientUpdate.client.lastName}" required="true" />
 		<h:outputText value="status:" />
 		<p:panelMenu model="#{clientUpdate.model}" />
-		
-		<p:commandButton id="updateFormButtonOk" value="Ok"		
+
+		<p:commandButton id="updateFormButtonOk" value="Ok"
 			actionListener="#{clientUpdate.updateFormButtonOk}"
 			update="@form:clientMain" />
 
-		<p:commandButton id="updateFormButtonCancel"
-			value="Cancel"			
+		<p:commandButton id="updateFormButtonCancel" value="Cancel"
 			actionListener="#{clientUpdate.updateFormButtonCancel}"
-			update="@form:clientMain"
-			immediate="true" />
+			update="@form:clientMain" immediate="true" />
 	</p:panelGrid>
 
 </ui:composition>

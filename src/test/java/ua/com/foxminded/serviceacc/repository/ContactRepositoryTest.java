@@ -22,8 +22,6 @@ import static org.junit.Assert.assertThat;
 public class ContactRepositoryTest {
 
     @Autowired
-    PersonRepository personRepository;
-    @Autowired
     ContactRepository contactRepository;
 
     @After

@@ -11,9 +11,9 @@
 			<h:outputText value="Client" />
 		</f:facet>
 		<h:outputText value="first:" />
-		<h:outputText value="#{clientSelected.selectedClient.person.firstName}" />
+		<h:outputText value="#{clientSelected.selectedClient.firstName}" />
 		<h:outputText value="second name:" />
-		<h:outputText value="#{clientSelected.selectedClient.person.lastName}" />
+		<h:outputText value="#{clientSelected.selectedClient.lastName}" />
 		<p:commandButton id="selectedFormButtonOk" value="Ok"
 			actionListener="#{clientSelected.selectedFormOnOk}"
 			update="@form:clientMain" />

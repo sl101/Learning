@@ -8,5 +8,5 @@ import ua.com.foxminded.serviceacc.model.ClientLevelType;
  * Created by andreb on 04.04.17.
  */
 public interface ClientLevelTypeRepository extends JpaRepository<ClientLevelType, Long>, JpaSpecificationExecutor{
-    ClientLevelType findOneByLevel(String levelName);
+    ClientLevelType findOneByTitle(String levelName);
 }

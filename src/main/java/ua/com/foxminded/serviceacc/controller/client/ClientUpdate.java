@@ -9,12 +9,9 @@ import org.primefaces.model.menu.DefaultSubMenu;
 import org.primefaces.model.menu.MenuModel;
 
 import ua.com.foxminded.serviceacc.model.Client;
-import ua.com.foxminded.serviceacc.model.ClientStatusType;
-import ua.com.foxminded.serviceacc.model.Person;
 import ua.com.foxminded.serviceacc.service.ClientService;
+import ua.com.foxminded.serviceacc.model.ClientStatusType;
 import ua.com.foxminded.serviceacc.service.ClientStatusTypeService;
-import ua.com.foxminded.serviceacc.service.PersonService;
-
 @Named
 public class ClientUpdate {
 
@@ -22,13 +19,8 @@ public class ClientUpdate {
 
 	private Client client;
 
-	private Person person;
-
 	@Inject
 	private ClientService clientService;
-
-	@Inject
-	private PersonService personService;
 
 	@Inject
 	private ClientStatusTypeService clientStatusTypeService;
@@ -40,15 +32,10 @@ public class ClientUpdate {
 	public void init(ClientSelected clientSelected) {
 		this.clientSelected = clientSelected;
 		client = new Client();
-		person = new Person();
-		client.setPerson(person);
 		client.setId(clientSelected.getSelectedClient().getId());
+		client.setFirstName(clientSelected.getSelectedClient().getFirstName());
+		client.setLastName(clientSelected.getSelectedClient().getLastName());
 		client.setStatus(clientSelected.getSelectedClient().getStatus());
-
-		person.setId(clientSelected.getSelectedClient().getPerson().getId());
-		person.setFirstName(clientSelected.getSelectedClient().getPerson().getFirstName());
-		person.setLastName(clientSelected.getSelectedClient().getPerson().getLastName());
-
 		createStatusMenu();
 	}
 
@@ -72,7 +59,6 @@ public class ClientUpdate {
 	}
 
 	public void updateFormButtonOk() {
-		personService.update(person);
 		clientService.update(client);
 		clientSelected.selectedFormOnUpdateComplete();
 	}
@@ -98,19 +84,19 @@ public class ClientUpdate {
 	}
 
 	public String getFirstName() {
-		return client.getPerson().getFirstName();
+		return client.getFirstName();
 	}
 
 	public void setFirstName(String firstName) {
-		client.getPerson().setFirstName(firstName);
+		client.setFirstName(firstName);
 	}
 
 	public String getLastName() {
-		return client.getPerson().getLastName();
+		return client.getLastName();
 	}
 
 	public void setLastName(String secondName) {
-		client.getPerson().setLastName(secondName);
+		client.setLastName(secondName);
 	}
 
 	public ClientService getClientService() {
