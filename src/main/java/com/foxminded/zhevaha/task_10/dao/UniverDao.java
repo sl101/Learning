@@ -28,7 +28,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 	private final String UPDATE = "UPDATE Univers SET name = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM Univers WHERE id = ?;";
 
-	public Set<Univer> getAll() throws DaoException {
+	public Set<Univer> getAll() throws UniverException {
 		Set<Univer> univers = new HashSet<Univer>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -75,15 +75,15 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univers.add(univer);
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return univers;
 	}
 
-	public Univer getById(Long id) throws DaoException {
+	public Univer getById(Long id) throws UniverException {
 		Univer univer = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -127,15 +127,15 @@ public class UniverDao implements GenericDao<Univer, Long> {
 				univer.addSchedulePosition(iteratorSchedule.next());
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return univer;
 	}
 
-	public Univer update(Univer univer) throws DaoException {
+	public Univer update(Univer univer) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -145,8 +145,8 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(2, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem update data", e);
-			throw new DaoException(e);
+			log.error("Problem to update data", e);
+			throw new UniverException("Problem to update data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -154,7 +154,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 		return univer;
 	}
 
-	public void delete(Univer univer) throws DaoException {
+	public void delete(Univer univer) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -163,14 +163,14 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			statement.setLong(1, univer.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem delete data", e);
-			throw new DaoException(e);
+			log.error("Problem to delete data", e);
+			throw new UniverException("Problem to delete data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(Univer univer) throws DaoException {
+	public void create(Univer univer) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -183,7 +183,7 @@ public class UniverDao implements GenericDao<Univer, Long> {
 			univer.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
 			log.error("Problem to save data", e);
-			throw new DaoException(e);
+			throw new UniverException("Problem to save data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

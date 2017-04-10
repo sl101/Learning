@@ -20,16 +20,16 @@ public class ConnectionFactory {
 	private static Properties property;
 	private static final Logger log = Logger.getLogger(ConnectionFactory.class);
 
-	private ConnectionFactory() throws DaoException {
+	private ConnectionFactory() throws UniverException {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			log.error("Problem get driver", e);
-			throw new DaoException(e);
+			log.error("Problem to get driver", e);
+			throw new UniverException("Problem to get driver", e);
 		}
 	}
 
-	private static void getProperties() throws DaoException {
+	private static void getProperties() throws UniverException {
 		FileInputStream fis;
 		property = new Properties();
 		try {
@@ -40,70 +40,70 @@ public class ConnectionFactory {
 			login = property.getProperty("db.login");
 			password = property.getProperty("db.password");
 		} catch (IOException e) {
-			log.error("Problem get properties", e);
-			throw new DaoException(e);
+			log.error("Problem to get properties", e);
+			throw new UniverException("Problem to get properties", e);
 		}
 	}
 
-	private static Connection createConnection() throws DaoException {
+	private static Connection createConnection() throws UniverException {
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(url, login, password);
 		} catch (SQLException e) {
-			log.error("Problem create connection", e);
-			throw new DaoException(e);
+			log.error("Problem to create connection", e);
+			throw new UniverException("Problem to create connection", e);
 		}
 		return connection;
 	}
 
-	public static Connection getConnection() throws DaoException {
+	public static Connection getConnection() throws UniverException {
 		getProperties();
 		return createConnection();
 	}
 
 	public static void closeConnection(Connection connection, Statement statement, ResultSet resultSet)
-			throws DaoException {
+			throws UniverException {
 		if (resultSet != null) {
 			try {
 				resultSet.close();
 			} catch (SQLException e) {
-				log.error("Problem close resultSet", e);
-				throw new DaoException(e);
+				log.error("Problem to close resultSet", e);
+				throw new UniverException("Problem to close resultSet", e);
 			}
 		}
 		if (statement != null) {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Problem close statement", e);
-				throw new DaoException(e);
+				log.error("Problem to close statement", e);
+				throw new UniverException("Problem to close statement", e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Problem close connection", e);
-				throw new DaoException(e);
+				log.error("Problem to close connection", e);
+				throw new UniverException("Problem to close connection", e);
 			}
 		}
 	}
 
-	public static void closeConnection(Connection connection, Statement statement) throws DaoException {
+	public static void closeConnection(Connection connection, Statement statement) throws UniverException {
 		if (statement != null) {
 			try {
 				statement.close();
 			} catch (SQLException e) {
-				log.error("Problem close statement", e);
-				throw new DaoException(e);
+				log.error("Problem to close statement", e);
+				throw new UniverException("Problem to close statement", e);
 			}
 		}
 		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				log.error("Problem close connection", e);
-				throw new DaoException(e);
+				log.error("Problem to close connection", e);
+				throw new UniverException("Problem to close connection", e);
 			}
 		}
 	}

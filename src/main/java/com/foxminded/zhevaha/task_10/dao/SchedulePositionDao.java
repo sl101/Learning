@@ -24,7 +24,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 	private final String UPDATE = "UPDATE schedule_position SET lecture_id = ?, room_id = ?, lecturetime = ?, teacher_id = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM schedule_position WHERE id = ?;";
 
-	public Set<SchedulePosition> getAll() throws DaoException {
+	public Set<SchedulePosition> getAll() throws UniverException {
 		Set<SchedulePosition> schedule = new HashSet<SchedulePosition>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -44,15 +44,15 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 				schedule.add(schedulePosition);
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return schedule;
 	}
 
-	public SchedulePosition getById(Long id) throws DaoException {
+	public SchedulePosition getById(Long id) throws UniverException {
 		SchedulePosition schedulePosition = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -69,15 +69,15 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition = new SchedulePosition(lecture, room, lectureTime, teacher);
 			schedulePosition.setId(id);
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return schedulePosition;
 	}
 
-	public SchedulePosition update(SchedulePosition schedulePosition) throws DaoException {
+	public SchedulePosition update(SchedulePosition schedulePosition) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -89,8 +89,8 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.setLong(3, schedulePosition.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem update data", e);
-			throw new DaoException(e);
+			log.error("Problem to update data", e);
+			throw new UniverException("Problem to update data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -98,7 +98,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 		return schedulePosition;
 	}
 
-	public void delete(SchedulePosition schedulePosition) throws DaoException {
+	public void delete(SchedulePosition schedulePosition) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -108,13 +108,13 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			log.error("Problem delete data", e);
-			throw new DaoException(e);
+			throw new UniverException("Problem to delete data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(SchedulePosition schedulePosition) throws DaoException {
+	public void create(SchedulePosition schedulePosition) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -130,7 +130,7 @@ public class SchedulePositionDao implements GenericDao<SchedulePosition, Long> {
 			schedulePosition.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
 			log.error("Problem to save data", e);
-			throw new DaoException(e);
+			throw new UniverException("Problem to save data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

@@ -11,7 +11,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.dao.CourseDao;
-import com.foxminded.zhevaha.task_10.dao.DaoException;
+import com.foxminded.zhevaha.task_10.dao.UniverException;
 import com.foxminded.zhevaha.task_10.dao.SchedulePositionDao;
 import com.foxminded.zhevaha.task_10.dao.StudentDao;
 import com.foxminded.zhevaha.task_10.dao.TeacherDao;
@@ -38,7 +38,7 @@ public class Univer {
 		schedule = new HashSet<SchedulePosition>();
 	}
 
-	public Univer enrollTeacher(Teacher teacher, Course course) throws DaoException {
+	public Univer enrollTeacher(Teacher teacher, Course course) throws UniverException {
 		log.info("Enroll teacher");
 		if (teacher.getId() == 0) {
 			new TeacherDao().create(teacher);
@@ -53,7 +53,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer fireTeacher(Teacher teacher, List<Teacher> courseTeachers) throws DaoException {
+	public Univer fireTeacher(Teacher teacher, List<Teacher> courseTeachers) throws UniverException {
 		if (!teachers.contains(teacher)) {
 			log.fatal("This person did not identified");
 		} else {
@@ -65,7 +65,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer enrollStudent(Student student, Group group) throws DaoException {
+	public Univer enrollStudent(Student student, Group group) throws UniverException {
 		log.info("Enroll student");
 		if (student.getId() == 0) {
 			new StudentDao().create(student);
@@ -88,7 +88,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer expelStudent(Student student) throws DaoException {
+	public Univer expelStudent(Student student) throws UniverException {
 		if (!students.contains(student)) {
 			log.fatal("This person did not identified");
 		} else {
@@ -97,7 +97,7 @@ public class Univer {
 		return new UniverDao().update(this);
 	}
 
-	public Univer createSchedule(Set<SchedulePosition> schedulePositions) throws DaoException {
+	public Univer createSchedule(Set<SchedulePosition> schedulePositions) throws UniverException {
 		Iterator<SchedulePosition> schedulePositionIterator = schedulePositions.iterator();
 		while (schedulePositionIterator.hasNext()) {
 			SchedulePosition schedulePosition = schedulePositionIterator.next();

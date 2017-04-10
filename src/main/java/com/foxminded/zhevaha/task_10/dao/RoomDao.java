@@ -21,7 +21,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 	private final String UPDATE = "UPDATE Rooms SET name = ? WHERE id = ?;";
 	private final String DELETE = "DELETE FROM Rooms WHERE id = ?;";
 
-	public Set<Room> getAll() throws DaoException {
+	public Set<Room> getAll() throws UniverException {
 		Set<Room> rooms = new HashSet<Room>();
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -38,15 +38,15 @@ public class RoomDao implements GenericDao<Room, Long> {
 				rooms.add(room);
 			}
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return rooms;
 	}
 
-	public Room getById(Long id) throws DaoException {
+	public Room getById(Long id) throws UniverException {
 		Room room = null;
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -60,15 +60,15 @@ public class RoomDao implements GenericDao<Room, Long> {
 			room = new Room(name);
 			room.setId(id);
 		} catch (SQLException e) {
-			log.error("Problem get data", e);
-			throw new DaoException(e);
+			log.error("Problem with getting data", e);
+			throw new UniverException("Problem with getting data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}
 		return room;
 	}
 
-	public Room update(Room room) throws DaoException {
+	public Room update(Room room) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -78,8 +78,8 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(2, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem update data", e);
-			throw new DaoException(e);
+			log.error("Problem to update data", e);
+			throw new UniverException("Problem to update data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
@@ -87,7 +87,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 		return room;
 	}
 
-	public void delete(Room room) throws DaoException {
+	public void delete(Room room) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		connection = ConnectionFactory.getConnection();
@@ -96,14 +96,14 @@ public class RoomDao implements GenericDao<Room, Long> {
 			statement.setLong(1, room.getId());
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			log.error("Problem delete data", e);
-			throw new DaoException(e);
+			log.error("Problem to delete data", e);
+			throw new UniverException("Problem to delete data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement);
 		}
 	}
 
-	public void create(Room room) throws DaoException {
+	public void create(Room room) throws UniverException {
 		Connection connection = null;
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -116,7 +116,7 @@ public class RoomDao implements GenericDao<Room, Long> {
 			room.setId(resultSet.getLong("id"));
 		} catch (SQLException e) {
 			log.error("Problem to save data", e);
-			throw new DaoException(e);
+			throw new UniverException("Problem to save data", e);
 		} finally {
 			ConnectionFactory.closeConnection(connection, statement, resultSet);
 		}

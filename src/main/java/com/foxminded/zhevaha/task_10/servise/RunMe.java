@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.foxminded.zhevaha.task_10.dao.AcademicPlanDao;
 import com.foxminded.zhevaha.task_10.dao.CourseDao;
-import com.foxminded.zhevaha.task_10.dao.DaoException;
+import com.foxminded.zhevaha.task_10.dao.UniverException;
 import com.foxminded.zhevaha.task_10.dao.GroupDao;
 import com.foxminded.zhevaha.task_10.dao.LectureDao;
 import com.foxminded.zhevaha.task_10.dao.RoomDao;
@@ -81,7 +81,7 @@ public class RunMe {
 
 	}
 
-	private static void createAcademicPlan() throws DaoException {
+	private static void createAcademicPlan() throws UniverException {
 		new AcademicPlanDao().create(academicPlan);
 		academicPlan = academicPlanDao.update(academicPlan);
 
@@ -102,7 +102,7 @@ public class RunMe {
 		System.out.println(schedulInfo);
 	}
 
-	private static void createSchedule() throws DaoException {
+	private static void createSchedule() throws UniverException {
 		System.out.println("create Schedule");
 		createAcademicPlan();
 		List<Lecture> lectures = new ArrayList<Lecture>(academicPlan.getLectures());
@@ -138,14 +138,14 @@ public class RunMe {
 		return new java.sql.Timestamp(date.getTime());
 	}
 
-	private static void expelStudent() throws DaoException {
+	private static void expelStudent() throws UniverException {
 		System.out.println("expel student");
 		List<Student> arrayStudents = new ArrayList<Student>(univer.getStudents());
 		Student student = arrayStudents.get((int) (arrayStudents.size() * Math.random()));
 		univer = univer.expelStudent(student);
 	}
 
-	private static void enrollStudent() throws DaoException {
+	private static void enrollStudent() throws UniverException {
 		System.out.println("enroll student");
 		List<Student> arrayStudents = new ArrayList<Student>(univer.getStudents());
 		List<Group> arrayGroups = new ArrayList<Group>(univer.getGroups());
@@ -155,7 +155,7 @@ public class RunMe {
 		}
 	}
 
-	private static void fireTeacher() throws DaoException {
+	private static void fireTeacher() throws UniverException {
 		System.out.println("fire teacher");
 		List<Teacher> arrayTeachers = new ArrayList<Teacher>(univer.getTeachers());
 		Teacher teacher = arrayTeachers.get((int) (arrayTeachers.size() * Math.random()));
@@ -165,7 +165,7 @@ public class RunMe {
 		univer = univer.fireTeacher(teacher, courseTeacher);
 	}
 
-	private static void enrollTeachers() throws DaoException {
+	private static void enrollTeachers() throws UniverException {
 		System.out.println("enroll teacher");
 		List<Teacher> arrayTeachers = new ArrayList<Teacher>(univer.getTeachers());
 		List<Course> arrayCourses = new ArrayList<Course>(univer.getCourses());
@@ -177,7 +177,7 @@ public class RunMe {
 
 	}
 
-	private static void deleteLectures() throws DaoException {
+	private static void deleteLectures() throws UniverException {
 		System.out.println("delete Lectures:");
 		LectureDao lectureDao = new LectureDao();
 		Set<Lecture> lectures = academicPlan.getLectures();
@@ -187,7 +187,7 @@ public class RunMe {
 		}
 	}
 
-	private static void createLectures() throws DaoException {
+	private static void createLectures() throws UniverException {
 		System.out.println("create lectures:");
 		createAcademicPlan();
 		LectureDao lectureDao = new LectureDao();
@@ -208,7 +208,7 @@ public class RunMe {
 		}
 	}
 
-	private static void deleteStudents() throws DaoException {
+	private static void deleteStudents() throws UniverException {
 		System.out.println("delete Students:");
 		StudentDao studentDao = new StudentDao();
 		Set<Student> entities = univer.getStudents();
@@ -218,7 +218,7 @@ public class RunMe {
 		}
 	}
 
-	private static void createStudents() throws DaoException {
+	private static void createStudents() throws UniverException {
 		System.out.println("create students:");
 		StudentDao studentDao = new StudentDao();
 		for (int i = 0; i < students.length; i++) {
@@ -227,7 +227,7 @@ public class RunMe {
 		}
 	}
 
-	private static void deleteRoms() throws DaoException {
+	private static void deleteRoms() throws UniverException {
 		System.out.println("delete Rooms:");
 		RoomDao roomDao = new RoomDao();
 		Set<Room> entities = new HashSet<Room>();
@@ -238,7 +238,7 @@ public class RunMe {
 		}
 	}
 
-	private static void createRooms() throws DaoException {
+	private static void createRooms() throws UniverException {
 		System.out.println("create Rooms:");
 		RoomDao roomDao = new RoomDao();
 		for (int i = 0; i < 9; i++) {
@@ -247,7 +247,7 @@ public class RunMe {
 		}
 	}
 
-	private static void deleteTeachers() throws DaoException {
+	private static void deleteTeachers() throws UniverException {
 		System.out.println("delete Teachers:");
 		TeacherDao teacherDao = new TeacherDao();
 		Set<Teacher> teachers = univer.getTeachers();
@@ -257,7 +257,7 @@ public class RunMe {
 		}
 	}
 
-	private static void createTeachers() throws DaoException {
+	private static void createTeachers() throws UniverException {
 		System.out.println("create teachers:");
 		TeacherDao dao = new TeacherDao();
 		for (int i = 0; i < teachers.length; i++) {
@@ -267,7 +267,7 @@ public class RunMe {
 		univer = univerDao.update(univer);
 	}
 
-	private static void deleteGroups() throws DaoException {
+	private static void deleteGroups() throws UniverException {
 		System.out.println("delete Groups:");
 		GroupDao dao = new GroupDao();
 		Set<Group> entities = univer.getGroups();
@@ -277,7 +277,7 @@ public class RunMe {
 		}
 	}
 
-	private static void createGroups() throws DaoException {
+	private static void createGroups() throws UniverException {
 		System.out.println("create Groups:");
 		GroupDao groupDao = new GroupDao();
 		for (int i = 0; i < courses.length; i++) {
@@ -286,7 +286,7 @@ public class RunMe {
 		}
 	}
 
-	private static void deleteCourses() throws DaoException {
+	private static void deleteCourses() throws UniverException {
 		System.out.println("delete Courses:");
 		CourseDao dao = new CourseDao();
 		Set<Course> courses = univer.getCourses();
@@ -297,7 +297,7 @@ public class RunMe {
 
 	}
 
-	private static void createCourses() throws DaoException {
+	private static void createCourses() throws UniverException {
 		System.out.println("create Courses:");
 		CourseDao courseDao = new CourseDao();
 		for (int i = 0; i < courses.length; i++) {
@@ -309,7 +309,7 @@ public class RunMe {
 		}
 	}
 
-	private static void deleteUnivers() throws DaoException {
+	private static void deleteUnivers() throws UniverException {
 		System.out.println("delete Univer:");
 		univerDao.delete(univer);
 		if (univer == null) {
@@ -318,7 +318,7 @@ public class RunMe {
 
 	}
 
-	private static void createUnivers() throws DaoException {
+	private static void createUnivers() throws UniverException {
 		new UniverDao().create(univer);
 		univer = univerDao.update(univer);
 	}
